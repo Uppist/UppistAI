@@ -1,12 +1,12 @@
 <!-- @format -->
 
-**Uppist AI**
+## Uppist AI
 
 An AI-powered omnichannel messaging platform that allows users to connect multiple social media accounts and manage conversations from one dashboard.
 
-**Preview**
+## Preview
 
-Live Demo: https
+Live Demo: https://uppist.github.io/UppistAI
 
 ## Features
 
