@@ -42,7 +42,7 @@ export default function App() {
         <img src={img} className='w-screen' alt='' />
         <Routes>
           {/*Onboarding Routes */}
-          <Route path='/UppistAI' element={<FirstScreen />} />
+          <Route path='/' element={<FirstScreen />} />
           <Route path='/onboarding/2' element={<SecondScreen />} />
           <Route path='/onboarding/3' element={<ThirdScreen />} />
           <Route path='/onboarding/4' element={<FourthScreen />} />
