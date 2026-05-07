@@ -1,0 +1,54 @@
+/** @format */
+
+@import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+@theme {
+  --color-black: hsla(0, 0%, 17%, 1);
+  --color-light: hsla(221, 13%, 46%, 1);
+  --color-light-grey: hsla(220, 13%, 91%, 1);
+  --color-bg: hsla(34, 100%, 50%, 1);
+  --color-white: hsla(0, 0%, 100%, 1);
+  --color-light-black: hsla(0, 0%, 17%, 0.8);
+  --color-border: hsla(0, 0%, 72%, 1);
+  --color-border2: hsla(0, 0%, 82%, 1);
+  --font-family: "Inter";
+  --color-disabled: hsla(180, 11%, 89%, 1);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: scroll;
+  font-family: var(--font-family);
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.9s ease-out forwards;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
