@@ -18,8 +18,8 @@ Live Demo: https
 
 ## Built With
 
-React
-Tailwind CSS
-React Router
+- React
+- Tailwind CSS
+- React Router
 
 ## Installation
