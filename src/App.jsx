@@ -1,5 +1,5 @@
 /** @format */
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./styles.css";
 import FirstScreen from "./components/Authentication/Onboarding/FirstScreen";
 import img from "./assets/Onboarding/leftPanel.svg";
@@ -19,9 +19,13 @@ import VerifyEmail from "./components/Authentication/SignUp/VerifyEmail";
 import Forgot from "./components/Authentication/SignIn/ForgotPassword/Forgot";
 import ChangePassword from "./components/Authentication/SignIn/ForgotPassword/ChangePassword";
 import PasswordUpdate from "./components/Authentication/SignIn/ForgotPassword/PasswordUpdate";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Settings from "./components/Dashboard/Settings/Settings";
+import Content from "./components/Dashboard/Content/Content";
+
 export default function App() {
   const [appLoading, setAppLoading] = useState(true);
-  // const location = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
     // Simulate loading for 3.5 seconds
@@ -36,50 +40,44 @@ export default function App() {
     return <Loader />;
   }
 
+  const path =
+    location.pathname.startsWith("/onboarding") ||
+    location.pathname.startsWith("/signup") ||
+    location.pathname.startsWith("/signin") ||
+    location.pathname.startsWith("/email-verification") ||
+    location.pathname === "/";
+
   return (
-    <div>
-      <section className='grid grid-cols-2 h-screen w-screen overflow-hidden '>
-        <img src={img} className='w-screen' alt='' />
-        <Routes>
-          {/*Onboarding Routes */}
-          <Route path='/' element={<FirstScreen />} />
-          <Route path='/onboarding/2' element={<SecondScreen />} />
-          <Route path='/onboarding/3' element={<ThirdScreen />} />
-          <Route path='/onboarding/4' element={<FourthScreen />} />
-          <Route path='/onboarding/5' element={<FifthScreen />} />
-          <Route path='/onboarding/6' element={<SixthScreen />} />
-          <Route path='/onboarding/7' element={<SeventhScreen />} />
-          <Route path='/onboarding/8' element={<EighthScreen />} />
+    <section
+      className={
+        path ? "grid grid-cols-2 h-screen w-screen overflow-hidden" : ""
+      }
+    >
+      {path && <img src={img} className='w-screen' alt='' />}
+      <Routes>
+        <Route path='/' element={<FirstScreen />} />
+        <Route path='/onboarding/2' element={<SecondScreen />} />
+        <Route path='/onboarding/3' element={<ThirdScreen />} />
+        <Route path='/onboarding/4' element={<FourthScreen />} />
+        <Route path='/onboarding/5' element={<FifthScreen />} />
+        <Route path='/onboarding/6' element={<SixthScreen />} />
+        <Route path='/onboarding/7' element={<SeventhScreen />} />
+        <Route path='/onboarding/8' element={<EighthScreen />} />
 
-          {/*Sign Up Routes */}
+        <Route path='/signup/create-your-account' element={<Step1 />} />
+        <Route path='/email-verification/verify-code' element={<Step2 />} />
+        <Route path='/email-verification' element={<VerifyEmail />} />
 
-          <Route path='/signup/create-your-account' element={<Step1 />} />
-          <Route path='/email-verification/verify-code' element={<Step2 />} />
-          <Route
-            path='/email-verification'
-            element={
-              <VerifyEmail
-                appLoading={appLoading}
-                setAppLoading={setAppLoading}
-              />
-            }
-          />
+        <Route path='/signin' element={<SignIn />} />
+        <Route path='/signin/forgot-password' element={<Forgot />} />
+        <Route path='/signin/change-password' element={<ChangePassword />} />
+        <Route path='/signin/password-reset' element={<PasswordUpdate />} />
 
-          {/*Login Routes */}
-          <Route path='/signin' element={<SignIn />} />
-          <Route path='/signin/forgot-password' element={<Forgot />} />
-          <Route path='/signin/change-password' element={<ChangePassword />} />
-          <Route
-            path='/signin/password-reset'
-            element={
-              <PasswordUpdate
-                appLoading={appLoading}
-                setAppLoading={setAppLoading}
-              />
-            }
-          />
-        </Routes>
-      </section>
-    </div>
+        <Route element={<Dashboard />}>
+          <Route path='/dashboard' element={<Content />} />
+          <Route path='/settings' element={<Settings />} />
+        </Route>
+      </Routes>{" "}
+    </section>
   );
 }

@@ -12,7 +12,6 @@ Live Demo: https://uppist.github.io/UppistAI
 
 - Responsive design
 - Authentication
-- Dark mode
 - Form validation
 - API integration
 

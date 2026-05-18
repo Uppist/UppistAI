@@ -7,8 +7,9 @@ import google from "../../../assets/signup/Google.svg";
 import Form from "./Form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../Animation/Loader";
 
-export default function SignIn() {
+export default function SignIn({ appLoading, setAppLoading }) {
   const [details, setDetails] = useState({
     email: "",
     password: "",
@@ -24,6 +25,20 @@ export default function SignIn() {
 
   function Forgot() {
     navigate("/signin/forgot-password");
+  }
+
+  function Next() {
+    setAppLoading(true);
+
+    setTimeout(() => {
+      setAppLoading(false);
+      navigate("/dashboard");
+    }, 2000);
+  }
+
+  if (appLoading) {
+    <Loader />;
+    return;
   }
   return (
     <>
@@ -57,6 +72,7 @@ export default function SignIn() {
             <button
               type='submit'
               disabled={!submit}
+              onClick={Next}
               className='bg-bg disabled:bg-disabled disabled:text-black disabled:cursor-not-allowed w-full p-3 text-white font-bold text-sm cursor-pointer rounded-lg'
             >
               Login{" "}

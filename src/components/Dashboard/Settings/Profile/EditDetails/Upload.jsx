@@ -1,0 +1,53 @@
+/** @format */
+import profile from "../../../../../assets/Dashboard/settings/profile.svg";
+
+export default function Upload() {
+  return (
+    <div className='flex flex-col p-8 gap-y-6 border items-center rounded-lg border-light-grey'>
+      <div className='flex'>
+        <img src={profile} className='relative' alt='' />
+        <div className='flex cursor-pointer relative'>
+          <label
+            htmlFor='photo'
+            className='bg-bg w-6 h-6 rounded-4xl flex items-center justify-center cursor-pointer absolute bottom-0.5 right-0.5'
+          >
+            <svg
+              width='12'
+              height='12'
+              viewBox='0 0 12 12'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M7.25 2H4.75L3.5 3.5H2C1.73478 3.5 1.48043 3.60536 1.29289 3.79289C1.10536 3.98043 1 4.23478 1 4.5V9C1 9.26522 1.10536 9.51957 1.29289 9.70711C1.48043 9.89464 1.73478 10 2 10H10C10.2652 10 10.5196 9.89464 10.7071 9.70711C10.8946 9.51957 11 9.26522 11 9V4.5C11 4.23478 10.8946 3.98043 10.7071 3.79289C10.5196 3.60536 10.2652 3.5 10 3.5H8.5L7.25 2Z'
+                stroke='white'
+                stroke-linecap='round'
+                stroke-linejoin='round'
+              />
+              <path
+                d='M6 8C6.82843 8 7.5 7.32843 7.5 6.5C7.5 5.67157 6.82843 5 6 5C5.17157 5 4.5 5.67157 4.5 6.5C4.5 7.32843 5.17157 8 6 8Z'
+                stroke='white'
+                stroke-linecap='round'
+                stroke-linejoin='round'
+              />
+            </svg>
+          </label>
+          <input
+            className=''
+            type='file'
+            accept='image/*'
+            name=''
+            className='hidden'
+            id='photo'
+          />
+        </div>
+      </div>
+      <div className='flex flex-col gap-y-0.5 items-center'>
+        <span className='text-base font-semibold'>Sarah Ossai</span>
+        <span className='text-sm font-normal text-grey'>
+          sarahossai@headovemail.com
+        </span>
+      </div>
+    </div>
+  );
+}

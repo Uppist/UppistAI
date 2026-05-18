@@ -1,20 +1,28 @@
 /** @format */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 @import "tailwindcss";
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 @theme {
   --color-black: hsla(0, 0%, 17%, 1);
   --color-light: hsla(221, 13%, 46%, 1);
   --color-light-grey: hsla(220, 13%, 91%, 1);
+  --color-grey: hsla(221, 13%, 46%, 1);
   --color-bg: hsla(34, 100%, 50%, 1);
   --color-white: hsla(0, 0%, 100%, 1);
   --color-light-black: hsla(0, 0%, 17%, 0.8);
   --color-border: hsla(0, 0%, 72%, 1);
   --color-border2: hsla(0, 0%, 82%, 1);
-  --font-family: "Inter";
   --color-disabled: hsla(180, 11%, 89%, 1);
+  --color-pink: hsla(34, 100%, 50%, 0.05);
+  --color-green: hsla(134, 61%, 41%, 1);
+  --color-bg-green: hsla(134, 61%, 96%, 1);
+  --color-red: hsla(2, 73%, 53%, 1);
+  --color-overlay: rgba(0, 0, 0, 0.1);
+}
+
+:root {
+  --font-family: "Inter";
 }
 
 body {
