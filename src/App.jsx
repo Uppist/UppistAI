@@ -75,7 +75,7 @@ export default function App() {
 
         <Route element={<Dashboard />}>
           <Route path='/dashboard' element={<Content />} />
-          <Route path='/settings' element={<Settings />} />
+          <Route path='/settings' element={<Settings />}></Route>
         </Route>
       </Routes>{" "}
     </section>

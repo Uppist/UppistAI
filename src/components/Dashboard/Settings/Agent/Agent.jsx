@@ -21,7 +21,13 @@ export default function Agent() {
 
         {/*Details */}
         <div className='flex relative items-center gap-x-5'>
-          <input type='search' name='' id='' />
+          <input
+            type='search'
+            className='input'
+            placeholder='Search'
+            name=''
+            id=''
+          />
 
           {/*All dropdown */}
           <div className='flex items-center gap-x-2 border border-light-grey py-1.5 px-3 rounded-lg shadow-sm'>

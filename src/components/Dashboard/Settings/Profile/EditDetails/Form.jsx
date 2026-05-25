@@ -1,6 +1,14 @@
 /** @format */
 
+import { useState } from "react";
+import ChangePassword from "./ChangePassword";
+
 export default function Form() {
+  const [openPassword, setOpenPassword] = useState(false);
+
+  function handleOpenPassword() {
+    setOpenPassword(true);
+  }
   return (
     <div className='w-screen flex flex-col gap-y-8'>
       <form action='' className='flex flex-col gap-y-4'>
@@ -52,6 +60,7 @@ export default function Form() {
       <div className='flex items-center justify-end gap-x-5'>
         <button
           type='button'
+          onClick={handleOpenPassword}
           className='py-3 px-3 border border-light-grey rounded-lg text-sm font-bold text-black cursor-pointer hover:bg-light-grey'
         >
           Change Password
@@ -62,6 +71,10 @@ export default function Form() {
         >
           Save Changes
         </button>
+
+        {openPassword && (
+          <ChangePassword onClose={() => setOpenPassword(false)} />
+        )}
       </div>
     </div>
   );

@@ -36,6 +36,10 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+.toasify {
+  font-family: var(--font-family);
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -59,4 +63,51 @@ body::-webkit-scrollbar {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/*style for input*/
+.input {
+  padding: 8px;
+  border: 1px solid var(--color-light-grey);
+  border-radius: 8px;
+  /* width: -webkit-fill-available; */
+}
+
+.input:focus {
+  outline: none;
+}
+
+.text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.text2 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-grey);
+}
+
+.button {
+  background-color: var(--color-bg);
+  border-radius: 8px;
+  padding: 12px 32px;
+  color: var(--color-white);
+  border: none;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: var(--color-disabled);
+  /* opacity: 50; */
+  color: var(--color-black);
+  cursor: not-allowed;
+}
+
+.button:hover:not(:disabled) {
+  opacity: 0.5;
 }
