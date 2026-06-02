@@ -55,6 +55,28 @@ body::-webkit-scrollbar {
   animation: fade-up 0.9s ease-out forwards;
 }
 
+.dropdown {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.overlay {
+  position: fixed;
+  top: 68px;
+  left: 72px;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-overlay);
+  cursor: pointer;
+}
+
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -99,6 +121,7 @@ body::-webkit-scrollbar {
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+  width: fit-content;
 }
 
 .button:disabled {

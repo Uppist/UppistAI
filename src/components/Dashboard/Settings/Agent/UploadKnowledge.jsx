@@ -15,6 +15,7 @@ export default function UploadKnowledge() {
     setDetails({ ...details, file: e.target.files[0] });
     setFileName({ name: e.target.files[0].name, size: e.target.files[0].size });
   }
+
   return (
     <div className='flex flex-col'>
       <div className='relative rounded-lg px-4 py-2'>
@@ -44,6 +45,7 @@ export default function UploadKnowledge() {
             />
             <label
               htmlFor='upload-file'
+              o
               className='bg-bg text-white px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer'
             >
               Upload

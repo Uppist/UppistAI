@@ -19,13 +19,10 @@ export default function CreateUser({ onClose }) {
     onClose();
   }
   return (
-    <div className='absolute top-17 right-0 left-18 bottom-0 flex item-center justify-center z-10'>
+    <div className='dropdown'>
       {/*overlay */}
 
-      <div
-        className='fixed top-0 left-0 right-0 bottom-0 bg-overlay cursor-pointer'
-        onClick={onClose}
-      ></div>
+      <div className='overlay' onClick={onClose}></div>
 
       {/*User Container */}
       <div className='absolute flex flex-col gap-y-4 w-1/2  bg-white rounded-lg p-4  items-end justify-center'>

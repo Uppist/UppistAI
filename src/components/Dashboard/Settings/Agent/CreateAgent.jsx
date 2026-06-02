@@ -1,57 +1,39 @@
 /** @format */
-import website from "../../../../assets/Dashboard/settings/agent/website.svg";
-import whatsapp from "../../../../assets/Dashboard/settings/agent/whatsapp.svg";
-import facebook from "../../../../assets/Dashboard/settings/agent/facebook.svg";
-import ig from "../../../../assets/Dashboard/settings/agent/ig.svg";
-import x from "../../../../assets/Dashboard/settings/agent/x.svg";
+
 import reply from "../../../../assets/Dashboard/settings/agent/reply.svg";
 import { Switch } from "@mui/material";
 import UploadKnowledge from "./UploadKnowledge";
 import { useState } from "react";
+import Channels from "./Channels";
+// import axios from "axios";
+// import { CardContext } from "../../CardContext";
 
 export default function CreateAgent({ onClose }) {
   const [toneList, setToneList] = useState();
   const [selectTone, setSelectTone] = useState(false);
-
-  const channels = [
-    {
-      img: website,
-      title: "Website Chat",
-      p: "Embed widget",
-    },
-    {
-      img: whatsapp,
-      title: "WhatsApp Business API",
-      p: "Connect WhatsApp Business",
-    },
-    {
-      img: facebook,
-      title: "Facebook",
-      p: "Messenger",
-    },
-    {
-      img: ig,
-      title: "Instagram",
-      p: "Direct messages",
-    },
-    {
-      img: x,
-      title: "X",
-      p: "Direct messages",
-    },
-  ];
+  // const { baseUrl, token } = useContext(CardContext);
 
   const tone = ["Professional", "Friendly", "Empathetic", "Casual", "Premium"];
 
   function handleTone() {
     setSelectTone(!selectTone);
   }
+
+  // function handleCreateAgent() {
+  //   axios
+  //     .post(`${baseUrl}kb/agents`, data, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
   return (
-    <div className='absolute top-17 right-0 left-18 bottom-0 flex item-center justify-center z-10'>
-      <div
-        className='fixed top-0 left-0 right-0 bottom-0 bg-overlay cursor-pointer'
-        onClick={onClose}
-      ></div>
+    <div className='dropdown'>
+      <div className='overlay' onClick={onClose}></div>
 
       {/*Agent Container */}
       <div className='absolute flex flex-col gap-y-4  bg-white rounded-lg p-4 items-end justify-center'>
@@ -149,58 +131,7 @@ export default function CreateAgent({ onClose }) {
 
             {/*Channels */}
             <div className='flex flex-col gap-y-6'>
-              <div className='flex flex-col gap-y-2'>
-                <span className='text-sm font-bold text-black'>
-                  Assign to Channels
-                </span>
-                <div className='grid grid-cols-2 gap-4'>
-                  {channels.map((assign, index) => (
-                    <div
-                      className='flex items-center border border-light-grey p-4 rounded-xl justify-between'
-                      key={index}
-                    >
-                      <div className='flex items-center gap-x-2'>
-                        <img src={assign.img} alt='' />
-                        <div className='flex flex-col gap-y-1'>
-                          <h3 className='text-xs text-black font-medium'>
-                            {assign.title}
-                          </h3>
-                          <span className='text-[10px] font-normal text-grey'>
-                            {assign.p}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/*Checkbox button */}
-                      <input
-                        key={index}
-                        type='checkbox'
-                        className='hidden peer'
-                        id={`checkbox-${index}`}
-                      />
-
-                      <label
-                        htmlFor={`checkbox-${index}`}
-                        className=' w-5.5 h-5.5 rounded-full border-4 border-light-grey cursor-pointer block relative peer-checked:border-bg'
-                      >
-                        <span
-                          className='
-      absolute
-      top-1/2 left-1/2
-      w-2.5 h-2.5
-      rounded-full
-      bg-bg
-      -translate-x-1/2 -translate-y-1/2
-      scale-0
-      peer-checked:scale-100
-      transition
-    '
-                        ></span>
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <Channels />
 
               {/*Automation rules */}
               <div className='flex flex-col gap-y-2'>
