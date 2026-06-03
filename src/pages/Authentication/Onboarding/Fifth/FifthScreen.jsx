@@ -54,7 +54,9 @@ export default function FifthScreen() {
 
       toast.success("Upload successful!");
 
-      navigate("/onboarding/6");
+      setTimeout(() => {
+        navigate("/onboarding/6");
+      }, 2000);
     } catch (err) {
       console.log(err.response);
       toast.error("Upload failed. Try again.");
