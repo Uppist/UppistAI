@@ -4,14 +4,14 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { HashRouter } from "react-router-dom";
-import Context from "./components/Dashboard/Context.jsx";
+import Providers from "./contexts/Providers.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <HashRouter>
-      <Context>
+      <Providers>
         <App />
-      </Context>
+      </Providers>
     </HashRouter>
   </StrictMode>,
 );

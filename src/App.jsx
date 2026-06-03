@@ -1,27 +1,27 @@
 /** @format */
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./styles.css";
-import FirstScreen from "./components/Authentication/Onboarding/FirstScreen";
+import FirstScreen from "./pages/Authentication/Onboarding/FirstScreen";
 import img from "./assets/Onboarding/leftPanel.svg";
-import SecondScreen from "./components/Authentication/Onboarding/SecondScreen/SecondScreen";
+import SecondScreen from "./pages/Authentication/Onboarding/SecondScreen/SecondScreen";
 import { useEffect, useState } from "react";
 import Loader from "./components/Animation/Loader";
-import ThirdScreen from "./components/Authentication/Onboarding/ThirdScreen";
-import FourthScreen from "./components/Authentication/Onboarding/Fourth/FourthScreen";
-import FifthScreen from "./components/Authentication/Onboarding/Fifth/FifthScreen";
-import SixthScreen from "./components/Authentication/Onboarding/SixthScreen";
-import SeventhScreen from "./components/Authentication/Onboarding/SeventhScreen";
-import EighthScreen from "./components/Authentication/Onboarding/EighthScreen";
-import Step1 from "./components/Authentication/SignUp/Step1/Step1";
-import Step2 from "./components/Authentication/SignUp/Step2";
-import SignIn from "./components/Authentication/SignIn/SignIn";
-import VerifyEmail from "./components/Authentication/SignUp/VerifyEmail";
-import Forgot from "./components/Authentication/SignIn/ForgotPassword/Forgot";
-import ChangePassword from "./components/Authentication/SignIn/ForgotPassword/ChangePassword";
-import PasswordUpdate from "./components/Authentication/SignIn/ForgotPassword/PasswordUpdate";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Settings from "./components/Dashboard/Settings/Settings";
-import Content from "./components/Dashboard/Content/Content";
+import ThirdScreen from "./pages/Authentication/Onboarding/ThirdScreen";
+import FourthScreen from "./pages/Authentication/Onboarding/Fourth/FourthScreen";
+import FifthScreen from "./pages/Authentication/Onboarding/Fifth/FifthScreen";
+import SixthScreen from "./pages/Authentication/Onboarding/SixthScreen";
+import SeventhScreen from "./pages/Authentication/Onboarding/SeventhScreen";
+import EighthScreen from "./pages/Authentication/Onboarding/EighthScreen";
+import Step1 from "./pages/Authentication/SignUp/Step1/Step1";
+import Step2 from "./pages/Authentication/SignUp/Step2";
+import SignIn from "./pages/Authentication/SignIn/SignIn";
+import VerifyEmail from "./pages/Authentication/SignUp/VerifyEmail";
+import Forgot from "./pages/Authentication/SignIn/ForgotPassword/Forgot";
+import ChangePassword from "./pages/Authentication/SignIn/ForgotPassword/ChangePassword";
+import PasswordUpdate from "./pages/Authentication/SignIn/ForgotPassword/PasswordUpdate";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Settings from "./pages/Dashboard/Settings/Settings";
+import Content from "./pages/Dashboard/Content/Content";
 
 export default function App() {
   const [appLoading, setAppLoading] = useState(true);
@@ -55,20 +55,41 @@ export default function App() {
     >
       {path && <img src={img} className='w-screen' alt='' />}
       <Routes>
-        <Route path='/' element={<FirstScreen />} />
+        <Route path='/' element={<Step1 />} />
+        <Route path='/email-verification/verify-code' element={<Step2 />} />
+        <Route
+          path='/email-verification'
+          element={
+            <VerifyEmail
+              appLoading={appLoading}
+              setAppLoading={setAppLoading}
+            />
+          }
+        />
+
+        <Route path='/onboarding/1' element={<FirstScreen />} />
         <Route path='/onboarding/2' element={<SecondScreen />} />
         <Route path='/onboarding/3' element={<ThirdScreen />} />
         <Route path='/onboarding/4' element={<FourthScreen />} />
         <Route path='/onboarding/5' element={<FifthScreen />} />
         <Route path='/onboarding/6' element={<SixthScreen />} />
         <Route path='/onboarding/7' element={<SeventhScreen />} />
-        <Route path='/onboarding/8' element={<EighthScreen />} />
+        <Route
+          path='/onboarding/8'
+          element={
+            <EighthScreen
+              appLoading={appLoading}
+              setAppLoading={setAppLoading}
+            />
+          }
+        />
 
-        <Route path='/signup/create-your-account' element={<Step1 />} />
-        <Route path='/email-verification/verify-code' element={<Step2 />} />
-        <Route path='/email-verification' element={<VerifyEmail />} />
-
-        <Route path='/signin' element={<SignIn />} />
+        <Route
+          path='/signin'
+          element={
+            <SignIn appLoading={appLoading} setAppLoading={setAppLoading} />
+          }
+        />
         <Route path='/signin/forgot-password' element={<Forgot />} />
         <Route path='/signin/change-password' element={<ChangePassword />} />
         <Route path='/signin/password-reset' element={<PasswordUpdate />} />
