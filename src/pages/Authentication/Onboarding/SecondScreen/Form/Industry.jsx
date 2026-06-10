@@ -13,7 +13,8 @@ export default function Industry({
     "Logistics",
     "E-commerce",
     "Technology",
-    "Other",
+    "Hospitality",
+    "Others",
   ];
 
   return (

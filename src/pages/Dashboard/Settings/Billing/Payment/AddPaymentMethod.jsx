@@ -4,10 +4,10 @@ import mastercard from "../../../../../assets/Dashboard/settings/billing/master.
 import { getCardType } from "../../../../../utils/cardUtils";
 import { formatCardNumber } from "../../../../../utils/cardUtils";
 import { useContext, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import Succesful from "./Succesful";
-import Providers from "../../../../../contexts/Providers";
 import EditCard from "./EditCard";
+import { CardContext } from "../../../../../contexts/Context";
 
 export default function AddPaymentMethod({
   onClose,
@@ -16,7 +16,7 @@ export default function AddPaymentMethod({
   details,
   handleChange,
 }) {
-  const { setCardAvailable } = useContext(Providers);
+  const { setCardAvailable } = useContext(CardContext);
 
   const [save, setSave] = useState(false);
 
@@ -247,8 +247,6 @@ export default function AddPaymentMethod({
           </div>
         </div>
       )}
-
-      <ToastContainer />
     </div>
   );
 }

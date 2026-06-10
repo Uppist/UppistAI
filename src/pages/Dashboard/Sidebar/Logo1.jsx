@@ -4,9 +4,8 @@ import { NavLink } from "react-router-dom";
 
 export default function Logo1() {
   return (
-    <div className='flex flex-col items-center gap-y-4'>
+    <div className='flex flex-col items-center gap-y-6.5'>
       {/*Dashboard */}
-
       <NavLink
         to='/dashboard'
         className={({ isActive }) =>
@@ -80,11 +79,11 @@ export default function Logo1() {
 
       {/*Contact */}
       <NavLink
-        // to='/contacts'
+        to='/contacts'
         className={({ isActive }) =>
           isActive
-            ? "cursor-pointer bg-pink border text-bg border-pink p-2.5 rounded-lg"
-            : "cursor-pointer"
+            ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
+            : "cursor-pointer text-grey px-4 py-2 "
         }
       >
         <svg
@@ -100,22 +99,22 @@ export default function Logo1() {
             width='14.5833'
             height='16.6667'
             rx='4'
-            stroke='#667085'
+            stroke='currentColor'
             stroke-width='1.5'
           />
           <path
             d='M8.82503 11.4503C8.30104 11.8013 6.92717 12.5181 7.76395 13.4149C8.17271 13.853 8.62796 14.1663 9.20032 14.1663H12.4663C13.0387 14.1663 13.494 13.853 13.9027 13.4149C14.7395 12.5181 13.3656 11.8013 12.8416 11.4503C11.6129 10.6272 10.0538 10.6272 8.82503 11.4503Z'
-            stroke='#667085'
+            stroke='currentColor'
             stroke-width='1.5'
           />
           <path
             d='M12.5 7.49967C12.5 8.42015 11.7538 9.16634 10.8333 9.16634C9.91286 9.16634 9.16667 8.42015 9.16667 7.49967C9.16667 6.5792 9.91286 5.83301 10.8333 5.83301C11.7538 5.83301 12.5 6.5792 12.5 7.49967Z'
-            stroke='#667085'
+            stroke='currentColor'
             stroke-width='1.5'
           />
           <path
             d='M4.16667 5L2.08333 5M4.16667 10L2.08333 10M4.16667 15H2.08333'
-            stroke='#667085'
+            stroke='currentColor'
             stroke-width='1.5'
             stroke-linecap='round'
             stroke-linejoin='round'
@@ -124,7 +123,14 @@ export default function Logo1() {
       </NavLink>
 
       {/*Reports */}
-      <NavLink className='cursor-pointer'>
+      <NavLink
+        to='/reports'
+        className={({ isActive }) =>
+          isActive
+            ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
+            : "cursor-pointer text-grey px-4 py-2 "
+        }
+      >
         <svg
           width='20'
           height='21'
@@ -134,27 +140,27 @@ export default function Logo1() {
         >
           <path
             d='M13.4167 15.25L7.58335 15.25'
-            stroke='#667085'
+            stroke='currentColor'
             stroke-width='1.5'
             stroke-linecap='round'
             stroke-linejoin='round'
           />
           <path
             d='M13.4167 11.4502L10.9167 11.4502'
-            stroke='#667085'
+            stroke='currentColor'
             stroke-width='1.5'
             stroke-linecap='round'
             stroke-linejoin='round'
           />
           <path
             d='M17.1667 12.4C17.1667 15.9827 17.1667 17.774 16.1294 18.887C15.092 20 13.4225 20 10.0834 20H9.43941C6.72174 20 5.36291 20 4.41924 19.2421C4.14887 19.0249 3.90884 18.7674 3.70644 18.4773C3.00002 17.4648 3.00002 16.0068 3.00002 13.0909V10.6727C3.00002 7.85772 3.00002 6.45022 3.3908 5.32607C4.01903 3.51886 5.34763 2.09335 7.03199 1.4193C8.07971 1.00001 9.39153 1.00001 12.0152 1.00001C13.5144 1.00001 14.264 1.00001 14.8627 1.2396C15.8252 1.62478 16.5844 2.43935 16.9434 3.47204C17.1667 4.11441 17.1667 4.9187 17.1667 6.52728V12.4Z'
-            stroke='#667085'
+            stroke='currentColor'
             stroke-width='1.5'
             stroke-linejoin='round'
           />
           <path
             d='M3.00004 10.5C3.00004 8.7511 4.24369 7.33334 5.77782 7.33334C6.33264 7.33333 6.98674 7.44416 7.52618 7.27938C8.00547 7.13298 8.37984 6.70619 8.50827 6.1598C8.65281 5.54484 8.5556 4.79916 8.5556 4.16667C8.5556 2.41777 9.79925 1.00001 11.3334 1.00001'
-            stroke='#667085'
+            stroke='currentColor'
             stroke-width='1.5'
             stroke-linecap='round'
             stroke-linejoin='round'

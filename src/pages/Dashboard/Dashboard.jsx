@@ -9,7 +9,7 @@ export default function Dashboard() {
     <div className='flex '>
       <Sidebar />
 
-      <div className='w-screen'>
+      <div className='w-auto absolute left-18 right-0'>
         <Navbar />
 
         <Outlet />

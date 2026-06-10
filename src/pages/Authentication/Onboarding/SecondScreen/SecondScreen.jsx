@@ -53,9 +53,7 @@ export default function SecondScreen() {
 
   return (
     <div className='flex flex-col h-screen justify-center gap-y-10 p-20 animate-fade-up overflow-scroll no-scrollbar'>
-      <div className='mt-50 flex items-center justify-between'>
-        <span className='text-bg text-sm font-normal'>Skip</span>
-      </div>
+      <div className='mt-50 flex items-center justify-between'></div>
       {/* */}
       <div className='flex flex-col gap-y-6'>
         <div className='flex flex-col gap-y-2'>

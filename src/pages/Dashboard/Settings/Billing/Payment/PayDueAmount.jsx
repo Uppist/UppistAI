@@ -2,10 +2,10 @@
 
 import { useContext } from "react";
 import SelectPaymentMethod from "./SelectPaymentMethod";
-import Providers from "../../../../../contexts/Providers";
+import { CardContext } from "../../../../../contexts/Context";
 
 export default function PayDueAmount({ onClose }) {
-  const { amountDue } = useContext(Providers);
+  const { amountDue } = useContext(CardContext);
 
   let vat = 0;
   const total = amountDue + vat;

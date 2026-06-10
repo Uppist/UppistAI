@@ -6,7 +6,7 @@ import icon2 from "../../../assets/Onboarding/icon2.svg";
 import icon3 from "../../../assets/Onboarding/icon3.svg";
 export default function FirstScreen() {
   const list = [
-    { img: icon1, text: "Omnichannel inboxs" },
+    { img: icon1, text: "Omnichannel inboxes" },
     { img: icon2, text: "AI-powered replies" },
     { img: icon3, text: "Analytics & insights" },
   ];

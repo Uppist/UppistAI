@@ -5,11 +5,11 @@ import BillingInfo from "./BillingInfo";
 import PaymentActivity from "./PaymentActivity";
 import PaymentMethod from "./PaymentMethod";
 import AddFunds from "./Payment/AddFunds";
-import Providers from "../../../../contexts/Providers";
+import { CardContext } from "../../../../contexts/Context";
 
 export default function Billing() {
   const [addFunds, setAddFunds] = useState(false);
-  const { availableBalance, amountDue } = useContext(Providers);
+  const { availableBalance, amountDue } = useContext(CardContext);
 
   console.log();
   function handleAddFunds() {

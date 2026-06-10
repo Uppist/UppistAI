@@ -2,11 +2,11 @@
 
 import { useContext, useState } from "react";
 import PayDueAmount from "./Payment/PayDueAmount";
-import Providers from "../../../../contexts/Providers";
+import { CardContext } from "../../../../contexts/Context";
 
 export default function BillingInfo() {
   const [isPay, setIsPay] = useState(false);
-  const { amountDue } = useContext(Providers);
+  const { amountDue } = useContext(CardContext);
 
   function handlePay() {
     setIsPay(true);

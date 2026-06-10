@@ -1,6 +1,6 @@
 /** @format */
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import logo from "../../../assets/signup/uppist.svg";
 import google from "../../../assets/signup/Google.svg";
 
@@ -40,12 +40,12 @@ export default function SignIn({ appLoading, setAppLoading }) {
     setIsClick(true);
 
     setTimeout(() => {
-      setAppLoading(true);
-
       api
         .post("auth/login", data)
         .then((res) => {
           console.log(res);
+          setAppLoading(true);
+          localStorage.setItem("Token", res.data.accessToken);
           setTimeout(() => {
             navigate("/dashboard");
             setAppLoading(false);
@@ -53,7 +53,8 @@ export default function SignIn({ appLoading, setAppLoading }) {
           }, 4000);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response);
+          setAppLoading(false);
           setTimeout(() => {
             setAppLoading(false);
             setIsClick(false);
@@ -139,12 +140,16 @@ export default function SignIn({ appLoading, setAppLoading }) {
 
             <span className='text-sm font-medium text-light text-center'>
               Don't have an account?{" "}
-              <span className='text-bg cursor-pointer'>Create Account</span>
+              <span
+                className='text-bg cursor-pointer'
+                onClick={() => navigate("/")}
+              >
+                Create Account
+              </span>
             </span>
           </div>
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 }

@@ -1,12 +1,11 @@
 /** @format */
 
 import { useContext, useState } from "react";
-import Providers from "../../../../../contexts/Providers";
-
 import AddPaymentMethod from "./AddPaymentMethod";
 import PayByBank from "./PayByBank";
 import Review from "./Review";
 import SelectPaymentMethod from "./SelectPaymentMethod";
+import { CardContext } from "../../../../../contexts/Context";
 
 export default function AddFunds({ onClose }) {
   const [amount, setAmount] = useState("");
@@ -15,8 +14,8 @@ export default function AddFunds({ onClose }) {
   const [openBank, setOpenBank] = useState(false);
   const [reviewPayment, setReviewPayment] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const { cardAvailable } = useContext(Providers);
-  const { openCard, setOpenCard } = useContext(Providers);
+  const { cardAvailable } = useContext(CardContext);
+  const { openCard, setOpenCard } = useContext(CardContext);
 
   {
     /* */

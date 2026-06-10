@@ -5,13 +5,33 @@ import Logo2 from "./Logo2";
 import img from "../../../assets/Dashboard/img.svg";
 import logo from "../../../assets/Dashboard/logo.svg";
 import { useState } from "react";
+import ProfileOverlay from "./ProfileOverlay";
 
 export default function Sidebar() {
   const [active, setActive] = useState("dashboard");
+  const [profile, setProfile] = useState(false);
   return (
-    <div className='border border-light-grey relative h-screen w-18 p-4 flex flex-col justify-between'>
-      <div className='flex flex-col items-center gap-y-10'>
-        <img className='' src={img} alt='Profile picture' />
+    <div className='border border-light-grey h-screen w-18 p-4 fixed z-50 flex flex-col justify-between'>
+      <div className='flex flex-col  items-center gap-y-10'>
+        <div className='relative'>
+          {" "}
+          <img
+            className='cursor-pointer'
+            onClick={() => setProfile(!profile)}
+            src={img}
+            alt='Profile picture'
+          />
+          {profile && (
+            <>
+              <div
+                className='fixed inset-0 z-40'
+                onClick={() => setProfile(false)}
+              />
+              <ProfileOverlay setProfile={setProfile} />
+            </>
+          )}
+        </div>
+
         <Logo1 active={active} setActive={setActive} />
       </div>
       <div className='flex flex-col gap-y-10 items-center'>

@@ -1,18 +1,18 @@
 /** @format */
 
 import { useContext, useState } from "react";
-import Providers from "../../../../../contexts/Providers";
 import { Box, CircularProgress } from "@mui/material";
 import Succesful from "./Succesful";
+import { CardContext } from "../../../../../contexts/Context";
 
 export default function Review({ selectedCard, onClose }) {
   console.log("Selected Card:", selectedCard);
 
   const [click, setClick] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
-  const { openCard, setOpenCard } = useContext(Providers);
+  const { openCard, setOpenCard } = useContext(CardContext);
 
-  const { availableBalance, setAvailableBalance } = useContext(Providers);
+  const { availableBalance, setAvailableBalance } = useContext(CardContext);
   const total = Number(availableBalance) + Number(selectedCard.amount);
 
   function handleClick() {

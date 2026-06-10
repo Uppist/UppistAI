@@ -2,8 +2,8 @@
 
 import { useContext, useEffect, useRef, useState } from "react";
 import AddPaymentMethod from "./Payment/AddPaymentMethod";
-import Providers from "../../../../contexts/Providers";
 import { formatExpiry, getCardType } from "../../../../utils/cardUtils";
+import { CardContext } from "../../../../contexts/Context";
 
 export default function PaymentMethod() {
   const [cardOpen, setCard] = useState(false);
@@ -16,7 +16,7 @@ export default function PaymentMethod() {
     cvc: "",
     card_type: "",
   });
-  const { cardAvailable, openCard, setOpenCard } = useContext(Providers);
+  const { cardAvailable, openCard, setOpenCard } = useContext(CardContext);
 
   const selectedCardData = selectedCard;
 

@@ -1,7 +1,10 @@
 /** @format */
+import { useContext } from "react";
 import profile from "../../../../../assets/Dashboard/settings/profile.svg";
+import { UserContext } from "../../../../../contexts/Context";
 
 export default function Upload() {
+  const { userDetails } = useContext(UserContext);
   return (
     <div className='flex flex-col p-8 gap-y-6 border items-center rounded-lg border-light-grey'>
       <div className='flex'>
@@ -43,9 +46,12 @@ export default function Upload() {
         </div>
       </div>
       <div className='flex flex-col gap-y-0.5 items-center'>
-        <span className='text-base font-semibold'>Sarah Ossai</span>
+        <span className='text-base font-semibold'>
+          {" "}
+          {userDetails?.user?.fullName}
+        </span>
         <span className='text-sm font-normal text-grey'>
-          sarahossai@headovemail.com
+          {userDetails?.user?.email}
         </span>
       </div>
     </div>

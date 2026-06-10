@@ -1,6 +1,6 @@
 /** @format */
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function PayByBank({ onClose }) {
   const bankDetails = {
@@ -104,7 +104,6 @@ export default function PayByBank({ onClose }) {
           </button>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function ChangePassword() {
   const [password, setPassword] = useState({
@@ -93,7 +93,6 @@ export default function ChangePassword() {
           Change Password
         </button>
       </div>
-      <ToastContainer />
     </div>
   );
 }

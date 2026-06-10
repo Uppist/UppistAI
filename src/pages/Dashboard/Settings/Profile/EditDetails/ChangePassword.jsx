@@ -1,8 +1,7 @@
 /** @format */
 
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-
+import { toast } from "react-toastify";
 export default function ChangePassword({ onClose }) {
   const [resetPassword, setResetPassword] = useState({
     currentPassword: "",
@@ -34,13 +33,10 @@ export default function ChangePassword({ onClose }) {
     }
   }
   return (
-    <div className='absolute top-17 right-0 left-18 bottom-0 flex item-center justify-center z-10'>
+    <div className='dropdown'>
       {/*overlay */}
 
-      <div
-        className='fixed top-0 left-0 right-0 bottom-0 bg-overlay cursor-pointer'
-        onClick={onClose}
-      ></div>
+      <div className='overlay' onClick={onClose}></div>
       {/*User Container */}
       <div className='absolute flex flex-col gap-y-4 w-1/2  bg-white rounded-lg p-4  items-end justify-center'>
         <svg
@@ -111,17 +107,18 @@ export default function ChangePassword({ onClose }) {
             </div>
 
             {/*Submit Button */}
-            <button
-              className='button'
-              onClick={handleSubmit}
-              disabled={!submit}
-            >
-              Submit
-            </button>
+            <div className='flex justify-end'>
+              <button
+                className='button'
+                onClick={handleSubmit}
+                disabled={!submit}
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

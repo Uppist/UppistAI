@@ -6,7 +6,7 @@ import Name from "./Form/Name";
 import Password from "./Form/Password";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Box, CircularProgress } from "@mui/material";
 import api from "../../../../api/axios";
 
@@ -33,7 +33,7 @@ export default function Step1() {
   const data = {
     email: details.email,
     password: details.password,
-    companyName: "companyName",
+    fullName: details.full_name,
   };
 
   function Create() {
@@ -43,23 +43,27 @@ export default function Step1() {
       });
       return;
     } else {
+      setIsClick(true);
       api
         .post("auth/register", data)
         .then((res) => {
           console.log(res);
           localStorage.setItem("Token", res.data.accessToken);
-          setIsClick(true);
+
+          setTimeout(() => {
+            setIsClick(false);
+            navigate("/email-verification/verify-code", {
+              state: { flow: "signup" },
+            });
+          }, 2000);
         })
         .catch((err) => {
-          console.log(err);
+          setIsClick(false);
+          console.log(err.response);
+          if (err.response?.status === 409) {
+            toast.error(err.response.data.error);
+          }
         });
-
-      setTimeout(() => {
-        setIsClick(false);
-        navigate("/email-verification/verify-code", {
-          state: { flow: "signup" },
-        });
-      }, 2000);
     }
   }
   return (
@@ -101,7 +105,13 @@ export default function Step1() {
               onClick={Create}
             >
               {isClick ? (
-                <Box sx={{ display: "flex" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <CircularProgress
                     size={20}
                     aria-label='loading...'
@@ -131,12 +141,16 @@ export default function Step1() {
 
             <span className='text-sm font-medium text-light text-center'>
               Already have an account?{" "}
-              <span className='text-bg cursor-pointer'>Login</span>
+              <span
+                className='text-bg cursor-pointer'
+                onClick={() => navigate("/signin")}
+              >
+                Login
+              </span>
             </span>
           </div>
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 }

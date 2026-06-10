@@ -19,6 +19,8 @@
   --color-bg-green: hsla(134, 61%, 96%, 1);
   --color-red: hsla(2, 73%, 53%, 1);
   --color-overlay: rgba(0, 0, 0, 0.1);
+  --color-green: hsla(173, 72%, 52%, 1);
+  --color-border2: hsla(220, 14%, 96%, 1);
 }
 
 :root {
@@ -133,4 +135,31 @@ body::-webkit-scrollbar {
 
 .button:hover:not(:disabled) {
   opacity: 0.5;
+}
+
+/*Toast Container*/
+.Toastify__toast {
+  font-family: var(--font-family) !important;
+}
+
+/* error toast */
+.Toastify__toast--error {
+  background: #e74c3c !important;
+  color: white !important;
+}
+
+.Toastify__toast--success {
+  background: var(--color-bg) !important;
+  color: var(--color-white) !important;
+}
+
+.Toastify__progress-bar,
+.Toastify__progress-bar--success,
+.Toastify__toast-icon {
+  display: none !important;
+}
+
+.Toastify__close-button {
+  color: var(--color-white) !important;
+  opacity: 1 !important;
 }
