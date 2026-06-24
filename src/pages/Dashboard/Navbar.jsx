@@ -21,7 +21,7 @@ export default function Navbar() {
     title = "Contacts";
   } else if (path === "/reports") {
     title = "Reports";
-  } else if (path === "/Integrations") {
+  } else if (path === "/integrations") {
     title = "Integrations";
   }
   return (

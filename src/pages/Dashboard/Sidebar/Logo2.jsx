@@ -4,11 +4,12 @@ import { NavLink } from "react-router-dom";
 
 export default function Logo2() {
   return (
-    <div className='flex flex-col items-center gap-y-4'>
+    <div className='flex flex-col items-center gap-y-6.5'>
       {/*Settings */}
 
       <NavLink
         to='/settings'
+        title='Settings'
         className={({ isActive }) =>
           isActive
             ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
@@ -22,6 +23,7 @@ export default function Logo2() {
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >
+          <title>Settings</title>
           <path
             d='M17.7646 5.95084L17.3532 5.237C17.0422 4.69714 16.8866 4.42721 16.622 4.31958C16.3573 4.21194 16.058 4.29687 15.4594 4.46674L14.4426 4.75316C14.0604 4.84129 13.6594 4.79129 13.3105 4.612L13.0297 4.45002C12.7305 4.25837 12.5003 3.97579 12.3729 3.64363L12.0946 2.81247C11.9117 2.26246 11.8202 1.98745 11.6024 1.83015C11.3845 1.67285 11.0952 1.67285 10.5166 1.67285H9.58761C9.00898 1.67285 8.71967 1.67285 8.50186 1.83015C8.28404 1.98745 8.19255 2.26246 8.00957 2.81247L7.73128 3.64363C7.60387 3.97579 7.37371 4.25837 7.07447 4.45002L6.79374 4.612C6.44478 4.79129 6.04383 4.84129 5.66165 4.75316L4.64479 4.46674C4.04618 4.29687 3.74687 4.21194 3.48223 4.31958C3.21758 4.42721 3.06204 4.69714 2.75096 5.237L2.33964 5.95084C2.04805 6.45688 1.90225 6.7099 1.93055 6.97925C1.95885 7.2486 2.15402 7.46566 2.54438 7.89977L3.40359 8.86036C3.61358 9.12621 3.76267 9.58952 3.76267 10.006C3.76267 10.4229 3.61363 10.886 3.40361 11.1519L2.54439 12.1125C2.15403 12.5466 1.95885 12.7637 1.93055 13.0331C1.90225 13.3024 2.04805 13.5554 2.33964 14.0615L2.75095 14.7753C3.06202 15.3151 3.21758 15.5851 3.48223 15.6927C3.74688 15.8004 4.04619 15.7154 4.64481 15.5455L5.66162 15.2591C6.04386 15.171 6.44489 15.221 6.79389 15.4003L7.07458 15.5623C7.37376 15.754 7.60387 16.0365 7.73125 16.3687L8.00957 17.1999C8.19255 17.7499 8.28404 18.0249 8.50186 18.1822C8.71967 18.3395 9.00898 18.3395 9.58761 18.3395H10.5166C11.0952 18.3395 11.3845 18.3395 11.6024 18.1822C11.8202 18.0249 11.9117 17.7499 12.0946 17.1999L12.373 16.3687C12.5003 16.0365 12.7305 15.754 13.0296 15.5623L13.3103 15.4003C13.6593 15.221 14.0604 15.171 14.4426 15.2591L15.4594 15.5455C16.058 15.7154 16.3573 15.8004 16.622 15.6927C16.8866 15.5851 17.0422 15.3151 17.3533 14.7753L17.7646 14.0615C18.0562 13.5554 18.202 13.3024 18.1737 13.0331C18.1454 12.7637 17.9502 12.5466 17.5598 12.1125L16.7006 11.1519C16.4906 10.886 16.3415 10.4229 16.3415 10.006C16.3415 9.58952 16.4906 9.12621 16.7006 8.86036L17.5598 7.89977C17.9502 7.46566 18.1454 7.2486 18.1737 6.97925C18.202 6.7099 18.0562 6.45688 17.7646 5.95084Z'
             stroke='currentColor'
@@ -38,11 +40,12 @@ export default function Logo2() {
 
       {/*Integrations */}
       <NavLink
-        // to='/settings'
+        to='/integrations'
+        title='Integrations'
         className={({ isActive }) =>
           isActive
             ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
-            : "cursor-pointer text-grey"
+            : "cursor-pointer text-grey px-4 py-2 "
         }
       >
         {" "}
@@ -53,6 +56,7 @@ export default function Logo2() {
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >
+          <title>Integrations</title>
           <g clip-path='url(#clip0_424_2950)'>
             <path
               fill-rule='evenodd'
@@ -72,6 +76,7 @@ export default function Logo2() {
       {/*Logout */}
       <NavLink
         to='/signin'
+        title='Logout'
         className={({ isActive }) =>
           isActive
             ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
@@ -85,6 +90,7 @@ export default function Logo2() {
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >
+          <title>Logout</title>
           <path
             d='M7.5 14.6875C7.56133 16.2308 8.84742 17.5412 10.5703 17.499C10.9711 17.4892 11.4666 17.3495 12.4574 17.07C14.842 16.3974 16.912 15.267 17.4087 12.7346C17.5 12.2691 17.5 11.7453 17.5 10.6977L17.5 9.30229C17.5 8.25468 17.5 7.73087 17.4087 7.26538C16.912 4.73304 14.842 3.60263 12.4574 2.93002C11.4666 2.65054 10.9711 2.5108 10.5703 2.50099C8.84743 2.45884 7.56134 3.76923 7.5 5.31251'
             stroke='#667085'

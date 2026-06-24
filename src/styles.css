@@ -163,3 +163,28 @@ body::-webkit-scrollbar {
   color: var(--color-white) !important;
   opacity: 1 !important;
 }
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: transparent;
+  position: relative;
+  border-color: var(--color-bg);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: var(--color-bg);
+  position: absolute;
+  left: 2px;
+  top: -2px;
+  font-size: 12px;
+  font-weight: bold;
+}
