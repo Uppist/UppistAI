@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ng from "../../../../../assets/Dashboard/integrations/ng.svg";
-import Verify from "./verify";
+import Verify from "./Verify";
 export default function Whatsapp({ onClose, onConnect, Success }) {
   const [number, setNumber] = useState("");
   const [isNext, setIsNext] = useState(false);
