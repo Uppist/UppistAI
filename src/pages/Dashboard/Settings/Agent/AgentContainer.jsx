@@ -1,68 +1,22 @@
 /** @format */
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import bot from "../../../../assets/Dashboard/settings/agent/bot.svg";
 import pause from "../../../../assets/Dashboard/settings/agent/pause.svg";
 import resume from "../../../../assets/Dashboard/settings/agent/resume.svg";
+import { CreateAgentContext } from "../../../../contexts/Context";
+import api from "../../../../api/axios";
+import { toast } from "react-toastify";
+import CreateAgent from "./CreateAgent";
 export default function AgentContainer() {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [editingAgent, setEditingAgent] = useState(null);
   const menuRef = useRef(null);
-
-  const agents = [
-    {
-      botImage: bot,
-      name: "Josh",
-      tone: "Professional",
-      button: "Active",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      botImage: bot,
-      name: "Ben",
-      tone: "Friendly",
-      button: "Paused",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      botImage: bot,
-      name: "Josh",
-      tone: "Professional",
-      button: "Active",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      botImage: bot,
-      name: "Ben",
-      tone: "Friendly",
-      button: "Paused",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      botImage: bot,
-      name: "Josh",
-      tone: "Friendly",
-      button: "Active",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      botImage: bot,
-      name: "Ben",
-      tone: "Professional",
-      button: "Paused",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-  ];
+  const { getAgents, setGetAgents } = useContext(CreateAgentContext);
 
   function handleDropdown(id) {
     setActiveDropdown((prevId) => (prevId === id ? null : id));
   }
-
   //clicking outside to close
 
   useEffect(() => {
@@ -76,12 +30,110 @@ export default function AgentContainer() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  function handlePauseResume(agentId, currentStatus) {
+    const newStatus = currentStatus === "active" ? "paused" : "active";
+
+    // Update the agent's status in the backend
+    if (newStatus === "paused") {
+      api
+        .patch(
+          `/agents/${agentId}/pause`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
+          },
+        )
+        .then((res) => {
+          console.log(res.data);
+          setGetAgents((getAgents) =>
+            getAgents.map((agent) =>
+              agent.id === agentId ? { ...agent, status: newStatus } : agent,
+            ),
+          );
+          setActiveDropdown(false);
+        })
+        .catch((err) => {
+          console.log(err.response?.data);
+          toast.error("Failed to pause agent.");
+          setActiveDropdown(false);
+        });
+    }
+    // Update the agent's status in the backend
+    if (newStatus === "active") {
+      api
+        .patch(
+          `/agents/${agentId}/resume`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
+          },
+        )
+        .then((res) => {
+          console.log(res.data);
+          setGetAgents((getAgents) =>
+            getAgents.map((agent) =>
+              agent.id === agentId ? { ...agent, status: newStatus } : agent,
+            ),
+          );
+          setActiveDropdown(false);
+        })
+        .catch((err) => {
+          console.log(err.response?.data);
+          toast.error("Failed to resume agent.");
+          setActiveDropdown(false);
+        });
+    }
+  }
+
+  function handleEditAgent(agent) {
+    setEditingAgent(agent);
+    setActiveDropdown(false);
+  }
+  //delete AI agent
+
+  function handleDeleteAgent(agentId) {
+    // Implement the logic to delete the agent with the given agentId
+    console.log(`Deleting agent with ID: ${agentId}`);
+
+    api
+      .delete(`/agents/${agentId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("Token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        // Optionally, you can update the state to remove the deleted agent from the list
+        setGetAgents((getAgents) =>
+          getAgents.filter((agent) => agent.id !== agentId),
+        );
+        toast.success("Agent deleted successfully");
+        setActiveDropdown(false); // Close the dropdown after deletion
+      })
+      .catch((err) => {
+        console.log(err.response?.data);
+        // Handle error if needed
+        toast.error("Failed to delete agent.");
+        setActiveDropdown(false); // Close the dropdown even if deletion fails
+      });
+  }
   return (
     <div
       className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10'
       ref={menuRef}
     >
-      {agents.map((agent, index) => (
+      {getAgents.length === 0 && (
+        <div className='col-span-full flex items-center justify-center'>
+          <p className='text-grey text-sm'>
+            Click Create Agent to add a new agent.
+          </p>
+        </div>
+      )}
+      {getAgents.map((agent, index) => (
         <div
           key={index}
           ref={menuRef}
@@ -91,7 +143,7 @@ export default function AgentContainer() {
             <div className='flex items-center justify-between' key={index}>
               <div className='flex items-center gap-x-3'>
                 <div className='bg-pink p-2 rounded-lg'>
-                  <img src={agent.botImage} alt='' />
+                  <img src={bot} alt='' />
                 </div>
                 <div className='flex flex-col gap-y-0.5'>
                   <h3 className='text-sm text-black 2xl:text-2xl font-semibold'>
@@ -123,7 +175,7 @@ export default function AgentContainer() {
               <div className='absolute  right-0 top-14 z-20 w-45 rounded-2xl border border-light-grey bg-white p-2.5 flex flex-col gap-y-2.5 shadow-xl'>
                 <button
                   className='w-full cursor-pointer flex items-center gap-x-2.5 text-light-black rounded-lg px-3 py-2 text-left text-sm  hover:bg-slate-100'
-                  onClick={() => setActiveDropdown(false)}
+                  onClick={() => handleEditAgent(agent)}
                 >
                   <svg
                     width='20'
@@ -164,22 +216,24 @@ export default function AgentContainer() {
                   </svg>
                   Edit Agent
                 </button>
+
+                {/*Active/Pause Agent */}
                 <button
                   className='w-full cursor-pointer flex items-center gap-x-2.5 text-light-black rounded-lg px-3 py-2 text-left text-sm hover:bg-slate-100'
-                  onClick={() => {
-                    setActiveDropdown(false);
-                  }}
+                  onClick={() => handlePauseResume(agent.id, agent.status)}
                 >
-                  {agent.button === "Active" ? (
+                  {agent.status === "active" ? (
                     <img src={pause} alt='' />
                   ) : (
                     <img src={resume} alt='' />
                   )}
-                  {agent.button === "Active" ? "Pause" : "Resume"} Agent
+                  {agent.status === "active" ? "Pause" : "Resume"} Agent
                 </button>
+
+                {/* Delete agent */}
                 <button
                   className='w-full cursor-pointer flex items-center gap-x-2.5 text-red rounded-lg px-3 py-2 text-left text-sm hover:bg-slate-100'
-                  onClick={() => setActiveDropdown(false)}
+                  onClick={() => handleDeleteAgent(agent.id)}
                 >
                   <svg
                     width='20'
@@ -200,29 +254,35 @@ export default function AgentContainer() {
 
             {/*Channels */}
             <div className='flex items-center justify-between'>
-              <div className='flex items-center gap-x-2.5'>
-                <span className='border border-light-grey p-1 px-2 md:text-[8px] 2xl:text-[16px] text-light-black rounded-sm capitalize'>
-                  {agent.channel_one}
-                </span>
-                <span className='border border-light-grey p-1 px-2 text-[8px] 2xl:text-[16px] text-light-black rounded-sm capitalize'>
-                  {agent.channel_two}
-                </span>
+              <div className='flex items-center gap-x-1'>
+                {agent.channels.map((channel, index) => (
+                  <div className='flex items-center gap-x-1' key={index}>
+                    <span className='border border-light-grey p-1 px-2 md:text-[8px] 2xl:text-[16px] text-light-black rounded-sm capitalize'>
+                      {channel}
+                    </span>
+                  </div>
+                ))}
               </div>
-
               {/*Active button */}
               <button
                 className={
-                  agent.button === "Active"
+                  agent.status === "active"
                     ? "text-green border border-green py-1 px-2 rounded-md font-medium text-[10px] cursor-pointer bg-bg-green"
                     : "text-grey border border-grey py-1 px-2 rounded-md font-medium text-[10px] cursor-pointer bg-light-grey"
                 }
               >
-                {agent.button}
+                {agent.status === "active" ? "Active" : "Paused"}
               </button>
             </div>
           </>
         </div>
       ))}
+      {editingAgent && (
+        <CreateAgent
+          agent={editingAgent}
+          onClose={() => setEditingAgent(null)}
+        />
+      )}
     </div>
   );
 }

@@ -1,7 +1,10 @@
 /** @format */
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Delete from "./Delete";
+import { CreateIntentContext } from "../../../../contexts/Context";
+import api from "../../../../api/axios";
+import { toast } from "react-toastify";
 
 export default function TagsContainer({
   setIntentClick,
@@ -12,69 +15,51 @@ export default function TagsContainer({
   const [deleteDrop, setDeleteDrop] = useState(false);
   const menuRef = useRef(null);
 
-  const agents = [
-    {
-      order: "Lead",
-      conversations: "142",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      order: "Order Status",
-      conversations: "24",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      order: "Lead",
-      conversations: "142",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      order: "Order Status",
-      conversations: "24",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      order: "Lead",
-      conversations: "142",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      order: "Order Status",
-      conversations: "24",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      order: "Lead",
-      conversations: "142",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-    {
-      order: "Order Status",
-      conversations: "24",
-      channel_one: "whatsapp",
-      channel_two: "website",
-    },
-  ];
+  const { getIntents, setGetIntents } = useContext(CreateIntentContext);
 
   function handleDropdown(id) {
     setIntentDropdown((prevId) => (prevId === id ? null : id));
   }
 
-  function Edit(agent) {
+  //edit intent
+  function Edit(intent) {
     setIntentDropdown(false);
     setIntentClick(true);
     setMode("edit");
+
+    const normalizedChannels = Array.isArray(intent.channels)
+      ? intent.channels
+      : intent.channels
+        ? [intent.channels]
+        : [];
+
     setFormData({
-      title: agent.order,
-      channels: [agent.channel_one, agent.channel_two],
+      id: intent.id,
+      title: intent.tag,
+      channels: normalizedChannels,
     });
+  }
+
+  //delete intent
+
+  function handleDeleteTag(intent_id) {
+    console.log(intent_id);
+    api
+      .delete(`dashboard/intents/${intent_id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setGetIntents((getIntents) =>
+          getIntents.filter((intent) => intent.id !== intent_id),
+        );
+        toast.success("Deleted successfully");
+        setDeleteDrop(false);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        toast.error();
+      });
   }
 
   //clicking outside to close
@@ -95,7 +80,12 @@ export default function TagsContainer({
       className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10'
       ref={menuRef}
     >
-      {agents.map((agent, index) => (
+      {getIntents.length === 0 && (
+        <div className='col-span-2 md:col-span-3 lg:col-span-4 text-center text-light-black'>
+          No Intent Tags Found
+        </div>
+      )}
+      {getIntents.map((intent, index) => (
         <div
           key={index}
           ref={menuRef}
@@ -104,11 +94,11 @@ export default function TagsContainer({
           <>
             <div className='flex items-center justify-between' key={index}>
               <div className='flex items-center gap-x-3'>
-                <h3 className='text-[10px] bg-pink rounded-lg text-bg p-2 2xl:text-2xl font-semibold'>
-                  {agent.order}
+                <h3 className='text-[10px] bg-pink rounded-lg capitalize text-bg p-2 2xl:text-2xl font-semibold'>
+                  {intent.tag}
                 </h3>
                 <span className='text-grey text-[10px] font-normal 2xl:text-[16px]'>
-                  {agent.conversations} conversations
+                  {intent.conversationCount} conversations
                 </span>
               </div>
               <svg
@@ -127,13 +117,14 @@ export default function TagsContainer({
               </svg>
             </div>
 
-            {/* Agent dropdown */}
+            {/* Intent dropdown */}
             {intentDropdown === index && (
               <>
                 <div className='absolute  right-0 top-14 z-20 w-50 rounded-2xl border border-light-grey bg-white p-2.5 flex flex-col gap-y-2.5 shadow-xl'>
+                  {/*Eidt Intent */}
                   <button
                     className='w-full cursor-pointer flex items-center gap-x-2.5 text-light-black rounded-lg px-3 py-2 text-left text-sm  hover:bg-slate-100'
-                    onClick={() => Edit(agent)}
+                    onClick={() => Edit(intent)}
                   >
                     <svg
                       width='20'
@@ -174,7 +165,7 @@ export default function TagsContainer({
                     </svg>
                     Edit Intent Tag
                   </button>
-
+                  {/*Delete Intent */}
                   <button
                     className='w-full  cursor-pointer flex items-center gap-x-2.5 text-red rounded-lg px-3 py-2 text-left text-sm hover:bg-slate-100'
                     onClick={() => {
@@ -196,22 +187,24 @@ export default function TagsContainer({
                     Delete Intent Tag
                   </button>
                   {deleteDrop && (
-                    <Delete onClose={() => setDeleteDrop(false)} />
+                    <Delete
+                      onClose={() => setDeleteDrop(false)}
+                      handleDeleteTag={() => handleDeleteTag(intent.id)}
+                    />
                   )}
                 </div>
               </>
             )}
 
             {/*Channels */}
-            <div className='flex items-center justify-between'>
-              <div className='flex items-center gap-x-2.5'>
-                <span className='border border-light-grey p-1 px-2 md:text-[8px] 2xl:text-[16px] text-light-black rounded-sm capitalize'>
-                  {agent.channel_one}
-                </span>
-                <span className='border border-light-grey p-1 px-2 text-[8px] 2xl:text-[16px] text-light-black rounded-sm capitalize'>
-                  {agent.channel_two}
-                </span>
-              </div>
+            <div className='flex items-center gap-x-2'>
+              {intent.channels.map((channel) => (
+                <div className='flex items-center gap-x-2.5'>
+                  <span className='border border-light-grey p-1 px-2 md:text-[8px] 2xl:text-[16px] text-light-black rounded-sm capitalize'>
+                    {channel}
+                  </span>
+                </div>
+              ))}
             </div>
           </>
         </div>

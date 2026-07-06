@@ -1,13 +1,77 @@
 /** @format */
 
+import { toast } from "react-toastify";
+import api from "../../../../api/axios";
 import Channels from "../Agent/Channels";
+import { CreateIntentContext } from "../../../../contexts/Context";
+import { useContext } from "react";
 
 export default function CreateIntent({ onClose, mode, formData, setFormData }) {
   function handleChange(e) {
     setFormData({ ...formData, title: e.target.value });
   }
 
+  const { setGetIntents } = useContext(CreateIntentContext);
   console.log(formData);
+
+  function handleCreateIntent() {
+    const data = {
+      name: formData.title,
+      channels: formData.channels,
+    };
+
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("Token")}`,
+      },
+    };
+
+    if (mode === "create") {
+      api
+        .post(`/dashboard/intents`, data, headers)
+        .then((res) => {
+          console.log("Intent tag created:", res.data);
+
+          toast.success("Intent tag created successfully!");
+          setGetIntents((getIntents) => [
+            ...getIntents,
+            {
+              ...res.data.intent,
+              conversationCount: 0,
+            },
+          ]);
+          onClose();
+        })
+        .catch((err) => {
+          console.error("Error creating intent tag:", err);
+          toast.error("Unable to create intent tag");
+        });
+    } else {
+      api
+        .patch(`/dashboard/intents/${formData.id}`, data, headers)
+        .then((res) => {
+          console.log("Intent tag updated:", res.data);
+
+          toast.success("Intent tag updated successfully!");
+          setGetIntents((getIntents) =>
+            getIntents.map((intent) =>
+              intent.id === formData.id
+                ? {
+                    ...intent,
+                    tag: res.data.intent?.tag || formData.title,
+                    channels: res.data.intent?.channels || formData.channels,
+                  }
+                : intent,
+            ),
+          );
+          onClose();
+        })
+        .catch((err) => {
+          console.error("Error updating intent tag:", err);
+          toast.error("Unable to update intent tag");
+        });
+    }
+  }
 
   return (
     <div className='dropdown'>
@@ -64,8 +128,13 @@ export default function CreateIntent({ onClose, mode, formData, setFormData }) {
             }
           />
           <div className='flex justify-end'>
-            <button className='button' onClick={onClose}>
-              Create Intent Tag
+            <button
+              className='button'
+              type='button'
+              onClick={handleCreateIntent}
+            >
+              {mode === "create" ? "Create " : "Edit "}
+              Intent Tag
             </button>
           </div>
         </div>

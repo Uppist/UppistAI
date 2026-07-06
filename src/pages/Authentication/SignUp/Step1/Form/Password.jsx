@@ -11,7 +11,7 @@ export default function Password({ details, handleChange }) {
           type='password'
           name='password'
           id=''
-          value={details.password}
+          value={details?.password}
           onChange={handleChange}
         />
       </div>
@@ -23,7 +23,7 @@ export default function Password({ details, handleChange }) {
           type='password'
           name='confirm_password'
           id=''
-          value={details.confirm_password}
+          value={details?.confirm_password}
           onChange={handleChange}
         />
       </div>

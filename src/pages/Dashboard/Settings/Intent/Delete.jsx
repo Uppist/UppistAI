@@ -1,11 +1,11 @@
 /** @format */
 
-export default function Delete({ onClose }) {
+export default function Delete({ onClose, handleDeleteTag }) {
   return (
     <div className='dropdown'>
       <div className='overlay' onClick={onClose}></div>
 
-      <div className='absolute flex flex-col gap-y-4 bg-white rounded-lg p-4 items-end justify-center'>
+      <div className='relative z-10 flex flex-col gap-y-4 bg-white rounded-lg p-4 items-end justify-center max-w-md w-full'>
         <svg
           className='cursor-pointer flex'
           onClick={onClose}
@@ -30,15 +30,26 @@ export default function Delete({ onClose }) {
               Delete Intent Tag
             </span>
             <p className='text-grey text-base font-normal'>
-              Create a label that helps categorize intents across your
-              agent.{" "}
+              This will permanently remove the intent tag and its configuration.
+              This action cannot be undone.
             </p>
           </div>
         </div>
 
         <div className='flex items-center gap-x-10'>
-          <button>Cancel</button>
-          <button>Delete</button>
+          <button
+            className='p-3.5 px-10 rounded-lg cursor-pointer border border-light-grey text-light-black text-sm font-semibold hover:bg-slate-100'
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+          <button
+            type='button'
+            className='text-sm font-semibold text-white cursor-pointer bg-red p-3.5 px-10 rounded-lg hover:bg-red-800'
+            onClick={handleDeleteTag}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>

@@ -1,13 +1,19 @@
 /** @format */
 
-import { useState } from "react";
+import { useContext, useState } from "react";
+import api from "../../../../../api/axios";
+import { toast } from "react-toastify";
+import { Box, CircularProgress } from "@mui/material";
+import { CreateUserContext } from "../../../../../contexts/Context";
 
 export default function CreateUser({ onClose }) {
+  const { setGetUsers } = useContext(CreateUserContext);
   const [details, setDetails] = useState({
     email: "",
     role: "",
   });
 
+  const [loading, setLoading] = useState(false);
   function handleChange(e) {
     setDetails({ ...details, [e.target.name]: e.target.value });
   }
@@ -16,7 +22,34 @@ export default function CreateUser({ onClose }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    onClose();
+    const data = {
+      email: details.email,
+      role: details.role,
+      name: "User",
+    };
+    setLoading(true);
+
+    api
+      .post("/users", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("Token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setGetUsers((getUsers) => {
+          return [...getUsers, res.data.user];
+        });
+        setLoading(false);
+        toast.success("User created successfully");
+        onClose();
+      })
+      .catch((err) => {
+        console.log(err.response?.data);
+        const roleError = err.response?.data?.fields?.role?.[0];
+        toast.error(roleError);
+        setLoading(false);
+      });
   }
   return (
     <div className='dropdown'>
@@ -79,14 +112,32 @@ export default function CreateUser({ onClose }) {
                 onChange={handleChange}
               />
             </div>
-            <button
-              className='button'
-              type='submit'
-              disabled={!sendLink}
-              onClick={handleSubmit}
-            >
-              Send Link
-            </button>
+            <div className='flex items-center justify-center'>
+              <button
+                className='button'
+                type='submit'
+                disabled={!sendLink}
+                onClick={handleSubmit}
+              >
+                {loading ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CircularProgress
+                      size={20}
+                      sx={{ color: "white" }}
+                      aria-label='loading...'
+                    />
+                  </Box>
+                ) : (
+                  "Send Link"
+                )}
+              </button>
+            </div>
           </form>
         </div>
       </div>

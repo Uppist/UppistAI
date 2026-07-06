@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "react-toastify";
+import api from "../../../../../api/axios";
 export default function ChangePassword({ onClose }) {
   const [resetPassword, setResetPassword] = useState({
     currentPassword: "",
@@ -19,6 +20,10 @@ export default function ChangePassword({ onClose }) {
     resetPassword.confirmNewPassword.length >= 8;
 
   function handleSubmit() {
+    const data = {
+      currentPassword: resetPassword.currentPassword,
+      newPassword: resetPassword.newPassword,
+    };
     if (resetPassword.newPassword !== resetPassword.confirmNewPassword) {
       toast.error("New password and confirm new password do not match.");
       return;
@@ -26,10 +31,21 @@ export default function ChangePassword({ onClose }) {
       toast.error("New password cannot be the same as current password.");
       return;
     } else {
-      toast.success("Password changed successfully.");
-      setTimeout(() => {
-        onClose();
-      }, 2500);
+      api
+        .post("/auth/change-password", data, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+        })
+        .then((res) => {
+          console.log(res.data);
+          toast.success("Password changed successfully.");
+          setTimeout(() => {
+            onClose();
+          }, 2500);
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          toast.error("Failed to change password.");
+        });
     }
   }
   return (

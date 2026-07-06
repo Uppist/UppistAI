@@ -4,12 +4,7 @@ import { useState } from "react";
 import Uploaded from "../../../Authentication/Onboarding/Fifth/Upload/Uploaded";
 import img from "../../../../assets/Onboarding/Upload.svg";
 
-export default function UploadKnowledge() {
-  const [details, setDetails] = useState({
-    file: "",
-    website: "",
-  });
-
+export default function UploadKnowledge({ details, setDetails }) {
   const [fileName, setFileName] = useState({ name: "", size: "" });
   function handleFile(e) {
     setDetails({ ...details, file: e.target.files[0] });
@@ -45,7 +40,6 @@ export default function UploadKnowledge() {
             />
             <label
               htmlFor='upload-file'
-              o
               className='bg-bg text-white px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer'
             >
               Upload

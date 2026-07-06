@@ -58,11 +58,8 @@ body::-webkit-scrollbar {
 }
 
 .dropdown {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
+  position: fixed;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,11 +67,8 @@ body::-webkit-scrollbar {
 }
 
 .overlay {
-  position: fixed;
-  top: 68px;
-  left: 72px;
-  right: 0;
-  bottom: 0;
+  position: absolute;
+  inset: 0;
   background-color: var(--color-overlay);
   cursor: pointer;
 }

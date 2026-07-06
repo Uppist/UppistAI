@@ -31,6 +31,7 @@ import Channels from "./pages/Dashboard/Channels/Channels";
 
 export default function App() {
   const [appLoading, setAppLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
   const location = useLocation();
 
   useEffect(() => {
@@ -39,7 +40,17 @@ export default function App() {
       setAppLoading(false);
     }, 3500);
 
-    return () => clearTimeout(timer);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   if (appLoading) {
@@ -59,10 +70,12 @@ export default function App() {
       <ToastContainer transition={Zoom} autoClose={5000} />
       <section
         className={
-          path ? "grid grid-cols-2 h-screen w-screen overflow-hidden" : ""
+          path && !isMobile
+            ? "grid grid-cols-2 h-screen w-screen overflow-hidden"
+            : ""
         }
       >
-        {path && <img src={img} className='w-screen' alt='' />}
+        {path && !isMobile && <img src={img} className='w-screen' alt='' />}
         <Routes>
           <Route path='/' element={<Step1 />} />
           <Route path='/email-verification/verify-code' element={<Step2 />} />

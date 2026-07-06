@@ -11,7 +11,7 @@ export default function Channels({
 }) {
   const channels = [
     {
-      id: "website",
+      id: "web",
       img: website,
       title: "Website Chat",
       p: "Embed widget",

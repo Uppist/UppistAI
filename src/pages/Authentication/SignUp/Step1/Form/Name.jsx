@@ -11,7 +11,7 @@ export default function Name({ details, handleChange }) {
           type='text'
           name='full_name'
           id=''
-          value={details.full_name}
+          value={details?.full_name}
           onChange={handleChange}
         />
       </div>
@@ -22,7 +22,7 @@ export default function Name({ details, handleChange }) {
           placeholder='Enter your work email'
           type='email'
           name='email'
-          value={details.email}
+          value={details?.email}
           onChange={handleChange}
           id=''
         />

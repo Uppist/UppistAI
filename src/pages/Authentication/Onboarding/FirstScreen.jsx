@@ -18,9 +18,9 @@ export default function FirstScreen() {
   }
 
   return (
-    <div className='flex flex-col h-screen justify-center gap-y-10 p-10 animate-fade-up'>
+    <div className='flex flex-col lg:h-screen justify-center gap-y-10 p-10 animate-fade-up sm: mt-20'>
       <div className='flex flex-col gap-y-2'>
-        <h2 className='m-0px text-black text-3xl font-bold'>
+        <h2 className='m-0px text-black text-3xl font-bold sm: w-50'>
           Welcome to Uppist AI
         </h2>
         <span className='text-light text-base font-normal'>

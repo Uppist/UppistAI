@@ -1,24 +1,27 @@
 /** @format */
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ChangePassword from "./ChangePassword";
 import { toast } from "react-toastify";
+import api from "../../../../../api/axios";
+import { UserContext } from "../../../../../contexts/Context";
 
 export default function Form() {
   const [openPassword, setOpenPassword] = useState(false);
+  const { setUserDetails } = useContext(UserContext);
 
   const [details, setDetails] = useState({
     first_name: "",
     last_name: "",
     company_name: "",
-    email: "",
+    work_email: "",
   });
 
   const changes =
     details.company_name ||
     details.first_name ||
     details.last_name ||
-    details.email;
+    details.work_email;
 
   function handleChange(e) {
     setDetails({ ...details, [e.target.name]: e.target.value });
@@ -29,7 +32,27 @@ export default function Form() {
   }
 
   function Changes() {
-    toast.success("Updated Succesfully");
+    api
+      .patch("/users/me", details, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("Token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        toast.success("Updated Succesfully");
+        setUserDetails(res.data);
+
+        setDetails({
+          first_name: "",
+          last_name: "",
+          company_name: "",
+          work_email: "",
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   return (
@@ -72,8 +95,8 @@ export default function Form() {
             <input
               className='p-2.5 rounded-lg border border-light-grey outline-none'
               type='email'
-              name='email'
-              value={details.email}
+              name='work_email'
+              value={details.work_email}
               onChange={handleChange}
               id=''
             />

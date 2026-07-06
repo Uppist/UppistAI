@@ -4,10 +4,13 @@ import { useParams } from "react-router-dom";
 import FirstGrid from "./FirstGrid/FirstGrid";
 import SecondGrid from "./SecondGrid/SecondGrid";
 import ThirdGrid from "./ThirdGrid";
+// import { useContext } from "react";
+// import { ChannelContext } from "../../../contexts/Context";
 
 export default function Channels() {
   const { type } = useParams();
 
+  // const { conversations, setConversations } = useContext(ChannelContext);
   let title = "";
   if (type === "whatsapp") {
     title = "Whatsapp";
@@ -18,6 +21,7 @@ export default function Channels() {
   } else {
     title = "Social Media";
   }
+
   return (
     <div className='grid grid-cols-[25%_50%_25%] h-full'>
       <FirstGrid title={title} />

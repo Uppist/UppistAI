@@ -29,7 +29,7 @@ export default function VerifyEmail({ appLoading, setAppLoading }) {
     return <Loader />;
   }
   return (
-    <div className='flex flex-col justify-center gap-y-6 p-20 pb-140 animate-fade-up overflow-scroll no-scrollbar'>
+    <div className='flex flex-col justify-center gap-y-6 lg:p-20 lg:pb-140 animate-fade-up overflow-scroll no-scrollbar sm: p-10 sm:pb-30 sm: mt-20'>
       <div className='flex flex-col gap-y-2 justify-center'>
         <h2 className='m-0px text-black text-3xl font-bold'>
           Email Verification

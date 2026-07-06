@@ -34,7 +34,7 @@ export default function Step2() {
   }
 
   return (
-    <div className='flex flex-col justify-center gap-y-6 p-20 pb-140 animate-fade-up overflow-scroll no-scrollbar'>
+    <div className='flex flex-col justify-center gap-y-6 lg:p-20 lg:pb-140 animate-fade-up overflow-scroll no-scrollbar sm: p-10 sm: pb-30 sm: mt-20'>
       {location.state?.flow === "reset" && (
         <Link to={-1}>
           {" "}
@@ -66,7 +66,7 @@ export default function Step2() {
         </span>
       </div>
 
-      <div className='flex justify-center items-center gap-8'>
+      <div className='flex justify-center items-center lg:gap-8 sm: gap-3.5'>
         {Array.from({ length }).map((_, i) => (
           <input
             key={i}
@@ -75,7 +75,7 @@ export default function Step2() {
             maxLength={1}
             onChange={(e) => handleChange(e, i)}
             onKeyDown={(e) => handleKeyDown(e, i)}
-            className='w-14 h-14 mt-10 border uppercase border-light-grey rounded-md text-center text-lg outline-none'
+            className='lg:w-14 lg:h-14 lg:mt-10 border uppercase border-light-grey rounded-md text-center text-lg outline-none sm: w-10 sm: h-10 sm: mt-2'
           />
         ))}
       </div>

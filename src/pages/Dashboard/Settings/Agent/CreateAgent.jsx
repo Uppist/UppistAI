@@ -3,34 +3,116 @@
 import reply from "../../../../assets/Dashboard/settings/agent/reply.svg";
 import { Switch } from "@mui/material";
 import UploadKnowledge from "./UploadKnowledge";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Channels from "./Channels";
-// import axios from "axios";
-// import { CardContext } from "../../CardContext";
+import api from "../../../../api/axios";
+import { CreateAgentContext } from "../../../../contexts/Context";
+import { toast } from "react-toastify";
 
-export default function CreateAgent({ onClose }) {
-  const [toneList, setToneList] = useState();
+export default function CreateAgent({ onClose, agent = null }) {
+  const isEditing = Boolean(agent);
+  const [toneList, setToneList] = useState(agent?.tone || "Professional");
   const [selectTone, setSelectTone] = useState(false);
-  // const { baseUrl, token } = useContext(CardContext);
-
+  const [name, setName] = useState(agent?.name || "");
   const tone = ["Professional", "Friendly", "Empathetic", "Casual", "Premium"];
 
   function handleTone() {
     setSelectTone(!selectTone);
   }
 
-  // function handleCreateAgent() {
-  //   axios
-  //     .post(`${baseUrl}kb/agents`, data, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  //url and knowlodge base upload
+  const [details, setDetails] = useState({
+    file: "",
+    website: "",
+  });
+
+  const { setGetAgents } = useContext(CreateAgentContext);
+  const [selectedChannels, setSelectedChannels] = useState(
+    agent?.channels || [],
+  );
+
+  //function to create agent
+  async function handleCreateAgent() {
+    const data = {
+      name: name,
+      tone: toneList || "Professional",
+      channels: selectedChannels,
+      isDefault: agent?.isDefault ?? false,
+    };
+    const formData = new FormData();
+    formData.append("file", details.file);
+
+    console.log(details.file, details.website);
+
+    console.log(data);
+
+    const token = localStorage.getItem("Token");
+
+    try {
+      let res;
+
+      // If editing, use PATCH; otherwise, use POST
+      if (isEditing && agent?.id) {
+        res = await api.patch(`/agents/${agent.id}`, data, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      } else {
+        res = await api.post("/agents", data, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+
+      const savedAgent = res.data.agent || res.data;
+      const agentId = savedAgent?.id || agent?.id;
+
+      // Upload knowledge base if file or website is provided
+      if (details.file && agentId) {
+        const uploadRes = await api.post(
+          `/agents/${agentId}/kb/upload`,
+          formData,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        console.log(uploadRes.data);
+      }
+
+      if (details.website && agentId) {
+        const urlRes = await api.post(
+          `/agents/${agentId}/kb/url`,
+          { url: `https://${details.website}` },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        console.log(urlRes.data);
+      }
+
+      if (isEditing && agent?.id) {
+        setGetAgents((getAgents) =>
+          getAgents.map((item) =>
+            item.id === agent.id ? { ...item, ...savedAgent } : item,
+          ),
+        );
+        toast.success("Agent updated successfully!", { autoClose: 2000 });
+      } else {
+        setGetAgents((getAgents) => {
+          return [...getAgents, savedAgent];
+        });
+        toast.success("Agent created successfully!", { autoClose: 2000 });
+      }
+      onClose();
+    } catch (err) {
+      console.error(err.response?.data || err);
+
+      toast.error(
+        isEditing ? "Failed to update agent." : "Failed to create agent.",
+        {
+          autoClose: 2000,
+        },
+      );
+    }
+  }
   return (
     <div className='dropdown'>
       <div className='overlay' onClick={onClose}></div>
@@ -59,10 +141,12 @@ export default function CreateAgent({ onClose }) {
           {/*Create Agent text */}
           <div className='flex flex-col gap-y-2 text-center'>
             <span className='text-xl font-semibold text-bg'>
-              Create New Agent
+              {isEditing ? "Edit Agent" : "Create New Agent"}
             </span>
             <p className='text-grey text-base font-normal'>
-              Configure your AI agent's personality, knowledge and channels.
+              {isEditing
+                ? "Update your AI agent's personality, knowledge and channels."
+                : "Configure your AI agent's personality, knowledge and channels."}
             </p>
           </div>
           {/*Assign to channel */}
@@ -77,8 +161,10 @@ export default function CreateAgent({ onClose }) {
                 <input
                   type='text'
                   className='p-2 border border-light-grey rounded-lg w-80 outline-none'
-                  name=''
+                  name='name'
                   id=''
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
 
@@ -131,7 +217,10 @@ export default function CreateAgent({ onClose }) {
 
             {/*Channels */}
             <div className='flex flex-col gap-y-6'>
-              <Channels />
+              <Channels
+                selectedChannels={selectedChannels}
+                onChannelChange={setSelectedChannels}
+              />
 
               {/*Automation rules */}
               <div className='flex flex-col gap-y-2'>
@@ -169,12 +258,16 @@ export default function CreateAgent({ onClose }) {
                 </div>
                 {/*Upload pdf */}
                 <div className='grid grid-cols-2 gap-x-4'>
-                  <UploadKnowledge />
+                  <UploadKnowledge details={details} setDetails={setDetails} />
                   <input
                     type='text'
                     className='p-4 border border-light-grey rounded-lg w-full h-fit outline-none'
                     placeholder='Website URL'
-                    name=''
+                    value={details.website}
+                    onChange={(e) =>
+                      setDetails({ ...details, website: e.target.value })
+                    }
+                    name='website'
                     id=''
                   />
                 </div>
@@ -182,9 +275,9 @@ export default function CreateAgent({ onClose }) {
               <div className='flex justify-end w-full'>
                 <button
                   className='bg-bg py-3 px-6 rounded-xl text-white font-semibold text-sm cursor-pointer hover:opacity-50'
-                  onClick={onClose}
+                  onClick={handleCreateAgent}
                 >
-                  Create Agent
+                  {isEditing ? "Save Changes" : "Create Agent"}
                 </button>
               </div>
             </div>

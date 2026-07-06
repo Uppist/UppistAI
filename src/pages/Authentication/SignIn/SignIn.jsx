@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../../components/Animation/Loader";
 import api from "../../../api/axios";
 import { Box, CircularProgress } from "@mui/material";
+import MobileView from "../../../components/MobileView";
 
 export default function SignIn({ appLoading, setAppLoading }) {
   const [details, setDetails] = useState({
@@ -71,13 +72,15 @@ export default function SignIn({ appLoading, setAppLoading }) {
   return (
     <>
       {" "}
-      <div className='flex flex-col gap-y-18 p-20 pb-140 animate-fade-up overflow-scroll no-scrollbar'>
-        <div className='flex flex-col gap-y-6 justify-center items-center'>
-          <img src={logo} alt='Uppist Logo' />
-          <span className='text-light font-normal text-xl'>
-            AI omnichannel customer support platform
-          </span>
-        </div>
+      <div className='flex flex-col gap-y-18 lg:p-20 lg:pb-140 animate-fade-up overflow-scroll no-scrollbar sm: p-10 sm: pb-30 sm: mt-20'>
+        {!MobileView && (
+          <div className='flex flex-col gap-y-6 justify-center items-center'>
+            <img src={logo} alt='Uppist Logo' />
+            <span className='text-light font-normal text-xl'>
+              AI omnichannel customer support platform
+            </span>
+          </div>
+        )}
 
         <div className='flex flex-col gap-y-6'>
           <div className='flex flex-col gap-y-6'>
