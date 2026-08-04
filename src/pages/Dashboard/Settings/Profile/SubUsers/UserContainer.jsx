@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { CreateUserContext } from "../../../../../contexts/Context";
 import api from "../../../../../api/axios";
 import { toast } from "react-toastify";
+import { getInitials } from "../../../../../utils/dashboardUtils";
 
 export default function UserContainer() {
   const [openSvg, setOpenSvg] = useState(false);
@@ -33,55 +34,42 @@ export default function UserContainer() {
 
   function handleSuspendUser(userId, currentStatus) {
     const newStatus = currentStatus === "active" ? "suspend" : "active";
+    const endpoint =
+      newStatus === "active"
+        ? `users/${userId}/resume`
+        : `users/${userId}/suspend`;
+    const successMessage =
+      newStatus === "active"
+        ? "User activated successfully"
+        : "User suspended successfully";
 
-    //suspend user
-    if (newStatus === "active") {
-      api
-        .patch(
-          `users/${userId}/suspend`,
-          { status: newStatus },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
+    api
+      .patch(
+        endpoint,
+        { status: newStatus },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Token")}`,
           },
-        )
-        .then((res) => {
-          console.log(res.data);
-          toast.success("User activated successfully");
-          setGetUsers((prevUsers) =>
-            prevUsers.map((user) =>
-              user.id === userId ? { ...user, status: newStatus } : user,
-            ),
-          );
-          setOpenSvg(false);
-        });
-    } else {
-      //activate user
-      api
-        .patch(
-          `users/${userId}/resume`,
-          { status: newStatus },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
-          },
-        )
-        .then((res) => {
-          console.log(res.data);
-          toast.success("User suspended successfully");
-          setGetUsers((prevUsers) =>
-            prevUsers.map((user) =>
-              user.id === userId ? { ...user, status: newStatus } : user,
-            ),
-          );
-          setOpenSvg(false);
-        });
-    }
-
-    console.log(`User with ID ${userId} has been ${newStatus}`);
+        },
+      )
+      .then((res) => {
+        console.log(res.data);
+        toast.success(successMessage);
+        setGetUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.id === userId ? { ...user, status: newStatus } : user,
+          ),
+        );
+        setOpenSvg(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to update user status");
+        setOpenSvg(false);
+      });
   }
+
   //delete user
   function handleDeleteUser(userId) {
     // Implement the logic to delete the user with the given userId
@@ -105,11 +93,13 @@ export default function UserContainer() {
         setOpenSvg(false);
       });
   }
+
   return (
     <div className='flex flex-col gap-y-9.5' ref={menuRef}>
-      <div className='grid grid-cols-3 gap-x-10 border-b border-b-light-grey pb-6'>
-        {/* <span className='text-sm text-[#4A4549] font-semibold'>Name</span> */}
+      <div className='grid grid-cols-5 gap-x-10 border-b border-b-light-grey pb-6'>
+        <span className='text-sm text-[#4A4549] font-semibold'>Name</span>
         <span className='text-sm text-[#4A4549] font-semibold'>Email</span>
+        <span className='text-sm text-[#4A4549] font-semibold'>Status</span>
         <span className='text-sm text-[#4A4549] font-semibold'>Role</span>
         <span className='hidden'>Status</span>
       </div>
@@ -122,10 +112,45 @@ export default function UserContainer() {
         ) : (
           getUsers.map((item, index) => (
             <div
-              className='grid grid-cols-3 gap-x-10 border-b border-b-light-grey pb-6 items-center'
-              key={index}
+              className='grid grid-cols-5 gap-x-10 border-b border-b-light-grey pb-6 items-center'
+              key={item.id}
             >
+              <div className='flex items-center gap-x-2'>
+                <span className='w-7.5 h-7.5 rounded-full bg-light-grey text-[10px] font-bold text-black flex items-center justify-center'>
+                  {getInitials(item.name)}
+                </span>
+                <span className='text2'>{item.name}</span>
+              </div>
               <span className='text2'>{item.email}</span>
+              <span className='text2'>
+                {item.presenceStatus === "online" ? (
+                  <span className='flex items-center gap-x-2'>
+                    <svg
+                      width='6'
+                      height='6'
+                      viewBox='0 0 6 6'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <rect width='6' height='6' rx='3' fill='#59C0B6' />
+                    </svg>
+                    Online
+                  </span>
+                ) : (
+                  <span className='flex items-center gap-x-2'>
+                    <svg
+                      width='6'
+                      height='6'
+                      viewBox='0 0 6 6'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <rect width='6' height='6' rx='3' fill='#667085' />
+                    </svg>
+                    Offline
+                  </span>
+                )}
+              </span>
               <span className='text2 border px-3 py-1.5 rounded-lg w-fit border-light-grey capitalize'>
                 {item.role}
               </span>

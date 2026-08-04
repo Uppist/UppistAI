@@ -1,19 +1,40 @@
 /** @format */
 
+import { useContext, useState } from "react";
 import Chats from "./Chats";
+import Input from "./Input";
+import { ChannelContext } from "../../../../contexts/Context";
+// import api from "../../../../api/axios";
+import Assign from "./Assign";
 
-export default function SecondGrid() {
+export default function SecondGrid({ filteredConversations, selectedEmail }) {
+  const { eachConversations } = useContext(ChannelContext);
+
+  const [assignAgent, setAssignAgent] = useState(false);
+  // console.log(filteredConversations);
+
+  // console.log(eachConversations);
+
+  // function handOverAgent() {
+  //   alert("Hello");
+  // }
+
+  function AssignAgent() {
+    setAssignAgent(true);
+  }
+  const [dropdown, setDropdown] = useState(false);
   return (
-    <div className=' border border-light-grey'>
+    <div className='border border-light-grey flex flex-col h-full min-h-0'>
       {/*Details */}
-      <div className='border-b border-b-light-grey p-4 px-6 flex items-center justify-between'>
-        <div className='flex items-center gap-x-2'>
+
+      <div className='border-b border-b-light-grey p-4 px-6 flex items-center justify-between relative'>
+        <div className='flex items-center gap-x-15'>
           <span className='bg-[#F7F7F7] rounded-full text-xs font-bold text-black w-9 h-9 flex items-center justify-center'>
             NW
           </span>{" "}
           <div className='flex flex-col gap-y-1'>
             <span className='text-sm font-medium text-black'>
-              Nora Williams
+              {selectedEmail || "select a conversation"}
             </span>{" "}
             <p className='flex items-center gap-x-1 text-[10px] font-normal text-grey'>
               <svg
@@ -28,10 +49,14 @@ export default function SecondGrid() {
               Josh Handling
             </p>
           </div>
+          {/* <button className='button' onClick={handOverAgent}>
+            Handoff to Agent
+          </button> */}
         </div>
         <svg
+          onClick={() => setDropdown(!dropdown)}
           width='16'
-          className='cursor-pointer'
+          className='cursor-pointer relative'
           height='16'
           viewBox='0 0 16 16'
           fill='none'
@@ -42,8 +67,127 @@ export default function SecondGrid() {
             fill='#667085'
           />
         </svg>
+
+        {dropdown && (
+          <div className='flex flex-col gap-y-3 absolute top-14 p-4 right-5 bg-white drop-shadow-2xl w-40 rounded-sm'>
+            {/*Close chat */}
+            <div className='flex items-center gap-x-2 cursor-pointer'>
+              <svg
+                width='20'
+                height='20'
+                viewBox='0 0 20 20'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <g clip-path='url(#clip0_1261_2949)'>
+                  <path
+                    d='M18.3334 9.99967C18.3334 5.3973 14.6025 1.66634 10.0001 1.66634C5.39771 1.66634 1.66675 5.3973 1.66675 9.99967C1.66675 14.602 5.39771 18.333 10.0001 18.333C14.6025 18.333 18.3334 14.602 18.3334 9.99967Z'
+                    stroke='#2B2B2B'
+                    strokeOpacity='0.8'
+                    strokeWidth='1.5'
+                  />
+                  <path
+                    d='M6.66675 10.4167L8.75008 12.5L13.3334 7.5'
+                    stroke='#2B2B2B'
+                    strokeOpacity='0.8'
+                    strokeWidth='1.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                </g>
+                <defs>
+                  <clipPath id='clip0_1261_2949'>
+                    <rect width='20' height='20' fill='white' />
+                  </clipPath>
+                </defs>
+              </svg>
+
+              <span className='font-medium text-sm text-light-black'>
+                Close Chat
+              </span>
+            </div>
+
+            {/*Assign agent */}
+            <div>
+              <div className='flex relative items-center gap-x-2 cursor-pointer'>
+                <svg
+                  width='20'
+                  height='20'
+                  viewBox='0 0 20 20'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <g clip-path='url(#clip0_1721_13700)'>
+                    <path
+                      d='M3.1574 7.53123C2.56792 7.85032 1.02232 8.50188 1.96369 9.31721C2.42354 9.71548 2.9357 10.0003 3.57961 10.0003H7.25389C7.89779 10.0003 8.40995 9.71548 8.86981 9.31721C9.81118 8.50188 8.26558 7.85032 7.67609 7.53123C6.29375 6.78295 4.53974 6.78295 3.1574 7.53123Z'
+                      stroke='#2B2B2B'
+                      strokeOpacity='0.8'
+                      strokeWidth='1.5'
+                    />
+                    <path
+                      d='M7.29175 3.56093C7.29175 4.60693 6.45228 5.45487 5.41675 5.45487C4.38121 5.45487 3.54175 4.60693 3.54175 3.56093C3.54175 2.51494 4.38121 1.66699 5.41675 1.66699C6.45228 1.66699 7.29175 2.51494 7.29175 3.56093Z'
+                      stroke='#2B2B2B'
+                      strokeOpacity='0.8'
+                      strokeWidth='1.5'
+                    />
+                    <path
+                      d='M3.33325 12.5C3.33325 15.2643 5.56897 17.5 8.33325 17.5L7.61897 16.0714'
+                      stroke='#2B2B2B'
+                      strokeOpacity='0.8'
+                      strokeWidth='1.5'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                    <path
+                      d='M16.6667 7.5C16.6667 4.73572 14.431 2.5 11.6667 2.5L12.381 3.92857'
+                      stroke='#2B2B2B'
+                      strokeOpacity='0.8'
+                      strokeWidth='1.5'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                    <path
+                      d='M12.3239 15.8642C11.7344 16.1833 10.1888 16.8349 11.1302 17.6502C11.59 18.0485 12.1022 18.3333 12.7461 18.3333H16.4204C17.0643 18.3333 17.5765 18.0485 18.0363 17.6502C18.9777 16.8349 17.4321 16.1833 16.8426 15.8642C15.4603 15.116 13.7062 15.116 12.3239 15.8642Z'
+                      stroke='#2B2B2B'
+                      strokeOpacity='0.8'
+                      strokeWidth='1.5'
+                    />
+                    <path
+                      d='M16.4583 11.8939C16.4583 12.9399 15.6188 13.7879 14.5833 13.7879C13.5477 13.7879 12.7083 12.9399 12.7083 11.8939C12.7083 10.8479 13.5477 10 14.5833 10C15.6188 10 16.4583 10.8479 16.4583 11.8939Z'
+                      stroke='#2B2B2B'
+                      strokeOpacity='0.8'
+                      strokeWidth='1.5'
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id='clip0_1721_13700'>
+                      <rect width='20' height='20' fill='white' />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <span className='font-medium text-sm text-light-black'>
+                  Assign
+                </span>
+              </div>
+
+              {/* {assignAgent && <Assign setAssignAgent={setAssignAgent} />} */}
+            </div>
+          </div>
+        )}
       </div>
-      <Chats />
+      <div className='flex-1 min-h-0'>
+        {eachConversations?.length === 0 ? (
+          <span className='text-center flex items-center justify-center h-full text-grey'>
+            Select a conversation
+          </span>
+        ) : (
+          <Chats eachConversations={eachConversations} />
+        )}
+      </div>
+
+      <div className='mt-auto border-t border-light-grey p-3'>
+        <Input />
+      </div>
     </div>
   );
 }

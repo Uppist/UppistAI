@@ -5,6 +5,7 @@ import Whatsapp from "./Whatsapp/Whatsapp";
 import Successful from "./Whatsapp/Successful";
 import Buttons from "./Website/Buttons";
 import Facebook from "./Facebook/Facebook";
+import Instagram from "./Instagram/Instagram";
 
 export default function Connect({ detail, onClose, onConnect }) {
   const [isSuccessful, setIsSuccessful] = useState(false);
@@ -19,8 +20,7 @@ export default function Connect({ detail, onClose, onConnect }) {
     text_message =
       "After clicking Connect with Facebook, you will be redirected to Facebook to select the account you want to connect and grant Partner permissions. Once completed, you will be redirected to select a Facebook page to connect. Then, you're all set up and ready to go!";
   } else if (detail === "Instagram") {
-    text_message =
-      "After clicking Connect with Instagram, you will be redirected to Instagram to select the account you want to connect and grant Partner permissions. Then, you're all set up and ready to go!";
+    text_message = "Follow the steps below to connect your Instagram business.";
   } else if (detail === "X") {
     text_message =
       "After clicking Connect with X, you will be redirected to X to select the account you want to connect and grant Partner permissions. Then, you're all set up and ready to go!";
@@ -78,6 +78,12 @@ export default function Connect({ detail, onClose, onConnect }) {
                 <div className='flex justify-center w-full'>
                   {detail === "Website Chat" ? (
                     <Buttons onClose={onClose} Success={Success} />
+                  ) : detail === "Instagram" ? (
+                    <Instagram
+                      onClose={onClose}
+                      onConnect={onConnect}
+                      Success={Success}
+                    />
                   ) : detail === "" ? (
                     <Facebook />
                   ) : (

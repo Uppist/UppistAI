@@ -28,6 +28,7 @@ import Integrations from "./pages/Dashboard/Integrations/Integrations";
 import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Channels from "./pages/Dashboard/Channels/Channels";
+import Audit from "./pages/Dashboard/Audit/Audit";
 
 export default function App() {
   const [appLoading, setAppLoading] = useState(true);
@@ -119,6 +120,7 @@ export default function App() {
           <Route element={<DashboardLayout />}>
             <Route path='/dashboard' element={<Content />} />
             <Route path='/contacts' element={<Contacts />} />
+            <Route path='/audit_logs' element={<Audit />} />
             <Route path='/reports' element={<Reports />} />
             <Route path='/integrations' element={<Integrations />} />
             <Route path='/settings' element={<Settings />} />

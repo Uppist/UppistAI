@@ -47,6 +47,7 @@ export default function SignIn({ appLoading, setAppLoading }) {
           console.log(res);
           setAppLoading(true);
           localStorage.setItem("Token", res.data.accessToken);
+          window.dispatchEvent(new Event("auth:token-updated"));
           setTimeout(() => {
             navigate("/dashboard");
             setAppLoading(false);
@@ -93,12 +94,14 @@ export default function SignIn({ appLoading, setAppLoading }) {
             <form action='' className='flex flex-col gap-y-4'>
               <Form details={details} handleChange={handleChange} />
             </form>
-            <p
-              onClick={Forgot}
-              className='text-light font-normal text-sm text-center cursor-pointer'
-            >
-              Forgot Password?
-            </p>
+            <div className='w-full text-center flex items-center justify-center'>
+              <p
+                onClick={Forgot}
+                className='text-light font-normal w-fit text-sm text-center cursor-pointer'
+              >
+                Forgot Password?
+              </p>
+            </div>
 
             <button
               type='submit'

@@ -1,15 +1,25 @@
 /** @format */
 
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { UserContext } from "../../contexts/Context";
 import Notifications from "./Notifications";
 
 export default function Navbar() {
   const { notifications } = useContext(UserContext);
+  const [readIds, setReadIds] = useState([]);
+
   const [isNotify, setIsNotify] = useState(false);
   const location = useLocation();
   const path = location.pathname;
+
+  const hasUnreadNotifications = useMemo(() => {
+    if (!Array.isArray(notifications)) return false;
+
+    return notifications.some(
+      (item) => !item?.read && !readIds.includes(item.id),
+    );
+  }, [notifications, readIds]);
 
   let title = "";
 
@@ -23,13 +33,15 @@ export default function Navbar() {
     title = "Reports";
   } else if (path === "/integrations") {
     title = "Integrations";
+  } else if (path === "/audit_logs") {
+    title = "Audit Logs";
   }
   return (
     <div className='py-5 border border-light-grey flex items-center justify-between'>
       <span className='text-black text-2xl font-semibold px-6'>{title}</span>
 
       <div className='pr-6 cursor-pointer'>
-        {notifications.length === 0 ? (
+        {!hasUnreadNotifications ? (
           <svg
             width='20'
             onClick={() => setIsNotify(true)}
@@ -41,18 +53,18 @@ export default function Navbar() {
             <path
               d='M2.10819 12.3083C1.93098 13.47 2.72325 14.2763 3.6933 14.6782C7.41226 16.2188 12.5876 16.2188 16.3065 14.6782C17.2766 14.2763 18.0689 13.47 17.8916 12.3083C17.7827 11.5944 17.2442 10.9999 16.8452 10.4194C16.3227 9.64971 16.2707 8.81018 16.2706 7.91699C16.2706 4.46521 13.4631 1.66699 9.99992 1.66699C6.53669 1.66699 3.72919 4.46521 3.72919 7.91699C3.72911 8.81018 3.67719 9.64971 3.15459 10.4194C2.75562 10.9999 2.2171 11.5944 2.10819 12.3083Z'
               stroke='#2B2B2B'
-              stroke-opacity='0.8'
-              stroke-width='1.5'
-              stroke-linecap='round'
-              stroke-linejoin='round'
+              strokeOpacity='0.8'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+              strokeLinejoin='round'
             />
             <path
               d='M6.66675 15.833C7.04882 17.2707 8.39636 18.333 10.0001 18.333C11.6038 18.333 12.9513 17.2707 13.3334 15.833'
               stroke='#2B2B2B'
-              stroke-opacity='0.8'
-              stroke-width='1.5'
-              stroke-linecap='round'
-              stroke-linejoin='round'
+              strokeOpacity='0.8'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+              strokeLinejoin='round'
             />
           </svg>
         ) : (
@@ -94,7 +106,7 @@ export default function Navbar() {
               onClick={() => setIsNotify(false)}
             />
 
-            <Notifications />
+            <Notifications readIds={readIds} setReadIds={setReadIds} />
           </>
         )}
       </div>

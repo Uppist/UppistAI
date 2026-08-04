@@ -59,6 +59,7 @@ export default function TagsContainer({
       .catch((err) => {
         console.log(err.response.data);
         toast.error();
+        setDeleteDrop(false);
       });
   }
 

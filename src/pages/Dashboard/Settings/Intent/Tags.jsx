@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CreateIntent from "./CreateIntent";
 import TagsContainer from "./TagsContainer";
+import CreateIntentProvider from "../../../../contexts/Settings/CreateIntentProvider";
 
 export default function Tags() {
   const [intentClick, setIntentClick] = useState(false);
@@ -21,61 +22,65 @@ export default function Tags() {
     });
   }
   return (
-    <div className='flex flex-col gap-y-5'>
-      <div className='flex items-center justify-between'>
-        {/*Heading */}
-        <div className='flex flex-col gap-y-0.5'>
-          <h3 className='text-black font-semibold text-base'>
-            Conversation tags
-          </h3>
-          <span className='text-xs font-normal text-grey'>
-            Organize conversations with custom labels{" "}
-          </span>
-        </div>
+    <>
+      <CreateIntentProvider>
+        <div className='flex flex-col gap-y-5'>
+          <div className='flex items-center justify-between'>
+            {/*Heading */}
+            <div className='flex flex-col gap-y-0.5'>
+              <h3 className='text-black font-semibold text-base'>
+                Conversation tags
+              </h3>
+              <span className='text-xs font-normal text-grey'>
+                Organize conversations with custom labels{" "}
+              </span>
+            </div>
 
-        {/*Details */}
-        <div className='flex relative items-center gap-x-5'>
-          {/*Create intent button */}
-          <button
-            className='flex items-center gap-x-2 rounded-lg bg-bg border-none text-white text-sm font-semibold py-2.5 px-3 cursor-pointer hover:opacity-50'
-            onClick={Create}
-          >
-            <svg
-              width='20'
-              height='20'
-              viewBox='0 0 20 20'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                d='M10.8332 7.50033C10.8332 7.04009 10.4601 6.66699 9.99984 6.66699C9.5396 6.66699 9.1665 7.04009 9.1665 7.50033V9.16699H7.49984C7.0396 9.16699 6.6665 9.54009 6.6665 10.0003C6.6665 10.4606 7.0396 10.8337 7.49984 10.8337H9.1665V12.5003C9.1665 12.9606 9.5396 13.3337 9.99984 13.3337C10.4601 13.3337 10.8332 12.9606 10.8332 12.5003V10.8337H12.4998C12.9601 10.8337 13.3332 10.4606 13.3332 10.0003C13.3332 9.54009 12.9601 9.16699 12.4998 9.16699H10.8332V7.50033Z'
-                fill='white'
-              />
-              <path
-                fill-rule='evenodd'
-                clip-rule='evenodd'
-                d='M9.99984 1.66699C5.39746 1.66699 1.6665 5.39795 1.6665 10.0003C1.6665 14.6027 5.39746 18.3337 9.99984 18.3337C14.6022 18.3337 18.3332 14.6027 18.3332 10.0003C18.3332 5.39795 14.6022 1.66699 9.99984 1.66699ZM3.33317 10.0003C3.33317 6.31843 6.31794 3.33366 9.99984 3.33366C13.6817 3.33366 16.6665 6.31843 16.6665 10.0003C16.6665 13.6822 13.6817 16.667 9.99984 16.667C6.31794 16.667 3.33317 13.6822 3.33317 10.0003Z'
-                fill='white'
-              />
-            </svg>
-            Create Intent Tag
-          </button>
-        </div>
+            {/*Details */}
+            <div className='flex relative items-center gap-x-5'>
+              {/*Create intent button */}
+              <button
+                className='flex items-center gap-x-2 rounded-lg bg-bg border-none text-white text-sm font-semibold py-2.5 px-3 cursor-pointer hover:opacity-50'
+                onClick={Create}
+              >
+                <svg
+                  width='20'
+                  height='20'
+                  viewBox='0 0 20 20'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    d='M10.8332 7.50033C10.8332 7.04009 10.4601 6.66699 9.99984 6.66699C9.5396 6.66699 9.1665 7.04009 9.1665 7.50033V9.16699H7.49984C7.0396 9.16699 6.6665 9.54009 6.6665 10.0003C6.6665 10.4606 7.0396 10.8337 7.49984 10.8337H9.1665V12.5003C9.1665 12.9606 9.5396 13.3337 9.99984 13.3337C10.4601 13.3337 10.8332 12.9606 10.8332 12.5003V10.8337H12.4998C12.9601 10.8337 13.3332 10.4606 13.3332 10.0003C13.3332 9.54009 12.9601 9.16699 12.4998 9.16699H10.8332V7.50033Z'
+                    fill='white'
+                  />
+                  <path
+                    fill-rule='evenodd'
+                    clip-rule='evenodd'
+                    d='M9.99984 1.66699C5.39746 1.66699 1.6665 5.39795 1.6665 10.0003C1.6665 14.6027 5.39746 18.3337 9.99984 18.3337C14.6022 18.3337 18.3332 14.6027 18.3332 10.0003C18.3332 5.39795 14.6022 1.66699 9.99984 1.66699ZM3.33317 10.0003C3.33317 6.31843 6.31794 3.33366 9.99984 3.33366C13.6817 3.33366 16.6665 6.31843 16.6665 10.0003C16.6665 13.6822 13.6817 16.667 9.99984 16.667C6.31794 16.667 3.33317 13.6822 3.33317 10.0003Z'
+                    fill='white'
+                  />
+                </svg>
+                Create Intent Tag
+              </button>
+            </div>
 
-        {intentClick && (
-          <CreateIntent
-            onClose={() => setIntentClick(false)}
-            mode={mode}
-            formData={formData}
+            {intentClick && (
+              <CreateIntent
+                onClose={() => setIntentClick(false)}
+                mode={mode}
+                formData={formData}
+                setFormData={setFormData}
+              />
+            )}
+          </div>
+          <TagsContainer
+            setIntentClick={setIntentClick}
+            setMode={setMode}
             setFormData={setFormData}
           />
-        )}
-      </div>
-      <TagsContainer
-        setIntentClick={setIntentClick}
-        setMode={setMode}
-        setFormData={setFormData}
-      />
-    </div>
+        </div>
+      </CreateIntentProvider>
+    </>
   );
 }

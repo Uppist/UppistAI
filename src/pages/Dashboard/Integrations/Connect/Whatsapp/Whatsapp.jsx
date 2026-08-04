@@ -1,93 +1,131 @@
 /** @format */
 
 import { useState } from "react";
-import ng from "../../../../../assets/Dashboard/integrations/ng.svg";
-import Verify from "./Verify";
+import api from "../../../../../api/axios";
+import { toast } from "react-toastify";
+import { Box, CircularProgress } from "@mui/material";
 export default function Whatsapp({ onClose, onConnect, Success }) {
-  const [number, setNumber] = useState("");
-  const [isNext, setIsNext] = useState(false);
+  const [number, setNumber] = useState({
+    number: "",
+    business: "",
+    token: "",
+  });
+  const [isClick, setIsClick] = useState(false);
 
   function handleClick(e) {
-    const rawValue = e.target.value.replace(/,/g, "");
-
-    if (/^\d*$/.test(rawValue)) {
-      setNumber(rawValue);
-    }
+    setNumber({ ...number, [e.target.name]: e.target.value });
   }
 
   function Next() {
-    setIsNext(true);
+    const data = {
+      phoneNumberId: number.number,
+      wabaId: number.business,
+      accessToken: number.token,
+    };
+    setIsClick(true);
+    const token = localStorage.getItem("Token");
+    const headers = { Authorization: `Bearer ${token}` };
+    api
+      .post("/channels/whatsapp", data, { headers })
+      .then((res) => {
+        console.log(res.data);
+        setTimeout(() => {
+          Success();
+        }, 1500);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        toast.error(err.response.message);
+        setIsClick(false);
+      });
   }
 
-  const isNumber = number.length >= 10;
+  const isNumber = number.number && number.business && number.token;
   return (
     <div className='flex flex-col gap-y-5'>
-      {isNext ? (
-        <Verify onClose={onClose} onConnect={onConnect} Success={Success} />
-      ) : (
-        <>
-          <div className='flex items-baseline flex-col gap-y-2'>
-            <label htmlFor='' className='text-sm font-bold text-black'>
-              WhatsApp Business number
-            </label>
-            <div className='border border-light-grey w-full rounded-lg p-2.5 flex items-center'>
-              {/*Country code */}
-              <div className='flex items-center gap-x-1.5'>
-                <img src={ng} alt='' />
-                <svg
-                  width='16'
-                  height='16'
-                  viewBox='0 0 16 16'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <g opacity='0.5'>
-                    <path
-                      d='M4 6L8 10L12 6'
-                      stroke='#2B2B2B'
-                      stroke-width='1.33333'
-                      stroke-linecap='round'
-                      stroke-linejoin='round'
-                    />
-                  </g>
-                </svg>
-              </div>
+      {" "}
+      <div className='flex items-baseline flex-col gap-y-2 px-8'>
+        {/*Number ID */}
+        <div className='w-full flex flex-col gap-y-2 items-baseline'>
+          <label htmlFor='' className='text-sm font-bold text-black'>
+            Phone Number ID
+          </label>
+          <input
+            type='text'
+            className='border border-light-grey w-full rounded-lg p-2.5 flex items-center outline-none bg-transparent text-sm font-normal text-black ml-1'
+            name='number'
+            value={number.number}
+            onChange={handleClick}
+            id=''
+          />
+        </div>
 
-              <span className='ml-4 text-sm font-normal text-black'>+234</span>
-              <input
-                type='text'
-                className='outline-none bg-transparent text-sm font-normal text-black ml-1'
-                name='number'
-                value={number}
-                onChange={handleClick}
-                id=''
-                maxLength={10}
-              />
-            </div>
-          </div>
+        {/*Whatsapp Business ID */}
+        <div className='w-full flex flex-col gap-y-2 items-baseline'>
+          <label htmlFor='' className='text-sm font-bold text-black'>
+            Whatsapp Business ID
+          </label>
+          <input
+            type='text'
+            className='border border-light-grey w-full rounded-lg p-2.5 flex items-center outline-none bg-transparent text-sm font-normal text-black ml-1'
+            name='business'
+            value={number.business}
+            onChange={handleClick}
+            id=''
+          />
+        </div>
 
-          {/*Next button */}
-          <div className='flex items-center gap-x-4 justify-end'>
-            <span
-              className='text-sm font-semibold text-bg cursor-pointer'
-              onClick={() => {
-                onConnect();
-                onClose();
+        {/**Access token */}
+        <div className='w-full flex flex-col gap-y-2 items-baseline'>
+          <label htmlFor='' className='text-sm font-bold text-black'>
+            Access Token
+          </label>
+          <input
+            type='password'
+            className='border border-light-grey w-full rounded-lg p-2.5 flex items-center outline-none bg-transparent text-sm font-normal text-black ml-1'
+            name='token'
+            value={number.token}
+            onChange={handleClick}
+            id=''
+          />
+        </div>
+      </div>
+      {/*Next button */}
+      <div className='flex items-center gap-x-4 justify-end'>
+        <span
+          className='text-sm font-semibold text-bg cursor-pointer'
+          onClick={() => {
+            onConnect();
+            onClose();
+          }}
+        >
+          Skip and Connect via Facebook
+        </span>
+        <button
+          type='button'
+          disabled={!isNumber}
+          className='button'
+          onClick={Next}
+        >
+          {isClick ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Skip and Connect via Facebook
-            </span>
-            <button
-              type='button'
-              disabled={!isNumber}
-              className='button'
-              onClick={Next}
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
+              <CircularProgress
+                size={20}
+                sx={{ color: "white" }}
+                aria-label='loading...'
+              />
+            </Box>
+          ) : (
+            "Connect"
+          )}
+        </button>
+      </div>
     </div>
   );
 }

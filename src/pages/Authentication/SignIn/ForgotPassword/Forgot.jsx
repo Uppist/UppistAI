@@ -2,16 +2,31 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../../../../api/axios";
+import { Box, CircularProgress } from "@mui/material";
 
 export default function Forgot() {
   const [email, setEmail] = useState("");
+  const [isClick, setIsClick] = useState(false);
 
   const submit = email;
 
   const navigate = useNavigate();
 
   function Next() {
-    navigate("/email-verification/verify-code", { state: { flow: "reset" } });
+    setIsClick(true);
+    api
+      .post("/auth/forgot-password", { email: email })
+      .then((res) => {
+        console.log(res.data);
+        navigate("/email-verification/verify-code", {
+          state: { flow: "reset", email: email },
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setIsClick(false);
+      });
   }
 
   return (
@@ -64,7 +79,23 @@ export default function Forgot() {
           onClick={Next}
           className='bg-bg disabled:bg-disabled disabled:text-black w-full p-3 text-white font-bold text-sm cursor-pointer rounded-lg'
         >
-          Next
+          {isClick ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress
+                size={20}
+                sx={{ color: "white" }}
+                aria-label='loading...'
+              />
+            </Box>
+          ) : (
+            "Next"
+          )}
         </button>
       </div>
     </div>

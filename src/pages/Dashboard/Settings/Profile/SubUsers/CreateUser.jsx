@@ -9,24 +9,45 @@ import { CreateUserContext } from "../../../../../contexts/Context";
 export default function CreateUser({ onClose }) {
   const { setGetUsers } = useContext(CreateUserContext);
   const [details, setDetails] = useState({
+    name: "",
     email: "",
     role: "",
   });
+
+  // const [role, setRole] = useState("Select");
+  const [dropdown, setDropdown] = useState(false);
+
+  function clickRole() {
+    setDropdown(!dropdown);
+  }
+
+  function handleSelectRole(selectRole) {
+    setDetails((prev) => ({
+      ...prev,
+      role: selectRole,
+    }));
+    setDropdown(false);
+  }
 
   const [loading, setLoading] = useState(false);
   function handleChange(e) {
     setDetails({ ...details, [e.target.name]: e.target.value });
   }
 
-  const sendLink = details.email && details.role;
-
   function handleSubmit(e) {
     e.preventDefault();
+
+    const roleMap = {
+      Manager: "admin",
+      "Live Agent": "agent",
+    };
+
     const data = {
       email: details.email,
-      role: details.role,
-      name: "User",
+      role: roleMap[details.role],
+      name: details.name,
     };
+
     setLoading(true);
 
     api
@@ -51,6 +72,8 @@ export default function CreateUser({ onClose }) {
         setLoading(false);
       });
   }
+  const sendLink = details.name && details.email && details.role;
+
   return (
     <div className='dropdown'>
       {/*overlay */}
@@ -90,6 +113,19 @@ export default function CreateUser({ onClose }) {
           </div>
           {/*form */}
           <form className='flex flex-col gap-y-6 px-20'>
+            {/*Name */}
+            <div className='flex flex-col gap-y-2'>
+              <span className='text'>Name</span>
+              <input
+                type='text'
+                placeholder='Enter user full name'
+                className='input'
+                name='name'
+                value={details.name}
+                onChange={handleChange}
+              />
+            </div>
+            {/*Email */}
             <div className='flex flex-col gap-y-2'>
               <span className='text'>Work Email</span>
               <input
@@ -101,16 +137,47 @@ export default function CreateUser({ onClose }) {
                 onChange={handleChange}
               />
             </div>
+
             <div className='flex flex-col gap-y-2'>
               <span className='text'>Role</span>
-              <input
-                type='text'
-                placeholder='e.g Manager'
-                className='input'
-                name='role'
-                value={details.role}
-                onChange={handleChange}
-              />
+              {/*Select a role */}
+              <div
+                className='w-full flex items-center justify-between border border-light-grey p-2 rounded-lg'
+                onClick={clickRole}
+              >
+                <span className='text-xm font-normal text-black'>
+                  {details.role || "Select"}
+                </span>
+                <svg
+                  width='16'
+                  className='cursor-pointer'
+                  height='16'
+                  viewBox='0 0 16 16'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <g opacity='0.5'>
+                    <path
+                      d='M4 6L8 10L12 6'
+                      stroke='#2B2B2B'
+                      strokeWidth='1.33333'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                  </g>
+                </svg>
+              </div>
+
+              {dropdown && (
+                <div className='bg-white p-2 rounded-lg shadow-2xl flex flex-col gap-y-4'>
+                  <span onClick={() => handleSelectRole("Manager")}>
+                    Manager
+                  </span>
+                  <span onClick={() => handleSelectRole("Live Agent")}>
+                    Live Agent
+                  </span>
+                </div>
+              )}
             </div>
             <div className='flex items-center justify-center'>
               <button

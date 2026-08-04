@@ -1,13 +1,21 @@
 /** @format */
 
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Prompt from "./Prompt";
 import email from "../../../../assets/Dashboard/contact/email.svg";
 import phone from "../../../../assets/Dashboard/contact/phone.svg";
 import intent from "../../../../assets/Dashboard/contact/intent.svg";
 import interact from "../../../../assets/Dashboard/contact/interact.svg";
+import { ContactContext } from "../../../../contexts/Context";
+import { getInitials } from "../../../../utils/dashboardUtils";
+import { formatDateTime } from "../../../../utils/DateTime";
 
 export default function ContactHistory() {
+  const { contactDetail } = useContext(ContactContext);
+  const detail = contactDetail?.contact || contactDetail || {};
+
+  console.log(detail);
   return (
     <div className='flex flex-col gap-y-4'>
       {/*Back button */}
@@ -38,49 +46,55 @@ export default function ContactHistory() {
 
           <div className='flex items-center gap-x-2 border-r pr-6 border-r-light-grey'>
             <span className='w-11 h-11 rounded-full bg-light-grey flex items-center justify-center'>
-              SJ
+              {getInitials(detail.name)}
             </span>
             <div className='flex flex-col gap-x-2'>
               <div className='flex items-center gap-x-1.5 '>
                 <span className='text-sm font-medium text-black'>
-                  Sarah John
+                  {detail.name || detail.identifier || "Contact details"}
                 </span>
                 <span className='p-1.5 rounded-sm border border-light-grey text-[8px] font-medium text-black'>
-                  Whatsapp
+                  {detail.channel || "—"}
                 </span>
               </div>
 
               <span className='text-[10px] font-light text-grey'>
-                Last seen 2hrs ago
+                Last seen {formatDateTime(detail.lastSeenAt) || "unavailable"}
               </span>
             </div>
           </div>
           <div className='flex items-center gap-x-6'>
             {/**Email */}
-            <div className='flex flex-col gap-y-1.5'>
-              <div className='flex items-center gap-x-2'>
-                <img src={email} alt='' />
-                <span className='text-[10px] font-medium text-grey uppercase'>
-                  Email
+
+            {detail.email && (
+              <div className='flex flex-col gap-y-1.5'>
+                <div className='flex items-center gap-x-2'>
+                  <img src={email} alt='' />
+
+                  <span className='text-[10px] font-medium text-grey uppercase'>
+                    Email
+                  </span>
+                </div>
+                <span className='text-[10px] font-normal text-black'>
+                  {detail.email || "—"}
                 </span>
               </div>
-              <span className='text-[10px] font-normal text-black'>
-                sarah.johnson@example.com
-              </span>
-            </div>
+            )}
 
             {/**Phone Number */}
-            <div className='flex flex-col gap-y-1.5'>
-              <div className='flex items-center gap-x-2'>
-                <img src={phone} alt='' />
-                <span className='text-[10px] font-medium text-grey uppercase'>
-                  phone
+            {detail.phone && (
+              <div className='flex flex-col gap-y-1.5'>
+                <div className='flex items-center gap-x-2'>
+                  <img src={phone} alt='' />
+                  <span className='text-[10px] font-medium text-grey uppercase'>
+                    phone
+                  </span>
+                </div>
+                <span className='text-[10px] font-normal text-black'>
+                  {detail.phone || detail.phoneNumber || "—"}{" "}
                 </span>
               </div>
-              <span className='text-[10px] font-normal text-black'>
-                (+234) 8026783659{" "}
-              </span>
-            </div>
+            )}
 
             {/*Intent tag */}
             <div className='flex flex-col gap-y-1.5'>
@@ -90,7 +104,9 @@ export default function ContactHistory() {
                   Intent Tag
                 </span>
               </div>
-              <span className='text-[10px] font-normal text-black'>LEAD </span>
+              <span className='text-[10px] font-normal text-black'>
+                {detail.intent || detail.intentTag || "—"}
+              </span>
             </div>
 
             {/**Interatcion */}
@@ -101,7 +117,9 @@ export default function ContactHistory() {
                   interactions
                 </span>
               </div>
-              <span className='text-[10px] font-normal text-black'>24 </span>
+              <span className='text-[10px] font-normal text-black'>
+                {detail.interactionCount ?? "—"}{" "}
+              </span>
             </div>
           </div>
         </div>

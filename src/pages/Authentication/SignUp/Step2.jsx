@@ -2,11 +2,16 @@
 
 import { useState, useRef } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import api from "../../../api/axios";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+import { Box } from "@mui/system";
 
 export default function Step2() {
   const length = 6;
   const inputsRef = useRef([]);
   const [code, setCode] = useState(Array(length).fill(""));
+  const [isClick, setIsClick] = useState(false);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -30,7 +35,36 @@ export default function Step2() {
   const location = useLocation();
 
   function Verify() {
-    navigate("/email-verification", { state: location.state });
+    const data = {
+      email: location?.state.email,
+      code: code,
+    };
+
+    setIsClick(true);
+    api
+      .post("/auth/verify-email", data)
+      .then((res) => {
+        console.log(res.data);
+        navigate("/email-verification", { state: location.state });
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+        toast.error(err.response.data.error);
+        setIsClick(false);
+      });
+  }
+
+  function resendCode() {
+    api
+      .post("/auth/resend-verification", { email: location?.state.email })
+      .then((res) => {
+        console.log(res.data);
+        toast.success("Please check your mail for the new code");
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+        toast.error(err.response.data.error);
+      });
   }
 
   return (
@@ -86,11 +120,30 @@ export default function Step2() {
         onClick={Verify}
         className='bg-bg disabled:bg-disabled disabled:text-black disabled:cursor-not-allowed w-full p-3 text-white font-bold text-sm cursor-pointer rounded-lg'
       >
-        Verify Code
+        {isClick ? (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CircularProgress
+              size={20}
+              sx={{ color: "white" }}
+              aria-label='loading...'
+            />
+          </Box>
+        ) : (
+          "Verify Code"
+        )}{" "}
       </button>
 
       <p className='text-center text-sm font-medium text-light'>
-        Didn’t receive code? <span className='text-bg'>Resend</span>
+        Didn’t receive code?{" "}
+        <span className='text-bg' onClick={resendCode}>
+          Resend
+        </span>
       </p>
     </div>
   );

@@ -10,3 +10,6 @@ export const ChannelContext = createContext();
 export const CreateUserContext = createContext();
 export const CreateAgentContext = createContext();
 export const CreateIntentContext = createContext();
+export const DashboardContext = createContext();
+export const AuditContext = createContext();
+export const ContactContext = createContext();

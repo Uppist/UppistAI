@@ -3,14 +3,30 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import api from "../../../api/axios";
 
 export default function Disconnect({ detail, onClose, onDisconnect }) {
   const [loading, setLoading] = useState(false);
+  console.log(detail);
   function handleDisconnect() {
     setLoading(true);
 
+    const token = localStorage.getItem("Token");
+    const headers = { Authorization: `Bearer ${token}` };
+
+    //channel === whatsapp
+    if (detail === "WhatsApp Business API") {
+      api.delete("/channels/whatsapp", { headers }).then((res) => {
+        console.log(res.data);
+      });
+    } else if (detail === "Instagram") {
+      api.delete("/channels/instagram", { headers }).then((res) => {
+        console.log(res.data);
+      });
+    }
+
     setTimeout(() => {
-      toast.success("Disonnected Successfully!");
+      toast.success("Disconnected Successfully!");
     }, 1000);
     setTimeout(() => {
       onDisconnect();

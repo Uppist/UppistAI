@@ -4,8 +4,9 @@ import ai from "../../../assets/Dashboard/dashboard/ai.svg";
 import time from "../../../assets/Dashboard/dashboard/time.svg";
 import contact from "../../../assets/Dashboard/dashboard/contact.svg";
 import score from "../../../assets/Dashboard/dashboard/score.svg";
-import Intent from "./Intent";
 import Conversation from "./Conversations";
+import Distribution from "./Distribution";
+import Performance from "./Performance";
 export default function Reports() {
   const list = [
     {
@@ -17,6 +18,12 @@ export default function Reports() {
     {
       svg: ai,
       text: "Resolved by AI",
+      number: "74.8%",
+      increase: "↑ 3.1% vs last week",
+    },
+    {
+      svg: ai,
+      text: "Live Agents Resolved",
       number: "74.8%",
       increase: "↑ 3.1% vs last week",
     },
@@ -138,7 +145,7 @@ export default function Reports() {
       </div>
 
       {/*first container */}
-      <div className='grid grid-cols-5 gap-x-10 w-full'>
+      <div className='grid grid-cols-6 gap-x-7 w-full'>
         {list.map((data, index) => (
           <div
             className='border border-light-grey p-4 flex flex-col gap-y-2.5 rounded-lg'
@@ -159,10 +166,13 @@ export default function Reports() {
       </div>
 
       {/*Second container */}
-      <div className='grid grid-cols-3 gap-x-10'>
+      <div className='grid grid-cols-2 gap-x-10'>
         <Conversation />
-        <Intent />
+        <Distribution />
       </div>
+
+      {/*third */}
+      <Performance />
     </div>
   );
 }

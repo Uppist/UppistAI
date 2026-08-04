@@ -16,8 +16,7 @@ export default function Successful({ onClose, onConnect, detail }) {
     title =
       "After clicking Connect with Facebook, you will be redirected to Facebook to select the account you want to connect and grant Partner permissions. Once completed, you will be redirected to select a Facebook page to connect. Then, you're all set up and ready to go!";
   } else if (detail === "Instagram") {
-    title =
-      "After clicking Connect with Instagram, you will be redirected to Instagram to select the account you want to connect and grant Partner permissions. Then, you're all set up and ready to go!";
+    title = "Instagram";
   } else if (detail === "X") {
     title =
       "After clicking Connect with X, you will be redirected to X to select the account you want to connect and grant Partner permissions. Then, you're all set up and ready to go!";
@@ -45,7 +44,7 @@ export default function Successful({ onClose, onConnect, detail }) {
       </h2>
       <p className='text-center font-normal text-grey'>
         Send a message to this account. Check and see if you can start receiving
-        messages on the WhatsApp Channel.
+        messages on the {title} Channel.
       </p>
 
       <button type='button' className='button mt-5' onClick={Okay}>

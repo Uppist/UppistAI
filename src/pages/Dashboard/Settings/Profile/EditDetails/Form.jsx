@@ -4,12 +4,16 @@ import { useContext, useState } from "react";
 import ChangePassword from "./ChangePassword";
 import { toast } from "react-toastify";
 import api from "../../../../../api/axios";
-import { UserContext } from "../../../../../contexts/Context";
+import {
+  CreateUserContext,
+  UserContext,
+} from "../../../../../contexts/Context";
 
 export default function Form() {
   const [openPassword, setOpenPassword] = useState(false);
-  const { setUserDetails } = useContext(UserContext);
-
+  const { userDetails, setUserDetails } = useContext(UserContext);
+  const { setGetUsers } = useContext(CreateUserContext);
+  const presenceStatus = userDetails?.user?.presenceStatus || "away";
   const [details, setDetails] = useState({
     first_name: "",
     last_name: "",
@@ -52,6 +56,40 @@ export default function Form() {
       })
       .catch((err) => {
         console.error(err);
+      });
+  }
+
+  //set user status
+  function handleRadioChange(e) {
+    const status = e.target.value;
+    console.log("Selected status:", status);
+    api
+      .patch(
+        "users/me/presence",
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Token")}`,
+          },
+        },
+      )
+      .then((res) => {
+        console.log("Status updated:", res.data);
+        toast.success(`Status updated to ${status}`);
+        setUserDetails((prev) => ({
+          ...prev,
+          user: {
+            ...prev.user,
+            presenceStatus: status,
+          },
+        }));
+        setGetUsers((getUsers) => {
+          return [...getUsers, res.data.user.presenceStatus];
+        });
+      })
+      .catch((err) => {
+        console.error("Error updating status:", err.response);
+        toast.error("Failed to update status");
       });
   }
 
@@ -118,6 +156,37 @@ export default function Form() {
       </form>
 
       <div className='flex items-center justify-end gap-x-5'>
+        {/*set user status*/}
+        <div className='flex items-center gap-x-4'>
+          {/*Online status */}
+
+          <div className='flex items-center gap-x-2'>
+            <input
+              type='radio'
+              name='presence'
+              className='cursor-pointer'
+              value='online'
+              checked={presenceStatus === "online"}
+              onChange={handleRadioChange}
+              id='presence-online'
+            />
+            <label htmlFor='presence-online'>Online</label>
+          </div>
+
+          {/*Offline status */}
+          <div className='flex items-center gap-x-2'>
+            <input
+              type='radio'
+              name='presence'
+              className='cursor-pointer'
+              value='away'
+              checked={presenceStatus === "away"}
+              onChange={handleRadioChange}
+              id='presence-away'
+            />
+            <label htmlFor='presence-away'>Offline</label>
+          </div>
+        </div>
         <button
           type='button'
           onClick={handleOpenPassword}
@@ -133,7 +202,6 @@ export default function Form() {
         >
           Save Changes
         </button>
-
         {openPassword && (
           <ChangePassword onClose={() => setOpenPassword(false)} />
         )}

@@ -1,51 +1,26 @@
 /** @format */
 
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { formatDateTime } from "../../../utils/DateTime";
+import { useState } from "react";
 
-export default function ContactContainer() {
+export default function ContactContainer({ contacts, getContactDetail }) {
   const [dropdown, setDropdown] = useState(false);
-  const list = [
-    {
-      name: "Sarah Ossai",
-      channel: "Whatsapp",
-      date: "APR 1,2026/09:45 AM",
-    },
-    {
-      name: "Sarah Ossai",
-      channel: "Whatsapp",
-      date: "APR 1,2026/09:45 AM",
-    },
-    {
-      name: "Sarah Ossai",
-      channel: "Whatsapp",
-      date: "APR 1,2026/09:45 AM",
-    },
-    {
-      name: "Sarah Ossai",
-      channel: "Whatsapp",
-      date: "APR 1,2026/09:45 AM",
-    },
-    {
-      name: "Sarah Ossai",
-      channel: "Whatsapp",
-      date: "APR 1,2026/09:45 AM",
-    },
-    {
-      name: "Sarah Ossai",
-      channel: "Whatsapp",
-      date: "APR 1,2026/09:45 AM",
-    },
-  ];
 
   const navigate = useNavigate();
   function handleSvg(id) {
     setDropdown((prevId) => (prevId === id ? null : id));
   }
 
+  async function handleView(contact) {
+    await getContactDetail(contact.id);
+    navigate("?history");
+  }
+
+  console.log(contacts);
   return (
-    <div className='grid grid-cols-4 gap-10'>
-      {list.map((data, index) => (
+    <div className='grid grid-cols-4 gap-10 '>
+      {contacts?.map((data, index) => (
         <div
           className='border border-light-grey rounded-xl p-4 flex flex-col gap-y-6'
           key={index}
@@ -53,9 +28,9 @@ export default function ContactContainer() {
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-x-2'>
               <span className='text-sm font-semibold text-black'>
-                {data.name}
+                {data.name || data.identifier}
               </span>
-              <div className='p-1.5 rounded-sm border border-light-grey w-fit text-[8px] font-medium text-light-black'>
+              <div className='p-1.5 rounded-sm border capitalize border-light-grey w-fit text-[8px] font-medium text-light-black'>
                 <span>{data.channel}</span>
               </div>
             </div>
@@ -144,13 +119,13 @@ export default function ContactContainer() {
           <hr className='border border-light-grey' />
 
           <div className='flex items-center justify-between'>
-            <span className='text-[10px] font-normal text-grey'>
-              {data.date}
+            <span className='text-[10px] font-medium text-grey'>
+              {formatDateTime(data.createdAt)}
             </span>
 
             <div
               className='flex items-center gap-x-1.5 cursor-pointer'
-              onClick={() => navigate("?history")}
+              onClick={() => handleView(data)}
             >
               <span className='text-xs font-medium text-grey'>View</span>{" "}
               <svg

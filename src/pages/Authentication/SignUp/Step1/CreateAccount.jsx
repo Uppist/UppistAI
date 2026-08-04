@@ -15,7 +15,7 @@ export default function CreateAccount({
   const navigate = useNavigate();
 
   return (
-    <div className='flex flex-col gap-y-6 sm: mt-20'>
+    <div className='flex flex-col lg:mt-0 gap-y-6 sm: mt-20'>
       <div className='flex flex-col gap-y-6'>
         <div className='flex flex-col gap-y-2'>
           <h2 className='text-3xl text-black font-bold'>Create your account</h2>
