@@ -3,14 +3,18 @@
 import { useContext, useState } from "react";
 import Chats from "./Chats";
 import Input from "./Input";
-import { ChannelContext } from "../../../../contexts/Context";
+import { ChannelContext, UserContext } from "../../../../contexts/Context";
+import { CircularProgress } from "@mui/material";
 // import api from "../../../../api/axios";
-import Assign from "./Assign";
+// import Assign from "./Assign";
 
-export default function SecondGrid({ filteredConversations, selectedEmail }) {
+export default function SecondGrid({
+  assignedUserId,
+  selectedEmail,
+  isLoadingConversation,
+}) {
   const { eachConversations } = useContext(ChannelContext);
-
-  const [assignAgent, setAssignAgent] = useState(false);
+  const { userDetails } = useContext(UserContext);
   // console.log(filteredConversations);
 
   // console.log(eachConversations);
@@ -19,19 +23,18 @@ export default function SecondGrid({ filteredConversations, selectedEmail }) {
   //   alert("Hello");
   // }
 
-  function AssignAgent() {
-    setAssignAgent(true);
+  function handleCloseChat() {
+    console.log(userDetails);
   }
+
   const [dropdown, setDropdown] = useState(false);
   return (
     <div className='border border-light-grey flex flex-col h-full min-h-0'>
       {/*Details */}
 
       <div className='border-b border-b-light-grey p-4 px-6 flex items-center justify-between relative'>
-        <div className='flex items-center gap-x-15'>
-          <span className='bg-[#F7F7F7] rounded-full text-xs font-bold text-black w-9 h-9 flex items-center justify-center'>
-            NW
-          </span>{" "}
+        <div className='flex items-center gap-x-2.5'>
+          <span className='bg-[#F7F7F7] rounded-full text-xs font-bold text-black w-9 h-9 flex items-center justify-center'></span>{" "}
           <div className='flex flex-col gap-y-1'>
             <span className='text-sm font-medium text-black'>
               {selectedEmail || "select a conversation"}
@@ -46,7 +49,7 @@ export default function SecondGrid({ filteredConversations, selectedEmail }) {
               >
                 <rect width='6' height='6' rx='3' fill='#59C0B6' />
               </svg>
-              Josh Handling
+              AI agent Handling
             </p>
           </div>
           {/* <button className='button' onClick={handOverAgent}>
@@ -71,7 +74,10 @@ export default function SecondGrid({ filteredConversations, selectedEmail }) {
         {dropdown && (
           <div className='flex flex-col gap-y-3 absolute top-14 p-4 right-5 bg-white drop-shadow-2xl w-40 rounded-sm'>
             {/*Close chat */}
-            <div className='flex items-center gap-x-2 cursor-pointer'>
+            <div
+              className='flex items-center gap-x-2 cursor-pointer'
+              onClick={handleCloseChat}
+            >
               <svg
                 width='20'
                 height='20'
@@ -175,19 +181,28 @@ export default function SecondGrid({ filteredConversations, selectedEmail }) {
           </div>
         )}
       </div>
-      <div className='flex-1 min-h-0'>
-        {eachConversations?.length === 0 ? (
-          <span className='text-center flex items-center justify-center h-full text-grey'>
-            Select a conversation
-          </span>
-        ) : (
-          <Chats eachConversations={eachConversations} />
-        )}
-      </div>
 
-      <div className='mt-auto border-t border-light-grey p-3'>
-        <Input />
-      </div>
+      {isLoadingConversation ? (
+        <div className='flex items-center justify-center h-full'>
+          <CircularProgress size={24} sx={{ color: "#FF9200" }} />
+        </div>
+      ) : eachConversations?.length === 0 ? (
+        <span className='text-center flex items-center justify-center h-full text-grey'>
+          Select a conversation
+        </span>
+      ) : (
+        <Chats
+          eachConversations={eachConversations}
+          assignedUserId={assignedUserId}
+        />
+      )}
+
+      {(userDetails?.user?.role === "agent" ||
+        userDetails?.user?.role === "admin") && (
+        <div className='mt-auto border-t border-light-grey p-3'>
+          <Input />
+        </div>
+      )}
     </div>
   );
 }

@@ -6,6 +6,8 @@ export default function Industry({
   selectIndustry,
   setIndustry,
   handleChange,
+  showInput,
+  details,
 }) {
   const industryList = [
     "Banking & Finance",
@@ -55,6 +57,19 @@ export default function Industry({
               {item}
             </span>
           ))}
+        </div>
+      )}
+      {showInput && (
+        <div>
+          <input
+            className='border border-light-grey p-3 rounded-lg outline-none w-full'
+            type='text'
+            name=''
+            value={details?.other_industry}
+            onChange={handleChange}
+            id=''
+            placeholder='Please enter your industry'
+          />
         </div>
       )}
     </div>

@@ -20,44 +20,45 @@ export default function FifthScreen() {
     setDetails({ ...details, file: e.target.files[0] });
     setFileName({ name: e.target.files[0].name, size: e.target.files[0].size });
   }
-  const submit = details.file && details.url;
+  const submit = details.url;
 
   function handleChange(e) {
     setDetails({ ...details, [e.target.name]: e.target.value });
   }
 
   async function Next() {
-    const formData = new FormData();
-    formData.append("file", details.file);
+    // const formData = new FormData();
 
     const payload = {
-      url: details.url,
+      url: `https://${details.url}`,
     };
 
+    console.log(payload.url);
     const token = localStorage.getItem("Token");
 
     setIsClick(true);
 
     try {
-      const [fileRes, urlRes] = await Promise.all([
-        api.post("kb/upload", formData, {
+      if (details.file) {
+        const formData = new FormData();
+        formData.append("file", details.file);
+        await api.post("kb/upload", formData, {
           headers: { Authorization: `Bearer ${token}` },
-        }),
+        });
+      }
 
-        api.post("kb/url", payload, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-      ]);
+      (api.post("kb/url", payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+        // console.log(fileRes.data));
+        // console.log(urlRes.data);
 
-      console.log(fileRes.data);
-      console.log(urlRes.data);
+        setTimeout(() => {
+          toast.success("Upload successful!");
+        }, 1000));
 
       setTimeout(() => {
-        toast.success("Upload successful!");
-      }, 1000);
-
-      setTimeout(() => {
-        navigate("/onboarding/6");
+        navigate("/onboarding/7");
       }, 2000);
     } catch (err) {
       console.log(err.response);
@@ -125,6 +126,7 @@ export default function FifthScreen() {
               name='url'
               id=''
               value={details.url}
+              placeholder='Enter your website URL example: www.google.com'
               onChange={handleChange}
             />
           </div>

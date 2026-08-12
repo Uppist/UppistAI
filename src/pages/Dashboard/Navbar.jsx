@@ -62,9 +62,9 @@ export default function Navbar() {
               d='M6.66675 15.833C7.04882 17.2707 8.39636 18.333 10.0001 18.333C11.6038 18.333 12.9513 17.2707 13.3334 15.833'
               stroke='#2B2B2B'
               strokeOpacity='0.8'
-              strokeWidth='1.5'
-              strokeLinecap='round'
-              strokeLinejoin='round'
+              stroke-width='1.5'
+              stroke-linecap='round'
+              stroke-linejoin='round'
             />
           </svg>
         ) : (

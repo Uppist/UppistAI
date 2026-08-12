@@ -65,13 +65,13 @@ export default function CreateAccount({
           <hr className='w-full border border-border' />
         </div>
 
-        <button
+        {/* <button
           type='button'
           className='flex items-center justify-center px-2 py-4 gap-x-4 bg-white border border-border2 text-black font-medium text-base cursor-pointer rounded-lg hover:bg-gray-100'
         >
           <img src={google} alt='Google Logo' />
           Sign up with Google
-        </button>
+        </button> */}
 
         <span className='text-sm font-medium text-light text-center'>
           Already have an account?{" "}

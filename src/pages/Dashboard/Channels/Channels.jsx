@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import FirstGrid from "./FirstGrid/FirstGrid";
 import SecondGrid from "./SecondGrid/SecondGrid";
 import ThirdGrid from "./ThirdGrid";
-import { ChannelContext } from "../../../contexts/Context";
+import { ChannelContext, UserContext } from "../../../contexts/Context";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import api from "../../../api/axios";
@@ -17,9 +17,18 @@ const expiry_date = "website_api_key_expiry";
 export default function Channels() {
   const { type } = useParams();
   const [isClick, setIsClick] = useState(false);
+  const [assignedUserId, setAssignedUserId] = useState("");
+  const [isLoadingConversation, setIsLoadingConversation] = useState(false);
+
   const [selectedEmail, setSelectedEmail] = useState(null);
-  const { conversations, setSaveAPI, saveAPI, setEachConversations } =
-    useContext(ChannelContext);
+  const {
+    conversations,
+    setSaveAPI,
+    saveAPI,
+    setEachConversations,
+    setSelectedSessionId,
+  } = useContext(ChannelContext);
+  const { userDetails } = useContext(UserContext);
 
   function getStoredApiKey() {
     const key = localStorage.getItem(storage_key);
@@ -58,7 +67,7 @@ export default function Channels() {
       return conversations.filter((c) => c.channel === "web");
     }
 
-    if (type === "social_media") {
+    if (type === "chats") {
       return conversations.filter(
         (c) => c.channel === "instagram" || c.channel === "x",
       );
@@ -67,8 +76,8 @@ export default function Channels() {
     return [];
   }, [conversations, type]);
   async function Enter() {
-    if (type !== "website" || !filteredConversations.length) {
-      // toast.error("No conversations available to validate the API key.");
+    if (!apiKey) {
+      toast.error("Please enter an API key.");
       return;
     }
 
@@ -79,13 +88,18 @@ export default function Channels() {
         Authorization: `Bearer ${apiKey}`,
       };
 
-      // Validate the API key
-      await api.get(
-        `/v1/conversations/${filteredConversations[0].sessionId}/messages`,
-        { headers },
-      );
+      if (type === "website") {
+        if (!filteredConversations.length) {
+          throw new Error("No website conversations available.");
+        }
 
-      // API key is valid
+        // Validate the API key for website chat history
+        await api.get(
+          `/v1/conversations/${filteredConversations[0].sessionId}/messages`,
+          { headers },
+        );
+      }
+
       setSaveAPI(apiKey);
       setIsApiKeyAccepted(true);
 
@@ -95,18 +109,20 @@ export default function Channels() {
         (Date.now() + 7 * 24 * 60 * 60 * 1000).toString(),
       );
     } catch (err) {
-      // API key is invalid
-      toast.error(err.response?.data?.error || "Invalid API key");
+      toast.error(
+        err.response?.data?.error ||
+          (type === "website"
+            ? "Invalid API key"
+            : "Unable to validate API key."),
+      );
     } finally {
       setIsClick(false);
     }
   }
 
-  function handleEmailClick(email) {
-    const headers =
-      type === "website"
-        ? { Authorization: `Bearer ${saveAPI}` }
-        : { Authorization: `Bearer ${localStorage.getItem("Token")}` };
+  // console.log(filteredConversations.length);
+
+  async function handleEmailClick(email) {
     const conversation = filteredConversations.find(
       (c) => c.sessionId === email.sessionId,
     );
@@ -115,25 +131,47 @@ export default function Channels() {
       toast.error("Conversation not found");
       return;
     }
-    console.log("Email:", conversation.contactIdentifier);
 
-    // console.log(saveAPI);
+    setIsLoadingConversation(true);
 
-    api
-      .get(`/v1/conversations/${email.sessionId}/messages`, {
-        headers,
-      })
-      .then((res) => {
-        console.log(res.data.messages);
-        setEachConversations(res.data.messages);
-        setSelectedEmail(conversation.contactIdentifier);
-      })
-      .catch((err) => {
-        console.log(err.response);
-        toast.error(err.response?.data?.error);
-      });
+    try {
+      // Load the messages
+      const messageRes = await api.get(
+        `/v1/conversations/${email.sessionId}/messages`,
+        {
+          headers: {
+            Authorization: `Bearer ${saveAPI}`,
+          },
+        },
+      );
 
-    // console.log(email.sessionId);
+      setEachConversations(messageRes.data.messages);
+      setSelectedEmail(conversation.contactIdentifier);
+      setSelectedSessionId(conversation.sessionId);
+
+      // Join conversation if agent/admin
+      if (
+        userDetails?.user?.role === "agent" ||
+        userDetails?.user?.role === "admin"
+      ) {
+        const joinRes = await api.post(
+          `/dashboard/conversations/${conversation.sessionId}/join`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
+          },
+        );
+
+        setAssignedUserId(joinRes.data.assignedUserId);
+      }
+    } catch (err) {
+      console.error(err.response);
+      toast.error(err.response?.data?.error || "Failed to load conversation");
+    } finally {
+      setIsLoadingConversation(false);
+    }
   }
 
   useEffect(() => {
@@ -144,8 +182,9 @@ export default function Channels() {
     }
   }, [apiKey, isApiKeyAccepted, setSaveAPI, type]);
 
-  const shouldShowApiKeyModal = type === "website" && !isApiKeyAccepted;
-
+  const shouldShowApiKeyModal =
+    filteredConversations.length > 0 && !isApiKeyAccepted;
+  console.log();
   return (
     <>
       <div className='grid grid-cols-[25%_50%_25%] h-full'>
@@ -157,6 +196,9 @@ export default function Channels() {
         <SecondGrid
           filteredConversations={filteredConversations}
           selectedEmail={selectedEmail}
+          selectedSessionId={selectedEmail}
+          assignedUserId={assignedUserId}
+          isLoadingConversation={isLoadingConversation}
         />
         <ThirdGrid />
 

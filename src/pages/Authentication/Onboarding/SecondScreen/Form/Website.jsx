@@ -12,7 +12,7 @@ export default function Website({ details, handleChange }) {
         value={details.website}
         onChange={handleChange}
         id=''
-        placeholder='Enter your website URL'
+        placeholder='Enter your website URL example: www.google.com'
       />
     </div>
   );

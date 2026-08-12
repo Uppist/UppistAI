@@ -63,25 +63,24 @@ export default function Notifications({ readIds, setReadIds }) {
         </>
       ) : (
         <>
-          {visibleNotifications?.map((data, index) => {
-            const hasUnreadDot =
-              data?.read === false && !readIds.includes(data.id);
-
-            return (
-              <div key={data.id || index}>
-                <div className='flex items-center justify-between p-5 border-b border-light-grey'>
-                  <h3 className='text-base font-medium text-black'>
-                    Notifications
-                  </h3>
-                  <span
-                    className='text.sm font-medium text-bg'
-                    onClick={MarkAll}
+          <div>
+            <div className='flex items-center justify-between p-5 border-b border-light-grey'>
+              <h3 className='text-base font-medium text-black'>
+                Notifications
+              </h3>
+              <span className='text.sm font-medium text-bg' onClick={MarkAll}>
+                Mark all as read
+              </span>
+            </div>
+            <div className='h-70 overflow-scroll no-scrollbar'>
+              {visibleNotifications?.map((data, index) => {
+                const hasUnreadDot =
+                  data?.read === false && !readIds.includes(data.id);
+                return (
+                  <div
+                    className='p-5 border-b border-light-grey'
+                    key={data.id || index}
                   >
-                    Mark all as read
-                  </span>
-                </div>
-                <div className='h-70 overflow-scroll no-scrollbar'>
-                  <div className='p-5 border-b border-light-grey'>
                     <div className='flex items-center justify-between'>
                       <div className='flex items-center gap-x-2'>
                         {data.channel === "whatsapp" && (
@@ -92,7 +91,7 @@ export default function Notifications({ readIds, setReadIds }) {
                           onClick={() => markAsRead(data.id)}
                         >
                           <h4 className='text-sm font-bold text-black [display:ruby]'>
-                            <span>{data.body}</span>{" "}
+                            <span>{data.title}</span>{" "}
                             {hasUnreadDot && (
                               <span className='flex w-1.5 h-1.5 rounded-full bg-bg'></span>
                             )}
@@ -104,10 +103,10 @@ export default function Notifications({ readIds, setReadIds }) {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
         </>
       )}
     </div>

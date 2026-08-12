@@ -1,6 +1,7 @@
 /** @format */
 
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../../../contexts/Context";
 
 export default function FirstGrid({
   title,
@@ -8,6 +9,17 @@ export default function FirstGrid({
   handleEmailClick,
 }) {
   const [active, setActive] = useState("All");
+
+  const { userDetails } = useContext(UserContext);
+
+  const conversationsToDisplay =
+    userDetails?.user?.role === "agent"
+      ? filteredConversations.filter(
+          (conversation) => conversation.assignedUserId === userDetails.user.id,
+        )
+      : filteredConversations;
+
+  console.log(filteredConversations);
 
   return (
     <div className='border border-light-grey'>
@@ -65,21 +77,19 @@ export default function FirstGrid({
         </div>
       </div>
       {/*Customer details */}
-      {filteredConversations.length === 0 ? (
+      {conversationsToDisplay.length === 0 ? (
         <span className='text-black p-4 text-center w-full mt-40 flex items-center justify-center'>
           No message yet
         </span>
       ) : (
         <div className='h-110 overflow-scroll no-scrollbar'>
-          {filteredConversations.map((data) => (
+          {conversationsToDisplay.map((data) => (
             <div
               className='flex items-center justify-between cursor-pointer p-4 px-6 border-b border-b-light-grey hover:bg-[#FCFCFC] '
               onClick={() => handleEmailClick(data)}
             >
               <div className='flex items-center gap-x-2'>
-                <span className='bg-[#F7F7F7] rounded-full text-xs font-bold text-black w-9 h-9 flex items-center justify-center'>
-                  NW
-                </span>
+                <span className='bg-[#F7F7F7] rounded-full text-xs font-bold text-black w-9 h-9 flex items-center justify-center'></span>
                 <div className='flex flex-col gap-y-2'>
                   <div className='flex flex-col gap-y-1'>
                     <span className='text-sm font-medium text-black'>
@@ -99,7 +109,7 @@ export default function FirstGrid({
                     >
                       <rect width='6' height='6' rx='3' fill='#59C0B6' />
                     </svg>
-                    Josh Handling
+                    AI agent Handling
                   </p>
                 </div>
               </div>

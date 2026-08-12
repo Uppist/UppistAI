@@ -1,9 +1,10 @@
 /** @format */
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import api from "../../../../../api/axios";
 import { toast } from "react-toastify";
 import { Box, CircularProgress } from "@mui/material";
+import { ChannelContext } from "../../../../../contexts/Context";
 export default function Whatsapp({ onClose, onConnect, Success }) {
   const [number, setNumber] = useState({
     number: "",
@@ -11,6 +12,7 @@ export default function Whatsapp({ onClose, onConnect, Success }) {
     token: "",
   });
   const [isClick, setIsClick] = useState(false);
+  const { fetchChannelData } = useContext(ChannelContext);
 
   function handleClick(e) {
     setNumber({ ...number, [e.target.name]: e.target.value });
@@ -27,15 +29,21 @@ export default function Whatsapp({ onClose, onConnect, Success }) {
     const headers = { Authorization: `Bearer ${token}` };
     api
       .post("/channels/whatsapp", data, { headers })
-      .then((res) => {
+      .then(async (res) => {
         console.log(res.data);
+        await fetchChannelData();
+        onConnect();
+        setIsClick(false);
+
         setTimeout(() => {
           Success();
         }, 1500);
       })
       .catch((err) => {
-        console.log(err.response);
-        toast.error(err.response.message);
+        console.log(err);
+        toast.error(
+          err.response?.message || "Unable to connect WhatsApp channel.",
+        );
         setIsClick(false);
       });
   }

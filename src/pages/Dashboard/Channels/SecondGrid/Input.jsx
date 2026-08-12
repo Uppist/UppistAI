@@ -1,16 +1,49 @@
 /** @format */
 
+import { toast } from "react-toastify";
+import api from "../../../../api/axios";
+import { useContext, useState } from "react";
+import { ChannelContext } from "../../../../contexts/Context";
+
 export default function Input() {
+  const [text, setText] = useState("");
+
+  const { selectedSessionId } = useContext(ChannelContext);
+
+  async function Send() {
+    const data = {
+      message: text,
+      takeover: true,
+    };
+    try {
+      const res = await api.post(
+        `/dashboard/conversations/${selectedSessionId}/agent-reply`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Token")}`,
+          },
+        },
+      );
+      console.log(res.data, "res.data");
+      setText("");
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Failed to send message");
+    }
+  }
   return (
-    <div className='flex items-center z-1000 justify-between w-full rounded-lg border border-light-grey px-3 py-2'>
+    <div className='flex items-center z-1000 justify-between w-full bg-white rounded-lg border border-light-grey px-3 py-2'>
       <textarea
         className=' text-sm text-grey outline-none w-full resize-none'
         placeholder='Type a reply....'
+        value={text}
+        onChange={(e) => setText(e.target.value)}
       />
 
       {/*Button send */}
       <svg
         width='32'
+        onClick={Send}
         className='cursor-pointer hover:opacity-45'
         height='32'
         viewBox='0 0 32 32'

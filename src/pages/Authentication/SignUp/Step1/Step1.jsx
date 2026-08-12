@@ -17,6 +17,8 @@ export default function Step1() {
   const [isClick, setIsClick] = useState(false);
   const [showCreateAccount, setShowCreateAccount] = useState(false);
 
+  // const [showError, setShowError] = useState();
+
   const navigate = useNavigate();
 
   const submit =
@@ -51,7 +53,7 @@ export default function Step1() {
           setTimeout(() => {
             setIsClick(false);
             navigate("/email-verification/verify-code", {
-              state: { flow: "signup" },
+              state: { flow: "signup", email: details.email },
             });
           }, 2000);
         })
@@ -85,6 +87,7 @@ export default function Step1() {
           handleChange={handleChange}
           isClick={isClick}
           submit={submit}
+          details={details}
         />
       )}
     </>

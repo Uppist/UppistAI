@@ -14,6 +14,7 @@ export default function Audit() {
   const [filteredAuditLog, setFilteredAuditLog] = useState([]);
   const [hasActiveFilter, setHasActiveFilter] = useState(false);
   const { auditLog } = useContext(AuditContext);
+  console.log("auditLog", auditLog);
 
   function handleAllTimeClick() {
     setIsTime(!isTime);

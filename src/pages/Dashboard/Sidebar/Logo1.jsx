@@ -21,9 +21,11 @@ export default function Logo1({ role }) {
         <NavLink
           to='/dashboard'
           className={({ isActive }) =>
-            isActive
-              ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg ho"
-              : "cursor-pointer text-grey px-4 py-2 "
+            `group relative ${
+              isActive
+                ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg before:content-[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
+                : "cursor-pointer text-grey px-4 py-2"
+            }`
           }
         >
           <svg
@@ -48,11 +50,14 @@ export default function Logo1({ role }) {
               strokeLinejoin='round'
             />
           </svg>
+          <span className='hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 '>
+            Dashboard
+          </span>
         </NavLink>
       )}
 
       {/*Channels */}
-      <div className='flex flex-col relative z-300'>
+      <div className='group flex flex-col relative z-300'>
         <div className='cursor-pointer' onClick={handleSocials}>
           <svg
             width='20'
@@ -89,6 +94,10 @@ export default function Logo1({ role }) {
               </clipPath>
             </defs>
           </svg>
+
+          <span className='hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 '>
+            Channels
+          </span>
         </div>
 
         {isSocials && (
@@ -111,9 +120,11 @@ export default function Logo1({ role }) {
         <NavLink
           to='/contacts'
           className={({ isActive }) =>
-            isActive
-              ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
-              : "cursor-pointer text-grey px-4 py-2 "
+            `group relative ${
+              isActive
+                ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg before:content-[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
+                : "cursor-pointer text-grey px-4 py-2"
+            }`
           }
         >
           <svg
@@ -150,6 +161,9 @@ export default function Logo1({ role }) {
               stroke-linejoin='round'
             />
           </svg>
+          <span className='hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 '>
+            Contacts
+          </span>
         </NavLink>
       )}
 
@@ -158,9 +172,11 @@ export default function Logo1({ role }) {
         <NavLink
           to='/reports'
           className={({ isActive }) =>
-            isActive
-              ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
-              : "cursor-pointer text-grey px-4 py-2 "
+            `group relative ${
+              isActive
+                ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg before:content-[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
+                : "cursor-pointer text-grey px-4 py-2"
+            }`
           }
         >
           <svg
@@ -198,6 +214,9 @@ export default function Logo1({ role }) {
               stroke-linejoin='round'
             />
           </svg>
+          <span className='hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 '>
+            Reports
+          </span>
         </NavLink>
       )}
     </div>

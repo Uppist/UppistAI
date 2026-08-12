@@ -2,7 +2,7 @@
 
 import { toast } from "react-toastify";
 import logo from "../../../assets/signup/uppist.svg";
-import google from "../../../assets/signup/Google.svg";
+// import google from "../../../assets/signup/Google.svg";
 
 import Form from "./Form";
 import { useState } from "react";
@@ -136,13 +136,13 @@ export default function SignIn({ appLoading, setAppLoading }) {
               <hr className='w-full border border-border' />
             </div>
 
-            <button
+            {/* <button
               type='button'
               className='flex items-center justify-center px-2 py-4 gap-x-4 bg-white border border-border2 text-black font-medium text-base cursor-pointer rounded-lg hover:bg-gray-100'
             >
               <img src={google} alt='Google Logo' />
               Login with Google
-            </button>
+            </button> */}
 
             <span className='text-sm font-medium text-light text-center'>
               Don't have an account?{" "}

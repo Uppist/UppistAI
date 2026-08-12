@@ -31,13 +31,16 @@ export default function Instagram({ onClose, onConnect, Success }) {
       .post("/channels/instagram", data, { headers })
       .then((res) => {
         console.log(res.data);
+        onConnect();
+        setIsClick(false);
+
         setTimeout(() => {
           Success();
         }, 1500);
       })
       .catch((err) => {
         console.log(err.response);
-        toast.error(err.response.message);
+        toast.error(err.response?.message || "Unable to connect Instagram channel.");
         setIsClick(false);
       });
   }

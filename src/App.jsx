@@ -68,7 +68,17 @@ export default function App() {
   return (
     <>
       {" "}
-      <ToastContainer transition={Zoom} autoClose={5000} />
+      <ToastContainer
+        position='top-right'
+        transition={Zoom}
+        autoClose={5000}
+        closeOnClick
+        pauseOnHover={false}
+        pauseOnFocusLoss={false}
+        draggable
+        hideProgressBar={false}
+        newestOnTop
+      />
       <section
         className={
           path && !isMobile

@@ -19,6 +19,7 @@ export default function Dashboard() {
       navigate("/channels/whatsapp");
     }
   }, [userDetails, location.pathname, navigate]);
+
   return (
     <div className='flex '>
       <Sidebar />

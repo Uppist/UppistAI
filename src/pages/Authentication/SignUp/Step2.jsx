@@ -37,18 +37,20 @@ export default function Step2() {
   function Verify() {
     const data = {
       email: location?.state.email,
-      code: code,
+      code: code.join(""),
     };
 
+    console.log(data.email);
     setIsClick(true);
     api
       .post("/auth/verify-email", data)
       .then((res) => {
         console.log(res.data);
+        localStorage.setItem("Token", res.data.accessToken);
         navigate("/email-verification", { state: location.state });
       })
       .catch((err) => {
-        console.log(err.response.data.error);
+        console.log(err.response.data);
         toast.error(err.response.data.error);
         setIsClick(false);
       });

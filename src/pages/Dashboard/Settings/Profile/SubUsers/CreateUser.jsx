@@ -58,11 +58,12 @@ export default function CreateUser({ onClose }) {
       })
       .then((res) => {
         console.log(res.data);
+
+        setLoading(false);
+        toast.success("User created successfully.");
         setGetUsers((getUsers) => {
           return [...getUsers, res.data.user];
         });
-        setLoading(false);
-        toast.success("User created successfully");
         onClose();
       })
       .catch((err) => {
@@ -170,10 +171,16 @@ export default function CreateUser({ onClose }) {
 
               {dropdown && (
                 <div className='bg-white p-2 rounded-lg shadow-2xl flex flex-col gap-y-4'>
-                  <span onClick={() => handleSelectRole("Manager")}>
+                  <span
+                    onClick={() => handleSelectRole("Manager")}
+                    className='cursor-pointer'
+                  >
                     Manager
                   </span>
-                  <span onClick={() => handleSelectRole("Live Agent")}>
+                  <span
+                    onClick={() => handleSelectRole("Live Agent")}
+                    className='cursor-pointer'
+                  >
                     Live Agent
                   </span>
                 </div>

@@ -1,6 +1,5 @@
 /** @format */
 import { useContext } from "react";
-import profile from "../../../../../assets/Dashboard/settings/profile.svg";
 import { UserContext } from "../../../../../contexts/Context";
 
 export default function Upload() {
@@ -8,11 +7,11 @@ export default function Upload() {
   return (
     <div className='flex flex-col p-8 gap-y-6 border items-center rounded-lg border-light-grey'>
       <div className='flex'>
-        <img src={profile} className='relative' alt='' />
+        <div className='w-14 h-14 rounded-full bg-light-grey relative'></div>
         <div className='flex cursor-pointer relative'>
           <label
             htmlFor='photo'
-            className='bg-bg w-6 h-6 rounded-4xl flex items-center justify-center cursor-pointer absolute bottom-0.5 right-0.5'
+            className='bg-bg w-6 h-6 rounded-4xl flex items-center justify-center cursor-pointer absolute -bottom-0.5 -right-0.5'
           >
             <svg
               width='12'

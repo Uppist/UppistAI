@@ -1,66 +1,219 @@
 /** @format */
 
-import { useEffect, useState } from "react";
-import { ChannelContext } from "./Context";
+import { ChannelContext, UserContext } from "./Context";
 import api from "../api/axios";
 // import { useNavigate } from "react-router-dom";
+import { connectSSE, disconnectSSE } from "../api/sse";
+
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+
+const getConversationSessionId = (value) =>
+  value?.session_id ??
+  value?.sessionId ??
+  value?.conversation_id ??
+  value?.conversationId ??
+  null;
+
+const getMessageContent = (value) =>
+  value?.content ?? value?.message ?? value?.text ?? "";
+
+const getMessageCreatedAt = (value) =>
+  value?.created_at ?? value?.createdAt ?? new Date().toISOString();
 
 export default function ChannelProvider({ children }) {
   const [conversations, setConversations] = useState([]);
   const [eachConversations, setEachConversations] = useState([]);
   const [selectedSessionId, setSelectedSessionId] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(() =>
-    Boolean(localStorage.getItem("Token")),
-  );
   const [saveAPI, setSaveAPI] = useState(() => {
     return JSON.parse(localStorage.getItem("saveAPI")) || false;
   });
 
   const [activeChannel, setActiveChannel] = useState(null);
+  const userContext = useContext(UserContext);
+  const isAuthenticated =
+    userContext?.isAuthenticated ?? Boolean(localStorage.getItem("Token"));
+
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("Token");
+  //   const headers = {
+  //     Authorization: `Bearer ${token}`,
+  //   };
+
+  //   //get all conversations
+  //   api
+  //     .get("/dashboard/conversations", { headers })
+  //     .then((res) => {
+  //       const conversationsData = res.data.conversations || res.data;
+  //       setConversations(conversationsData);
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Agent conversations error:", err);
+  //       // navigate("/signin");
+  //     });
+
+  //   api
+  //     .get("/channels", { headers })
+  //     .then((res) => {
+  //       const channelsData = res.data.channels || res.data;
+  //       setActiveChannel(channelsData);
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Agent channels error:", err);
+  //       // navigate("/signin");
+  //     });
+  // }, []);
+
+  const fetchChannelData = useCallback(async () => {
+    const token = localStorage.getItem("Token");
+    if (!token) return;
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      const [conversationRes, channelRes] = await Promise.all([
+        api.get("/dashboard/conversations", { headers }),
+        api.get("/channels", { headers }),
+      ]);
+      setConversations(
+        conversationRes.data.conversations || conversationRes.data,
+      );
+      setActiveChannel(channelRes.data.channels || channelRes.data);
+    } catch (err) {
+      console.error("Channel fetch error:", err);
+    }
+  }, []);
+
+  const selectedSessionIdRef = useRef(null);
 
   useEffect(() => {
-    const syncAuthState = () => {
-      setIsAuthenticated(Boolean(localStorage.getItem("Token")));
-    };
-
-    syncAuthState();
-    window.addEventListener("auth:token-updated", syncAuthState);
-    window.addEventListener("auth:token-removed", syncAuthState);
-
-    return () => {
-      window.removeEventListener("auth:token-updated", syncAuthState);
-      window.removeEventListener("auth:token-removed", syncAuthState);
-    };
-  }, []);
+    selectedSessionIdRef.current = selectedSessionId;
+  }, [selectedSessionId]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    const token = localStorage.getItem("Token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
+    const interval = setInterval(() => {
+      fetchChannelData();
+    }, 2000);
+
+    return () => {
+      clearInterval(interval);
     };
+  }, [isAuthenticated, fetchChannelData]);
+  //listen for incoming message
+  useEffect(() => {
+    if (!selectedSessionId || !saveAPI) return;
 
-    api
-      .get("/dashboard/conversations", { headers })
-      .then((res) => {
-        const conversationsData = res.data.conversations || res.data;
-        setConversations(conversationsData);
-      })
-      .catch((err) => {
-        console.log("Agent conversations error:", err);
-      });
+    connectSSE({
+      sessionId: selectedSessionId,
+      apiKey: saveAPI,
 
-    api
-      .get("/channels", { headers })
-      .then((res) => {
-        const channelsData = res.data.channels || res.data;
-        setActiveChannel(channelsData);
-      })
-      .catch((err) => {
-        console.log("Agent channels error:", err);
-      });
-  }, [isAuthenticated]);
+      onConnected(data) {
+        console.log("Connected", data);
+      },
+
+      onAssistantMessage(message) {
+        const sessionId = getConversationSessionId(message);
+        const content = getMessageContent(message);
+        const createdAt = getMessageCreatedAt(message);
+
+        if (!sessionId || sessionId !== selectedSessionIdRef.current) return;
+
+        const normalizedMessage = {
+          ...message,
+          session_id: sessionId,
+          sessionId,
+          content,
+          created_at: createdAt,
+        };
+
+        setEachConversations((prev) => {
+          const alreadyExists = prev.some(
+            (item) =>
+              (item?.id &&
+                normalizedMessage?.id &&
+                item.id === normalizedMessage.id) ||
+              (item?.created_at === normalizedMessage.created_at &&
+                item?.content === normalizedMessage.content),
+          );
+
+          return alreadyExists ? prev : [...prev, normalizedMessage];
+        });
+
+        setConversations((prev) =>
+          prev.map((conversation) => {
+            const conversationSessionId =
+              getConversationSessionId(conversation);
+
+            return conversationSessionId === sessionId
+              ? {
+                  ...conversation,
+                  last_message: content,
+                  updated_at: createdAt,
+                }
+              : conversation;
+          }),
+        );
+      },
+
+      onAgentMessage(message) {
+        const sessionId = getConversationSessionId(message);
+        const content = getMessageContent(message);
+        const createdAt = getMessageCreatedAt(message);
+
+        if (!sessionId || sessionId !== selectedSessionIdRef.current) return;
+
+        const normalizedMessage = {
+          ...message,
+          session_id: sessionId,
+          sessionId,
+          content,
+          created_at: createdAt,
+        };
+
+        setEachConversations((prev) => {
+          const alreadyExists = prev.some(
+            (item) =>
+              (item?.id &&
+                normalizedMessage?.id &&
+                item.id === normalizedMessage.id) ||
+              (item?.created_at === normalizedMessage.created_at &&
+                item?.content === normalizedMessage.content),
+          );
+
+          return alreadyExists ? prev : [...prev, normalizedMessage];
+        });
+
+        setConversations((prev) =>
+          prev.map((conversation) => {
+            const conversationSessionId =
+              getConversationSessionId(conversation);
+
+            return conversationSessionId === sessionId
+              ? {
+                  ...conversation,
+                  last_message: content,
+                  updated_at: createdAt,
+                }
+              : conversation;
+          }),
+        );
+      },
+
+      onStatus(status) {
+        // setConversationStatus(status);
+        console.log(status);
+      },
+
+      onError(error) {
+        console.error(error);
+      },
+    });
+
+    return () => disconnectSSE();
+  }, [selectedSessionId, saveAPI]);
 
   return (
     <ChannelContext.Provider
@@ -75,6 +228,7 @@ export default function ChannelProvider({ children }) {
         setActiveChannel,
         selectedSessionId,
         setSelectedSessionId,
+        fetchChannelData,
       }}
     >
       {children}

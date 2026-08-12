@@ -2,7 +2,6 @@
 
 import Logo1 from "./Logo1";
 import Logo2 from "./Logo2";
-import img from "../../../assets/Dashboard/img.svg";
 import logo from "../../../assets/Dashboard/logo.svg";
 import { useContext, useState } from "react";
 import ProfileOverlay from "./ProfileOverlay";
@@ -19,13 +18,7 @@ export default function Sidebar() {
     <div className='border border-light-grey h-screen w-18 p-4 fixed z-50 flex flex-col justify-between'>
       <div className='flex flex-col  items-center gap-y-10'>
         <div className='relative'>
-          {" "}
-          <img
-            className='cursor-pointer'
-            onClick={() => setProfile(!profile)}
-            src={img}
-            alt='Profile picture'
-          />
+          <div className='w-10 h-10 rounded-full bg-light-grey'></div>
           {profile && (
             <>
               <div

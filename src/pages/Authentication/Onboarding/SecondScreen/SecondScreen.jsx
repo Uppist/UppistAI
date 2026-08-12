@@ -16,6 +16,7 @@ export default function SecondScreen() {
   const [details, setDetails] = useState({
     company: "",
     industry: "",
+    other_industry: "",
     teamSize: "",
     website: "",
   });
@@ -43,14 +44,18 @@ export default function SecondScreen() {
   function Next() {
     setOnBoardingDetails({
       companyName: details.company,
-      industry: details.industry,
+      industry:
+        details.industry?.toLowerCase() === "others"
+          ? details.other_industry
+          : details.industry,
       teamSize: details.teamSize,
       website: details.website,
     });
 
-    navigate("/onboarding/3");
+    navigate("/onboarding/4");
   }
 
+  const showInput = details.industry?.toLowerCase() === "others";
   return (
     <div className='flex flex-col lg:h-screen justify-center gap-y-10 lg:p-20 animate-fade-up overflow-scroll no-scrollbar sm: p-7 sm: -mt-30'>
       <div className='mt-50 flex items-center justify-between'></div>
@@ -73,6 +78,8 @@ export default function SecondScreen() {
             selectIndustry={selectIndustry}
             setIndustry={setIndustry}
             handleChange={handleChange}
+            showInput={showInput}
+            details={details}
           />
           <Team
             handleTeam={handleTeam}

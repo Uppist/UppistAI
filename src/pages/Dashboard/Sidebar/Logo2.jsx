@@ -1,8 +1,14 @@
 /** @format */
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Logo2({ role }) {
+  const navigate = useNavigate();
+
+  function LogOut() {
+    navigate("/signin");
+    localStorage.clear();
+  }
   return (
     <div className='flex flex-col items-center gap-y-4.5'>
       {/*Audit Logs */}
@@ -11,9 +17,11 @@ export default function Logo2({ role }) {
           to='/audit_logs'
           title='Audit_Logs'
           className={({ isActive }) =>
-            isActive
-              ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
-              : "cursor-pointer text-grey px-4 py-2 "
+            `group relative ${
+              isActive
+                ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg before:content-[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
+                : "cursor-pointer text-grey px-4 py-2"
+            }`
           }
         >
           {" "}
@@ -45,6 +53,9 @@ export default function Logo2({ role }) {
               stroke-linejoin='round'
             />
           </svg>
+          <span className='hidden w-25 group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 '>
+            Audit Logs
+          </span>
         </NavLink>
       )}
 
@@ -53,9 +64,11 @@ export default function Logo2({ role }) {
         to='/settings'
         title='Settings'
         className={({ isActive }) =>
-          isActive
-            ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
-            : "cursor-pointer text-grey px-4 py-2 "
+          `group relative ${
+            isActive
+              ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg before:content-[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
+              : "cursor-pointer text-grey px-4 py-2"
+          }`
         }
       >
         <svg
@@ -78,6 +91,10 @@ export default function Logo2({ role }) {
             stroke-width='1.5'
           />
         </svg>
+
+        <span className='hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 '>
+          Settings
+        </span>
       </NavLink>
 
       {/*Integrations */}
@@ -86,9 +103,11 @@ export default function Logo2({ role }) {
           to='/integrations'
           title='Integrations'
           className={({ isActive }) =>
-            isActive
-              ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
-              : "cursor-pointer text-grey px-4 py-2 "
+            `group relative ${
+              isActive
+                ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg before:content-[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
+                : "cursor-pointer text-grey px-4 py-2"
+            }`
           }
         >
           {" "}
@@ -114,18 +133,17 @@ export default function Logo2({ role }) {
               </clipPath>
             </defs>
           </svg>
+          <span className='hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 '>
+            Integrations
+          </span>
         </NavLink>
       )}
 
       {/*Logout */}
       <NavLink
-        to='/signin'
+        onClick={LogOut}
         title='Logout'
-        className={({ isActive }) =>
-          isActive
-            ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg  before:content:[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
-            : "cursor-pointer text-grey"
-        }
+        className='group cursor-pointer text-grey px-4 py-2'
       >
         <svg
           width='20'
@@ -149,6 +167,9 @@ export default function Logo2({ role }) {
             stroke-linejoin='round'
           />
         </svg>
+        <span className='hidden w-20 group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 '>
+          Log Out
+        </span>
       </NavLink>
     </div>
   );

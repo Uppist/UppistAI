@@ -1,6 +1,10 @@
 /** @format */
 
 export default function Password({ details, handleChange }) {
+  const password = details?.password;
+
+  const hasMinLength = password.length >= 8;
+  const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(password);
   return (
     <div className='flex flex-col gap-y-4 '>
       <div className='flex flex-col gap-y-3 '>
@@ -11,10 +15,23 @@ export default function Password({ details, handleChange }) {
           type='password'
           name='password'
           id=''
-          value={details?.password}
+          value={password}
           onChange={handleChange}
         />
+
+        <div className='text-sm'>
+          <p className={hasMinLength ? "text-green-500" : "text-gray-500"}>
+            At least 8 characters
+          </p>
+
+          <p
+            className={hasSpecialCharacter ? "text-green-500" : "text-gray-500"}
+          >
+            At least one special character
+          </p>
+        </div>
       </div>
+
       <div className='flex flex-col gap-y-3 '>
         <h3 className='text-base text-black font-bold'>Confirm Password</h3>
         <input

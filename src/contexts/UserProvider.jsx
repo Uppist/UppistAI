@@ -54,13 +54,20 @@ export default function UserProvider({ children }) {
       });
 
     api.get("dashboard/notifications", { headers }).then((res) => {
+      console.log(res.data);
       setNotifications(res.data.notifications || []);
     });
   }, [isAuthenticated, navigate]);
 
   return (
     <UserContext.Provider
-      value={{ userDetails, setUserDetails, notifications, setNotifications }}
+      value={{
+        userDetails,
+        setUserDetails,
+        notifications,
+        setNotifications,
+        isAuthenticated,
+      }}
     >
       {children}
     </UserContext.Provider>
