@@ -5,6 +5,7 @@ import { DashboardContext } from "../../../contexts/Context";
 
 export default function TopIntent() {
   const { topIntent } = useContext(DashboardContext);
+  console.log(topIntent);
   return (
     <>
       {topIntent.length > 0 && (

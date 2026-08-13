@@ -18,6 +18,7 @@ export default function Channels() {
   const { type } = useParams();
   const [isClick, setIsClick] = useState(false);
   const [assignedUserId, setAssignedUserId] = useState("");
+
   const [isLoadingConversation, setIsLoadingConversation] = useState(false);
 
   const [selectedEmail, setSelectedEmail] = useState(null);
@@ -190,6 +191,7 @@ export default function Channels() {
       <div className='grid grid-cols-[25%_50%_25%] h-full'>
         <FirstGrid
           title={title}
+          type={type}
           filteredConversations={filteredConversations}
           handleEmailClick={handleEmailClick}
         />
@@ -199,8 +201,9 @@ export default function Channels() {
           selectedSessionId={selectedEmail}
           assignedUserId={assignedUserId}
           isLoadingConversation={isLoadingConversation}
+          type={type}
         />
-        <ThirdGrid />
+        <ThirdGrid filteredConversations={filteredConversations} />
 
         {shouldShowApiKeyModal && (
           <div className='fixed inset-0 flex items-center justify-center left-18'>

@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import Prompt from "./Prompt";
+// import Prompt from "./Prompt";
 import email from "../../../../assets/Dashboard/contact/email.svg";
 import phone from "../../../../assets/Dashboard/contact/phone.svg";
 import intent from "../../../../assets/Dashboard/contact/intent.svg";
@@ -123,7 +123,7 @@ export default function ContactHistory() {
             </div>
           </div>
         </div>
-        <Prompt />
+        {/* <Prompt /> */}
       </div>
     </div>
   );

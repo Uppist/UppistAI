@@ -4,7 +4,7 @@ export default function Name({ details, handleChange }) {
   return (
     <div className='flex flex-col gap-y-4 '>
       <div className='flex flex-col gap-y-3 '>
-        <h3 className='text-base text-black font-bold'>Full Name</h3>
+        <h3 className='text-base text-black font-bold'>Company Name</h3>
         <input
           className=' border border-light-grey text-black text-base p-3 rounded-lg outline-none'
           placeholder='Enter your full name'

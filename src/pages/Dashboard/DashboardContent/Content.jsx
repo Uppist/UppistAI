@@ -22,36 +22,38 @@ const safeMetricValue = (value) => {
 export default function Content() {
   const { conversations, resolved, responseTime, onlineAgent, Csat } =
     useContext(DashboardContext);
+
+  // console.log(Csat);
+  // console.log(conversations.deltaLastHour);
   const list = [
     {
       svg: active,
       text: "Active conversations",
-      number: safeMetricValue(conversations),
-      increase: "↑ 18 in last hour",
+      number: safeMetricValue(conversations.value),
+      increase: `↑ ${safeMetricValue(conversations.deltaLastHour)} in last hour`,
     },
     {
       svg: ai,
       text: "Resolved by AI today",
-      number: safeMetricValue(resolved),
-      increase: "↑ 11% vs yesterday",
+      number: safeMetricValue(resolved.value),
+      increase: `↑ ${safeMetricValue(resolved.percentChangeVsYesterday)}% vs yesterday`,
     },
     {
       svg: agent,
       text: "Online Live Agents",
-      number: safeMetricValue(onlineAgent),
-      increase: "↑ 0.2 vs yesterday",
+      number: `${safeMetricValue(onlineAgent.online)}/${safeMetricValue(onlineAgent.total)}`,
     },
     {
       svg: time,
       text: "Avg. response time",
-      number: safeMetricValue(responseTime),
-      increase: "↑ faster by 0.3s",
+      number: safeMetricValue(responseTime.seconds),
+      increase: `↑ faster by ${safeMetricValue(responseTime.deltaSecondsVsYesterday)}s`,
     },
     {
       svg: score,
       text: "Avg. CSAT score",
-      number: safeMetricValue(Csat),
-      increase: "↑ 0.2 vs yesterday",
+      number: `${safeMetricValue(Csat.value)}/${safeMetricValue(Csat.scale)}`,
+      increase: `↑ ${safeMetricValue(Csat.deltaVsYesterday)}s vs yesterday`,
     },
   ];
   const [isVisible, setIsVisible] = useState(true);
@@ -121,9 +123,9 @@ export default function Content() {
             <span className='text-xl font-semibold text-black'>
               {data.number}
             </span>
-            {/* <p className='text-[10px] font-medium text-green'>
+            <p className='text-[10px] font-medium text-green'>
               {data.increase}
-            </p> */}
+            </p>
           </div>
         ))}
       </div>

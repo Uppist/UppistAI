@@ -1,6 +1,6 @@
 /** @format */
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Generate from "./Generate";
 import api from "../../../../api/axios";
 import { CreateUserContext } from "../../../../contexts/Context";
@@ -20,7 +20,13 @@ export default function API() {
       .then((res) => {
         setApiGenerated(res.data.key);
         setListAPI((listAPI) => {
-          return [...listAPI, ApiGenerated];
+          return [
+            ...listAPI,
+            {
+              label: "Website Widget",
+              created_at: new Date().toISOString(),
+            },
+          ];
         });
         setTimeout(() => {
           setOpenDropdown(true);
@@ -32,6 +38,16 @@ export default function API() {
   }
 
   console.log(listAPI);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     handleGenerateAPI();
+  //   }, 2000);
+
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // });
 
   return (
     <>

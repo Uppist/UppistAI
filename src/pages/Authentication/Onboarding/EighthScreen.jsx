@@ -1,23 +1,7 @@
 /** @format */
 import { Link, useNavigate } from "react-router-dom";
-import check from "../../../assets/Onboarding/check.svg";
 import Loader from "../../../components/Animation/Loader";
 export default function EighthScreen({ appLoading, setAppLoading }) {
-  const socials = [
-    {
-      img: check,
-      p: "Channels connected",
-    },
-    {
-      img: check,
-      p: "AI trained on your data",
-    },
-    {
-      img: check,
-      p: "Automation rules active",
-    },
-  ];
-
   const navigate = useNavigate();
 
   if (appLoading) {
@@ -57,30 +41,31 @@ export default function EighthScreen({ appLoading, setAppLoading }) {
         </Link>{" "}
       </div>
       <div className='flex flex-col gap-y-6'>
-        <div className='flex flex-col gap-y-2'>
-          <h2 className='m-0px text-black text-3xl font-bold'>
-            Ready to go Live
-          </h2>
-          <span className='text-light text-base font-normal'>
-            Everything looks good, let's launch{" "}
-          </span>
-        </div>
-        <div className='flex flex-col gap-y-6'>
-          {socials.map((item) => (
-            <div className='flex items-center p-4 border border-light-grey  rounded-lg gap-x-3'>
-              <img src={item.img} alt='' />
+        <div className='flex flex-col gap-y-2 items-center'>
+          <svg
+            width='80'
+            height='80'
+            viewBox='0 0 80 80'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              d='M39.9997 3.33398C19.753 3.33398 3.33301 19.754 3.33301 40.0006C3.33301 60.2473 19.753 76.6673 39.9997 76.6673C60.2463 76.6673 76.6663 60.2473 76.6663 40.0006C76.6663 19.754 60.2463 3.33398 39.9997 3.33398ZM34.9997 55.0006L19.9997 40.0006L24.9997 35.0006L34.9997 45.0006L54.853 25.1473L59.853 29.8573L34.9997 55.0006Z'
+              fill='#21CA97'
+            />
+          </svg>
 
-              <p className='text-sm text-light font-normal'>{item.p}</p>
-            </div>
-          ))}
+          <h2 className='m-0px text-black text-3xl font-bold text-center'>
+            Onboarding Successful{" "}
+          </h2>
         </div>
 
         <div>
           <button
             onClick={Next}
-            className='bg-bg  w-full p-3 text-white font-bold text-sm cursor-pointer rounded-lg hover:opacity-50'
+            className='bg-bg mt-5  w-full p-3 text-white font-bold text-sm cursor-pointer rounded-lg hover:opacity-50'
           >
-            Go Live
+            Log In
           </button>
         </div>
       </div>

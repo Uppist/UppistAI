@@ -1,21 +1,16 @@
 /** @format */
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-export default function Logo2({ role }) {
-  const navigate = useNavigate();
-
-  function LogOut() {
-    navigate("/signin");
-    localStorage.clear();
-  }
+export default function Logo2({ role, setIsSocials }) {
   return (
     <div className='flex flex-col items-center gap-y-4.5'>
       {/*Audit Logs */}
       {(role === "owner" || role === "admin") && (
         <NavLink
           to='/audit_logs'
-          title='Audit_Logs'
+          onClick={() => setIsSocials(false)}
+          // title='Audit_Logs'
           className={({ isActive }) =>
             `group relative ${
               isActive
@@ -62,7 +57,7 @@ export default function Logo2({ role }) {
       {/*Settings */}
       <NavLink
         to='/settings'
-        title='Settings'
+        // title='Settings'
         className={({ isActive }) =>
           `group relative ${
             isActive
@@ -101,7 +96,8 @@ export default function Logo2({ role }) {
       {role === "owner" && (
         <NavLink
           to='/integrations'
-          title='Integrations'
+          onClick={() => setIsSocials(false)}
+          // title='Integrations'
           className={({ isActive }) =>
             `group relative ${
               isActive
@@ -141,8 +137,13 @@ export default function Logo2({ role }) {
 
       {/*Logout */}
       <NavLink
-        onClick={LogOut}
-        title='Logout'
+        to={"/signin"}
+        onClick={() => {
+          localStorage.removeItem("Token");
+          localStorage.removeItem("website_api_key");
+          localStorage.removeItem("website_api_key_expiry");
+        }}
+        // title='Logout'
         className='group cursor-pointer text-grey px-4 py-2'
       >
         <svg

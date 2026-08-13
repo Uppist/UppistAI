@@ -9,6 +9,7 @@ import { UserContext } from "../../../contexts/Context";
 
 export default function Sidebar() {
   const [profile, setProfile] = useState(false);
+  const [isSocials, setIsSocials] = useState(false);
 
   const { userDetails } = useContext(UserContext);
 
@@ -30,10 +31,10 @@ export default function Sidebar() {
           )}
         </div>
 
-        <Logo1 role={role} />
+        <Logo1 role={role} isSocials={isSocials} setIsSocials={setIsSocials} />
       </div>
       <div className='flex flex-col gap-y-10 items-center'>
-        <Logo2 role={role} />
+        <Logo2 role={role} setIsSocials={setIsSocials} />
         <div className='flex items-center border-t border-t-light-grey w-max justify-center'>
           <img className='' src={logo} alt="Company's Logo" />
         </div>

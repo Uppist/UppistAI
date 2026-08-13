@@ -52,7 +52,7 @@ export default function SecondScreen() {
       website: details.website,
     });
 
-    navigate("/onboarding/4");
+    navigate("/onboarding/3");
   }
 
   const showInput = details.industry?.toLowerCase() === "others";

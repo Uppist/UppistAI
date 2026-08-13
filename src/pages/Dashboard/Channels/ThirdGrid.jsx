@@ -1,12 +1,12 @@
 /** @format */
 
-import { useContext } from "react";
-import { ChannelContext } from "../../../contexts/Context";
+// import { useContext } from "react";
+// import { ChannelContext } from "../../../contexts/Context";
 
 export default function ThirdGrid() {
-  const { eachConversations } = useContext(ChannelContext);
+  // const { eachConversations } = useContext(ChannelContext);
 
-  console.log(eachConversations);
+  // console.log(filteredConversations);
 
   return (
     <div className=' border border-light-grey flex flex-col '>

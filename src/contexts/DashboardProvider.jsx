@@ -1,7 +1,8 @@
 /** @format */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DashboardContext } from "./Context";
+import api from "../api/axios";
 
 export default function DashboardProvider({ children }) {
   const [conversations, setConversations] = useState(0);
@@ -13,6 +14,23 @@ export default function DashboardProvider({ children }) {
   const [activeChannels, setActiveChannels] = useState([]);
   const [topIntent, setTopIntent] = useState([]);
   const [liveAgentResolved, setLiveAgentResolved] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("Token");
+    const headers = { Authorization: `Bearer ${token}` };
+
+    api.get("dashboard/stats", { headers }).then((res) => {
+      console.log(res.data);
+      setConversations(res.data.kpis.activeConversations);
+      setOnlineAgent(res.data.kpis.onlineLiveAgents);
+      setResolved(res.data.kpis.resolvedToday);
+      setResponseTime(res.data.kpis.avgResponseTime);
+      setCsat(res.data.kpis.avgCsat);
+      setRecentConversation(res.data.recentConversations);
+      setActiveChannels(res.data.activeByChannel);
+      setTopIntent(res.data.topIntentTags);
+    });
+  }, []);
 
   return (
     <DashboardContext.Provider

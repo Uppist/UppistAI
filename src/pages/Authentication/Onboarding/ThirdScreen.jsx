@@ -6,53 +6,93 @@ import social3 from "../../../assets/Onboarding/socials/facebook.svg";
 import social4 from "../../../assets/Onboarding/socials/ig.svg";
 import social5 from "../../../assets/Onboarding/socials/x.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import api from "../../../api/axios";
+import { CreateUserContext } from "../../../contexts/Context";
+import Generate from "../../Dashboard/Settings/API/Generate";
+import Whatsapp from "../../Dashboard/Integrations/Connect/Whatsapp/Whatsapp";
+import Connect from "../../Dashboard/Integrations/Connect/Connect";
 export default function ThirdScreen() {
   const [isConnect, setIsConnect] = useState([]);
+  const [ApiGenerated, setApiGenerated] = useState([]);
+  const { listAPI, setListAPI } = useContext(CreateUserContext);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [openWidget, setOpenWidget] = useState(null);
+
   const socials = [
     {
       img: social1,
       text: "Website Chat",
       p: "Embed widget",
       link: "",
+      id: "web",
     },
     {
       img: social2,
       text: "WhatsApp Business API",
       p: "Connect WhatsApp Business API",
       link: "",
+      id: "whatsapp",
     },
     {
       img: social3,
       text: "Facebook",
       p: "Messenger",
       link: "",
+      id: "facebook",
     },
     {
       img: social4,
       text: "Instagram",
       p: "Direct messages",
       link: "",
+      id: "instagram",
     },
     {
       img: social5,
       text: "X",
       p: "Direct messages",
       link: "",
+      id: "x",
     },
   ];
   const navigate = useNavigate();
+  console.log(socials.map((data) => data.id));
 
   const handleConnect = (id) => {
-    setIsConnect((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    );
+    const channelId = socials.map((data) => data.id);
+    console.log(channelId);
+    if (id === "web") {
+      const token = localStorage.getItem("Token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      api
+        .post("/keys", { label: "Website Widget" }, { headers })
+        .then((res) => {
+          setApiGenerated(res.data.key);
+          setListAPI((listAPI) => {
+            return [...listAPI, ApiGenerated];
+          });
+          setTimeout(() => {
+            setOpenDropdown(true);
+          }, 1000);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+      // alert("hello");
+    } else if (id === "whatsapp") {
+      setOpenWidget("whatsapp");
+    } else if (id === "instagram") {
+      setOpenWidget("instagram");
+    }
   };
   function Next() {
     navigate("/onboarding/4");
   }
   return (
-    <div className='flex flex-col lg:h-screen justify-center gap-y-10 lg:p-20 animate-fade-up overflow-scroll no-scrollbar sm: p-7 sm: -mt-30'>
+    <div className='flex flex-col lg:h-screen lg:mt-8 justify-center gap-y-10 lg:p-20 animate-fade-up overflow-scroll no-scrollbar sm: p-7 sm: -mt-30'>
       <div className='mt-50 flex items-center justify-between'>
         <Link to={-1}>
           {" "}
@@ -85,8 +125,11 @@ export default function ThirdScreen() {
           </span>
         </div>
         <div className='flex flex-col gap-y-6'>
-          {socials.map((item, id) => (
-            <div className=' flex items-center justify-between p-4 border border-light-grey  rounded-lg '>
+          {socials.map((item) => (
+            <div
+              key={item.id}
+              className=' flex items-center justify-between p-4 border border-light-grey  rounded-lg '
+            >
               <div className='flex items-center gap-x-3'>
                 <img src={item.img} alt='' />
                 <div>
@@ -99,15 +142,15 @@ export default function ThirdScreen() {
 
               <button
                 type='button'
-                key={id}
+                key={item.id}
                 className={
-                  isConnect === item.id
+                  isConnect.includes(item.id)
                     ? "bg-light-grey p-2 text-xs rounded-sm"
                     : "rounded-lg border border-light-grey p-2 text-xs font-medium text-black cursor-pointer hover:bg-light-grey"
                 }
-                onClick={() => handleConnect(id)}
+                onClick={() => handleConnect(item.id)}
               >
-                {isConnect.includes(id) ? "Connected" : "Connect"}
+                {isConnect.includes(item.id) ? "Connected" : "Connect"}
               </button>
             </div>
           ))}
@@ -122,6 +165,40 @@ export default function ThirdScreen() {
           </button>
         </div>
       </div>
+
+      {/*Web */}
+      {openDropdown && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/30'>
+          <Generate
+            onClose={() => {
+              setOpenDropdown(false);
+              setIsConnect((prev) =>
+                prev.includes("web") ? prev : [...prev, "web"],
+              );
+            }}
+            apiKey={ApiGenerated}
+            key={ApiGenerated}
+          />
+        </div>
+      )}
+
+      {/*Whatsapp */}
+      {openWidget === "whatsapp" && (
+        <div>
+          <Connect
+            detail={socials.find((item) => item.id === "whatsapp")?.text}
+            onClose={() => setOpenWidget(null)}
+          />
+        </div>
+      )}
+
+      {/*Instagram */}
+      {openWidget === "instagram" && (
+        <Connect
+          detail={socials.find((item) => item.id === "instagram")?.text}
+          onClose={() => setOpenWidget(null)}
+        />
+      )}
     </div>
   );
 }

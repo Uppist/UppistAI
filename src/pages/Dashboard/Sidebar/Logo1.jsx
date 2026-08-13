@@ -1,13 +1,11 @@
 /** @format */
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import Socials from "./Socials";
 import { ChannelContext } from "../../../contexts/Context";
 
-export default function Logo1({ role }) {
-  const [isSocials, setIsSocials] = useState(false);
-
+export default function Logo1({ role, isSocials, setIsSocials }) {
   const { activeChannel } = useContext(ChannelContext);
 
   function handleSocials() {
@@ -20,6 +18,7 @@ export default function Logo1({ role }) {
       {(role === "owner" || role === "admin") && (
         <NavLink
           to='/dashboard'
+          onClick={() => setIsSocials(false)}
           className={({ isActive }) =>
             `group relative ${
               isActive
@@ -104,7 +103,7 @@ export default function Logo1({ role }) {
           <>
             {" "}
             <div
-              className='fixed z-1000'
+              className='fixed z-1000 '
               onClick={() => setIsSocials(false)}
             />{" "}
             <Socials
@@ -119,6 +118,7 @@ export default function Logo1({ role }) {
       {(role === "owner" || role === "admin") && (
         <NavLink
           to='/contacts'
+          onClick={() => setIsSocials(false)}
           className={({ isActive }) =>
             `group relative ${
               isActive
@@ -171,6 +171,7 @@ export default function Logo1({ role }) {
       {role === "owner" && (
         <NavLink
           to='/reports'
+          onClick={() => setIsSocials(false)}
           className={({ isActive }) =>
             `group relative ${
               isActive
