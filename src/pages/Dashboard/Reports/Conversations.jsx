@@ -1,5 +1,6 @@
 /** @format */
 // import { styled } from "@mui/material/styles";
+import { useContext } from "react";
 import {
   Bar,
   BarChart,
@@ -10,17 +11,13 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
-const data = [
-  { month: "Jan", "AI resolved": 18, "Live Agent resolved": 12, Fallback: 9 },
-  { month: "Feb", "AI resolved": 22, "Live Agent resolved": 16, Fallback: 11 },
-  { month: "Mar", "AI resolved": 20, "Live Agent resolved": 14, Fallback: 10 },
-  { month: "Apr", "AI resolved": 25, "Live Agent resolved": 18, Fallback: 13 },
-  { month: "May", "AI resolved": 30, "Live Agent resolved": 21, Fallback: 15 },
-  { month: "Jun", "AI resolved": 35, "Live Agent resolved": 24, Fallback: 17 },
-];
+import { ReportContext } from "../../../contexts/Context";
+import dayjs from "dayjs";
 
 export default function Conversation() {
+  const { activeChannels } = useContext(ReportContext);
+
+  console.log(activeChannels);
   return (
     <div className='border border-light-grey rounded-2xl p-4 flex flex-col gap-y-4 h-80'>
       {/*Text */}
@@ -34,7 +31,7 @@ export default function Conversation() {
       </div>{" "}
       <ResponsiveContainer width='100%' height='100%'>
         <BarChart
-          data={data}
+          data={activeChannels.series}
           margin={{ top: 10, right: 10, left: -10, bottom: 5 }}
           barGap={12}
           barCategoryGap='25%'
@@ -45,7 +42,8 @@ export default function Conversation() {
             stroke='#E5E7EB'
           />
           <XAxis
-            dataKey='month'
+            dataKey='label'
+            tickFormatter={(value) => dayjs(value).format("MMMM D, YYYY")}
             tick={{ fill: "#6B7280", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
@@ -70,20 +68,20 @@ export default function Conversation() {
           <Tooltip />
 
           <Bar
-            dataKey='AI resolved'
+            dataKey='aiResolved'
             fill='#FF9200'
             radius={[6, 6, 0, 0]}
             maxBarSize={40}
           />
           <Bar
-            dataKey='Live Agent resolved'
+            dataKey='liveAgentsResolved'
             fill='#FFE6C0'
             radius={[6, 6, 0, 0]}
             maxBarSize={40}
           />
           <Bar
-            dataKey='Fallback'
-            fill='rgba(255, 146, 0, 0.1)'
+            dataKey='fallback'
+            fill='rgba(255, 146, 0, 0.6)'
             radius={[6, 6, 0, 0]}
             maxBarSize={40}
           />

@@ -58,16 +58,20 @@ export default function RecentConversation() {
                     {formatTime(data.lastMessageAt)}
                   </span>
                   <span className='text-[10px] font-normal text-grey flex items-center gap-x-1.5'>
-                    <svg
-                      width='6'
-                      height='6'
-                      viewBox='0 0 6 6'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <rect width='6' height='6' rx='3' fill='#59C0B6' />
-                    </svg>
-                    {data.agent} Handling
+                    {data?.assignedAgent?.name && (
+                      <>
+                        <svg
+                          width='6'
+                          height='6'
+                          viewBox='0 0 6 6'
+                          fill='none'
+                          xmlns='http://www.w3.org/2000/svg'
+                        >
+                          <rect width='6' height='6' rx='3' fill='#59C0B6' />
+                        </svg>
+                        {data?.assignedAgent?.name || ""} Handling
+                      </>
+                    )}
                   </span>
                 </div>
               </div>

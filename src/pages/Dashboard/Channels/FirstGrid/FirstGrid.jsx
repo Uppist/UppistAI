@@ -147,9 +147,9 @@ export default function FirstGrid({
                     <span className='text-sm font-medium text-black'>
                       {data.contactIdentifier}
                     </span>
-                    <span className='text-xs font-normal text-grey'>
+                    {/* <span className='text-xs font-normal text-grey'>
                       I need help with my order
-                    </span>
+                    </span> */}
                   </div>
                   <p className='flex items-center gap-x-1 text-[10px] font-normal text-grey'>
                     <svg

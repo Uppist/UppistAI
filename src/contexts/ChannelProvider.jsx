@@ -28,7 +28,7 @@ export default function ChannelProvider({ children }) {
     return JSON.parse(localStorage.getItem("saveAPI")) || false;
   });
 
-  const [activeChannel, setActiveChannel] = useState(null);
+  const [activeChannel, setActiveChannel] = useState([]);
   const userContext = useContext(UserContext);
   const isAuthenticated =
     userContext?.isAuthenticated ?? Boolean(localStorage.getItem("Token"));
@@ -94,6 +94,7 @@ export default function ChannelProvider({ children }) {
   useEffect(() => {
     if (!isAuthenticated) return;
 
+    fetchChannelData();
     const interval = setInterval(() => {
       fetchChannelData();
     }, 2000);

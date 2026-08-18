@@ -21,10 +21,7 @@ export default function SecondScreen() {
     website: "",
   });
   const submit =
-    details.company &&
-    details.industry !== "" &&
-    details.teamSize !== "" &&
-    details.website;
+    details.industry !== "" && details.teamSize !== "" && details.website;
 
   const navigate = useNavigate();
   const { setOnBoardingDetails } = useContext(Onboarding);
@@ -71,7 +68,7 @@ export default function SecondScreen() {
         </div>
 
         <form className='flex flex-col gap-y-4'>
-          <Company details={details} handleChange={handleChange} />
+          {/* <Company details={details} handleChange={handleChange} /> */}
           <Industry
             industry={industry}
             handleIndustry={handleIndustry}

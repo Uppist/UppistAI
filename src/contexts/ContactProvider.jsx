@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ContactContext } from "./Context";
 import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ContactProvider({ children }) {
   const [contacts, setContacts] = useState([]);
@@ -11,6 +12,8 @@ export default function ContactProvider({ children }) {
     Boolean(localStorage.getItem("Token")),
   );
 
+  const navigate = useNavigate();
+
   function getContactDetail(id) {
     const token = localStorage.getItem("Token");
     const headers = { Authorization: `Bearer ${token}` };
@@ -18,13 +21,14 @@ export default function ContactProvider({ children }) {
     return api
       .get(`/dashboard/contacts/${id}`, { headers })
       .then((res) => {
-        const detail = res.data.contact || res.data;
+        // const detail = res.data.conversations || res.data;
         console.log(res.data);
-        setContactDetail(detail);
-        return detail;
+        setContactDetail(res.data);
+        return res.data;
       })
       .catch((err) => {
         console.log(err.response?.data || err.message);
+
         throw err;
       });
   }
@@ -58,8 +62,11 @@ export default function ContactProvider({ children }) {
       })
       .catch((err) => {
         console.log(err.response?.data || err.message);
+        if (err.response?.data || err.message === "Token expired") {
+          navigate("/signin");
+        }
       });
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
   return (
     <ContactContext.Provider
       value={{

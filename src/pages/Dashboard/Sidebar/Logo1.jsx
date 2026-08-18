@@ -8,6 +8,8 @@ import { ChannelContext } from "../../../contexts/Context";
 export default function Logo1({ role, isSocials, setIsSocials }) {
   const { activeChannel } = useContext(ChannelContext);
 
+  console.log(activeChannel);
+
   function handleSocials() {
     setIsSocials(!isSocials);
   }
@@ -170,7 +172,7 @@ export default function Logo1({ role, isSocials, setIsSocials }) {
       {/*Reports */}
       {role === "owner" && (
         <NavLink
-          to='/reports'
+          to='/intelligence'
           onClick={() => setIsSocials(false)}
           className={({ isActive }) =>
             `group relative ${
@@ -216,7 +218,7 @@ export default function Logo1({ role, isSocials, setIsSocials }) {
             />
           </svg>
           <span className='hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 '>
-            Reports
+            Intelligence
           </span>
         </NavLink>
       )}

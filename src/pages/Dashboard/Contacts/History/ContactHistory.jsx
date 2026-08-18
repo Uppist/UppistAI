@@ -10,11 +10,22 @@ import interact from "../../../../assets/Dashboard/contact/interact.svg";
 import { ContactContext } from "../../../../contexts/Context";
 import { getInitials } from "../../../../utils/dashboardUtils";
 import { formatDateTime } from "../../../../utils/DateTime";
+import Prompt from "./Prompt";
 
 export default function ContactHistory() {
-  const { contactDetail } = useContext(ContactContext);
-  const detail = contactDetail?.contact || contactDetail || {};
+  const { contacts, contactDetail } = useContext(ContactContext);
+  const detail = contactDetail;
 
+  // const location = useLocation();
+
+  // const { name, interaction, work_email, last_seen } = location.state || {};
+
+  // console.log(name, interaction, work_email, last_seen);
+
+  // console.log(contactDetail);
+  const interaction =
+    contactDetail.contact.aiInteractionCount +
+    contactDetail.contact.agentInteractionCount;
   console.log(detail);
   return (
     <div className='flex flex-col gap-y-4'>
@@ -46,27 +57,30 @@ export default function ContactHistory() {
 
           <div className='flex items-center gap-x-2 border-r pr-6 border-r-light-grey'>
             <span className='w-11 h-11 rounded-full bg-light-grey flex items-center justify-center'>
-              {getInitials(detail.name)}
+              {getInitials(detail.contact.identifier)}
             </span>
             <div className='flex flex-col gap-x-2'>
               <div className='flex items-center gap-x-1.5 '>
                 <span className='text-sm font-medium text-black'>
-                  {detail.name || detail.identifier || "Contact details"}
+                  {detail.contact.name ||
+                    detail.contact.identifier ||
+                    "Contact details"}
                 </span>
                 <span className='p-1.5 rounded-sm border border-light-grey text-[8px] font-medium text-black'>
-                  {detail.channel || "—"}
+                  {detail.contact.channel || "—"}
                 </span>
               </div>
 
               <span className='text-[10px] font-light text-grey'>
-                Last seen {formatDateTime(detail.lastSeenAt) || "unavailable"}
+                Last seen{" "}
+                {formatDateTime(detail.contact.lastSeenAt) || "unavailable"}
               </span>
             </div>
           </div>
           <div className='flex items-center gap-x-6'>
             {/**Email */}
 
-            {detail.email && (
+            {detail.contact.email && (
               <div className='flex flex-col gap-y-1.5'>
                 <div className='flex items-center gap-x-2'>
                   <img src={email} alt='' />
@@ -76,13 +90,13 @@ export default function ContactHistory() {
                   </span>
                 </div>
                 <span className='text-[10px] font-normal text-black'>
-                  {detail.email || "—"}
+                  {detail.contact.email || "—"}
                 </span>
               </div>
             )}
 
             {/**Phone Number */}
-            {detail.phone && (
+            {detail.contact.phone && (
               <div className='flex flex-col gap-y-1.5'>
                 <div className='flex items-center gap-x-2'>
                   <img src={phone} alt='' />
@@ -91,7 +105,9 @@ export default function ContactHistory() {
                   </span>
                 </div>
                 <span className='text-[10px] font-normal text-black'>
-                  {detail.phone || detail.phoneNumber || "—"}{" "}
+                  {detail.contact.phone ||
+                    detail.contact.phoneNumber ||
+                    "—"}{" "}
                 </span>
               </div>
             )}
@@ -105,7 +121,7 @@ export default function ContactHistory() {
                 </span>
               </div>
               <span className='text-[10px] font-normal text-black'>
-                {detail.intent || detail.intentTag || "—"}
+                {detail.contact.intent || detail.contact.intentTag || "—"}
               </span>
             </div>
 
@@ -118,12 +134,12 @@ export default function ContactHistory() {
                 </span>
               </div>
               <span className='text-[10px] font-normal text-black'>
-                {detail.interactionCount ?? "—"}{" "}
+                {interaction}
               </span>
             </div>
           </div>
         </div>
-        {/* <Prompt /> */}
+        <Prompt messages={contactDetail.conversations[0].messages} />
       </div>
     </div>
   );

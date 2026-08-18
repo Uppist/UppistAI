@@ -104,9 +104,9 @@ export default function Form() {
   return (
     <div className='w-screen flex flex-col gap-y-8'>
       <form action='' className='flex flex-col gap-y-4'>
-        <div className='grid grid-cols-2 gap-x-9 justify-between'>
-          {/*First Name */}
-          <div className='flex flex-col gap-y-1'>
+        {/* <div className='grid grid-cols-2 gap-x-9 justify-between'> */}
+        {/*First Name */}
+        {/* <div className='flex flex-col gap-y-1'>
             <span className='text-sm font-bold text-black'>First Name</span>
             <input
               className='p-2.5 rounded-lg border border-light-grey outline-none'
@@ -116,10 +116,10 @@ export default function Form() {
               onChange={handleChange}
               id=''
             />
-          </div>
+          </div> */}
 
-          {/*Last Name */}
-          <div className='flex flex-col gap-y-1'>
+        {/*Last Name */}
+        {/* <div className='flex flex-col gap-y-1'>
             {" "}
             <span className='text-sm font-bold text-black'>Last Name</span>
             <input
@@ -131,7 +131,7 @@ export default function Form() {
               id=''
             />
           </div>
-        </div>
+        </div> */}
 
         <div className='grid grid-cols-2 gap-x-9 justify-between'>
           {" "}

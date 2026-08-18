@@ -58,7 +58,7 @@ export default function FifthScreen() {
         }, 1000));
 
       setTimeout(() => {
-        navigate("/onboarding/7");
+        navigate("/onboarding/8");
       }, 2000);
     } catch (err) {
       console.log(err.response);

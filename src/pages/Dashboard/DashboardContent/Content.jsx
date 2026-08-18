@@ -46,7 +46,7 @@ export default function Content() {
     {
       svg: time,
       text: "Avg. response time",
-      number: safeMetricValue(responseTime.seconds),
+      number: `${safeMetricValue(responseTime.seconds)}s`,
       increase: `↑ faster by ${safeMetricValue(responseTime.deltaSecondsVsYesterday)}s`,
     },
     {

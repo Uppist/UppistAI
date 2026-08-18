@@ -14,7 +14,18 @@ export default function ContactContainer({ contacts, getContactDetail }) {
 
   async function handleView(contact) {
     await getContactDetail(contact.id);
-    navigate("?history");
+    navigate(`?history`, {
+      state: {
+        name: contact.name,
+        interaction:
+          (contact.aiInteractionCount || 0) +
+          (contact.agentInteractionCount || 0),
+        work_email: contact.email,
+        last_seen: contact.lastSeenAt,
+        identifier: contact.indentifer,
+        channel: contact.channel,
+      },
+    });
   }
 
   console.log(contacts);
@@ -124,7 +135,7 @@ export default function ContactContainer({ contacts, getContactDetail }) {
             </span>
 
             <div
-              className='flex items-center gap-x-1.5 cursor-pointer'
+              className='flex items-center gap-x-1.5 cursor-pointer hover:bg-gray-200 '
               onClick={() => handleView(data)}
             >
               <span className='text-xs font-medium text-grey'>View</span>{" "}

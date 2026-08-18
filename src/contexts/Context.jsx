@@ -13,3 +13,5 @@ export const CreateIntentContext = createContext();
 export const DashboardContext = createContext();
 export const AuditContext = createContext();
 export const ContactContext = createContext();
+export const ReportContext = createContext();
+export const GetDocumentContext = createContext();

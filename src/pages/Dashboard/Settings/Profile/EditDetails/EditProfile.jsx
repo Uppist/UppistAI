@@ -42,7 +42,7 @@ export default function EditProfile({
           {/*Edit Profile */}
           <div className='flex flex-col gap-y-6 px-20'>
             {/*First and Last */}
-            <div className='flex items-center justify-between gap-x-6'>
+            {/* <div className='flex items-center justify-between gap-x-6'>
               <div className='flex flex-col gap-y-1.5'>
                 <span className='text'>First Name</span>
                 <input
@@ -66,7 +66,7 @@ export default function EditProfile({
                   id=''
                 />
               </div>
-            </div>
+            </div> */}
 
             {/*Work Email */}
             <div className='flex flex-col gap-y-1.5'>

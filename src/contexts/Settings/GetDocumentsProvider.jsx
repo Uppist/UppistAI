@@ -1,15 +1,15 @@
 /** @format */
 
 import { useCallback, useEffect, useState } from "react";
-import { CreateUserContext } from "../Context";
+import { GetDocumentContext } from "../Context";
 import api from "../../api/axios";
 
-export default function CreateUserProvider({ children }) {
-  const [getUsers, setGetUsers] = useState([]);
-  const [listAPI, setListAPI] = useState([]);
+export default function GetDocumentsProvider({ children }) {
+  const [documents, setDocuments] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(() =>
     Boolean(localStorage.getItem("Token")),
   );
+
   useEffect(() => {
     const syncAuthState = () => {
       setIsAuthenticated(Boolean(localStorage.getItem("Token")));
@@ -25,42 +25,39 @@ export default function CreateUserProvider({ children }) {
     };
   }, []);
 
-  const fetchUserData = useCallback(async () => {
+  const fetchDocumentData = useCallback(async () => {
     if (!isAuthenticated) return;
 
     const token = localStorage.getItem("Token");
-    const headers = { Authorization: `Bearer ${token}` };
 
-    //get users
-    api.get("/users", { headers }).then((res) => {
+    try {
+      const res = await api.get("kb/documents", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       console.log(res.data);
-      setGetUsers(res.data.users);
-    });
-
-    //get All APIs
-
-    api.get("/keys", { headers }).then((res) => {
-      console.log(res.data);
-      setListAPI(res.data.keys);
-    });
-  }, [isAuthenticated, setGetUsers]);
+      setDocuments(res.data.documents);
+    } catch (err) {
+      console.log(err.response);
+    }
+  }, [isAuthenticated, setDocuments]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
 
     const interval = setInterval(() => {
-      fetchUserData();
+      fetchDocumentData();
     }, 2000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [isAuthenticated, fetchUserData]);
+  }, [isAuthenticated, fetchDocumentData]);
   return (
-    <CreateUserContext.Provider
-      value={{ getUsers, setGetUsers, listAPI, setListAPI }}
-    >
+    <GetDocumentContext.Provider value={{ documents, setDocuments }}>
       {children}
-    </CreateUserContext.Provider>
+    </GetDocumentContext.Provider>
   );
 }

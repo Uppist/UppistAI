@@ -8,6 +8,7 @@ import Tags from "./Intent/Tags";
 import Profile from "./Profile/Profile";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import API from "./API/API";
+import Knowledge from "./Knowledge/Knowledge";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -114,6 +115,18 @@ export default function Settings() {
         {role === "owner" && (
           <span
             className={
+              active === "knowledge_base"
+                ? "cursor-pointer bg-pink border text-bg border-pink px-3 py-1.5 rounded-lg"
+                : "cursor-pointer text-black font-normal px-3 py-1.5"
+            }
+            onClick={() => navigate("/settings?type=knowledge_base")}
+          >
+            Knowledge Base
+          </span>
+        )}
+        {role === "owner" && (
+          <span
+            className={
               active === "api"
                 ? "cursor-pointer bg-pink border text-bg border-pink px-3 py-1.5 rounded-lg"
                 : "cursor-pointer text-black font-normal px-3 py-1.5"
@@ -130,6 +143,7 @@ export default function Settings() {
         {active === "agents" && <Agent />}
         {active === "tags" && <Tags />}
         {active === "billing" && <Billing />}
+        {active === "knowledge_base" && <Knowledge />}
         {active === "api" && <API />}
       </>
     </div>

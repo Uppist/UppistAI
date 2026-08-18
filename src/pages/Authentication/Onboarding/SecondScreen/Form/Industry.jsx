@@ -15,7 +15,14 @@ export default function Industry({
     "Logistics",
     "E-commerce",
     "Technology",
-    "Hospitality",
+    "Hospitality & Travel",
+    "Real Estate & Properties",
+    "Education",
+    "Professional Services",
+    "Non-profit and Social Impact",
+    "Government and Public Sector",
+    "Media, Entertainment & Gaming",
+    "Manufacturing & Industrial",
     "Others",
   ];
 
@@ -43,7 +50,7 @@ export default function Industry({
       </div>
 
       {selectIndustry && (
-        <div className='absolute top-full mt-2 flex flex-col gap-y-4 z-50 bg-white w-full shadow-md rounded-lg p-4'>
+        <div className='absolute top-full mt-2 flex overflow-scroll h-40 no-scrollbar  flex-col gap-y-4 z-50 bg-white w-full shadow-md rounded-lg p-4'>
           {industryList.map((item) => (
             <span
               key={item}
@@ -64,7 +71,7 @@ export default function Industry({
           <input
             className='border border-light-grey p-3 rounded-lg outline-none w-full'
             type='text'
-            name=''
+            name='other_industry'
             value={details?.other_industry}
             onChange={handleChange}
             id=''

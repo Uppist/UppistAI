@@ -7,43 +7,61 @@ import score from "../../../assets/Dashboard/dashboard/score.svg";
 import Conversation from "./Conversations";
 import Distribution from "./Distribution";
 import Performance from "./Performance";
+import { useContext } from "react";
+import { ReportContext } from "../../../contexts/Context";
+
+const safeMetricValue = (value) => {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string" && value.trim() !== "")
+    return Number(value) || 0;
+  if (Array.isArray(value)) return value.length;
+  return 0;
+};
 export default function Reports() {
+  const {
+    totalConversations,
+    resolved,
+    responseTime,
+    Csat,
+    liveAgentResolved,
+    contacts,
+  } = useContext(ReportContext);
   const list = [
     {
       svg: active,
       text: "Total conversations",
-      number: "24,817",
-      increase: "↑ 12% vs last week",
+      number: safeMetricValue(totalConversations.value),
+      increase: `↑ ${safeMetricValue(totalConversations.percentChange)}% vs last week`,
     },
     {
       svg: ai,
       text: "Resolved by AI",
-      number: "74.8%",
-      increase: "↑ 3.1% vs last week",
+      number: `${safeMetricValue(resolved.percent)}%`,
+      increase: `↑ ${safeMetricValue(resolved.percentChange)}% vs last week`,
     },
     {
       svg: ai,
       text: "Live Agents Resolved",
-      number: "74.8%",
-      increase: "↑ 3.1% vs last week",
+      number: `${safeMetricValue(liveAgentResolved.percent)}%`,
+      increase: `↑ ${safeMetricValue(liveAgentResolved.percentChange)}% vs last week`,
     },
     {
       svg: time,
       text: "Avg. response time",
-      number: "1.2s",
-      increase: "↑ faster by 0.3s",
+      number: `${responseTime.seconds}s`,
+      increase: `↑ faster by ${safeMetricValue.deltaSeconds}s`,
     },
     {
       svg: contact,
       text: "New contacts",
-      number: "612",
-      increase: "↑ 0.2 vs last week",
+      number: safeMetricValue(contacts.value),
+      increase: `↑ ${safeMetricValue(contacts.percentChange)}% vs last week`,
     },
     {
       svg: score,
       text: "Avg. CSAT score",
-      number: "4.6/5",
-      increase: "↑ 0.2 vs last week",
+      number: `${safeMetricValue(Csat.value)}/${safeMetricValue(Csat.scale)}`,
+      increase: `↑ ${safeMetricValue(Csat.delta)}s vs yesterday`,
     },
   ];
   return (

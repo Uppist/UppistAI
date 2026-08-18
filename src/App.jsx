@@ -121,7 +121,7 @@ export default function App() {
             <Route path='/dashboard' element={<Content />} />
             <Route path='/contacts' element={<Contacts />} />
             <Route path='/audit_logs' element={<Audit />} />
-            <Route path='/reports' element={<Reports />} />
+            <Route path='/intelligence' element={<Reports />} />
             <Route path='/integrations' element={<Integrations />} />
             <Route path='/settings' element={<Settings />} />
             <Route path='/channels/:type' element={<Channels />} />
