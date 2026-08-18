@@ -9,6 +9,8 @@ import Distribution from "./Distribution";
 import Performance from "./Performance";
 import { useContext } from "react";
 import { ReportContext } from "../../../contexts/Context";
+import ActiveConversation from "../DashboardContent/ActiveConversation";
+import TopIntent from "../DashboardContent/TopIntent";
 
 const safeMetricValue = (value) => {
   if (typeof value === "number" && Number.isFinite(value)) return value;
@@ -190,7 +192,11 @@ export default function Reports() {
       </div>
 
       {/*third */}
-      <Performance />
+      {/* <Performance /> */}
+      <div className='grid grid-cols-2 gap-5'>
+        <ActiveConversation />
+        <TopIntent />
+      </div>
     </div>
   );
 }
