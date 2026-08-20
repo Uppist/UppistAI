@@ -29,8 +29,8 @@ export default function Navbar() {
     title = "Settings";
   } else if (path === "/contacts") {
     title = "Contacts";
-  } else if (path === "/reports") {
-    title = "Reports";
+  } else if (path === "/intelligence") {
+    title = "Intelligence";
   } else if (path === "/integrations") {
     title = "Integrations";
   } else if (path === "/audit_logs") {

@@ -21,7 +21,7 @@ export default function Chats({ eachConversations, assignedUserId }) {
     return messageDate.format("dddd, MMMM D, YYYY");
   };
   return (
-    <div className='p-4 px-6 flex flex-col gap-y-2 h-130 overflow-scroll no-scrollbar'>
+    <div className='p-4 px-6 flex flex-col gap-y-2 pb-10 overflow-scroll no-scrollbar'>
       {eachConversations?.map((conversation, index) => {
         const isAgentMessage = conversation?.role === "agent";
 

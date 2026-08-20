@@ -143,7 +143,7 @@ export default function Step2() {
 
       <p className='text-center text-sm font-medium text-light'>
         Didn’t receive code?{" "}
-        <span className='text-bg' onClick={resendCode}>
+        <span className='text-bg cursor-pointer' onClick={resendCode}>
           Resend
         </span>
       </p>

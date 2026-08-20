@@ -38,6 +38,8 @@ export default function Form() {
     setEditProfile(true);
   }
 
+  console.log(userDetails);
+
   function Changes() {
     api
       .patch("/users/me", details, {
@@ -155,7 +157,7 @@ export default function Form() {
               className='p-2.5 rounded-lg border border-light-grey outline-none'
               type='text'
               name='company_name'
-              value={userDetails?.tenant?.companyName}
+              value={userDetails?.user?.fullName}
               onChange={handleChange}
               id=''
             />

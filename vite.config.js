@@ -10,7 +10,11 @@ export default defineConfig({
   plugins: [
     react(),
     babel({ presets: [reactCompilerPreset()] }),
+
     tailwindcss(),
   ],
+  esbuild: {
+    drop: ["console", "debugger"],
+  },
   base: "/UppistAI/",
 });

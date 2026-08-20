@@ -12,7 +12,6 @@ export default function SecondGrid({
   assignedUserId,
   selectedEmail,
   isLoadingConversation,
-  type,
 }) {
   const { eachConversations } = useContext(ChannelContext);
   const { userDetails } = useContext(UserContext);
@@ -38,30 +37,30 @@ export default function SecondGrid({
 
       <div className='border-b border-b-light-grey p-4 px-6 flex items-center justify-between relative'>
         <div className='flex items-center gap-x-2.5'>
-          {type !== "website" && (
-            <svg
-              width='36'
-              height='36'
-              viewBox='0 0 36 36'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <rect width='36' height='36' rx='18' fill='#F3F4F6' />
-              <path
-                d='M13.4813 20.4016C12.3023 21.1037 9.21114 22.5371 11.0939 24.3308C12.0136 25.207 13.0379 25.8337 14.3257 25.8337H21.6743C22.9621 25.8337 23.9864 25.207 24.9061 24.3308C26.7889 22.5371 23.6977 21.1037 22.5187 20.4016C19.754 18.7554 16.246 18.7554 13.4813 20.4016Z'
-                stroke='#2B2B2B'
-                stroke-width='1.5'
-                stroke-linecap='round'
-                stroke-linejoin='round'
-              />
-              <path
-                d='M21.75 12.917C21.75 14.9881 20.0711 16.667 18 16.667C15.9289 16.667 14.25 14.9881 14.25 12.917C14.25 10.8459 15.9289 9.16699 18 9.16699C20.0711 9.16699 21.75 10.8459 21.75 12.917Z'
-                stroke='#2B2B2B'
-                stroke-width='1.5'
-              />
-            </svg>
-          )}
-          <span className='bg-[#F7F7F7] rounded-full text-xs font-bold text-black w-9 h-9 flex items-center justify-center'></span>{" "}
+          {/* {type !== "website" && ( */}
+          <svg
+            width='36'
+            height='36'
+            viewBox='0 0 36 36'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <rect width='36' height='36' rx='18' fill='#F3F4F6' />
+            <path
+              d='M13.4813 20.4016C12.3023 21.1037 9.21114 22.5371 11.0939 24.3308C12.0136 25.207 13.0379 25.8337 14.3257 25.8337H21.6743C22.9621 25.8337 23.9864 25.207 24.9061 24.3308C26.7889 22.5371 23.6977 21.1037 22.5187 20.4016C19.754 18.7554 16.246 18.7554 13.4813 20.4016Z'
+              stroke='#2B2B2B'
+              stroke-width='1.5'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+            <path
+              d='M21.75 12.917C21.75 14.9881 20.0711 16.667 18 16.667C15.9289 16.667 14.25 14.9881 14.25 12.917C14.25 10.8459 15.9289 9.16699 18 9.16699C20.0711 9.16699 21.75 10.8459 21.75 12.917Z'
+              stroke='#2B2B2B'
+              stroke-width='1.5'
+            />
+          </svg>
+          {/* )} */}
+          {/* <span className='bg-[#F7F7F7] rounded-full text-xs font-bold text-black w-9 h-9 flex items-center justify-center'></span>{" "} */}
           <div className='flex flex-col gap-y-1'>
             <span className='text-sm font-medium text-black'>
               {selectedEmail || "select a conversation"}

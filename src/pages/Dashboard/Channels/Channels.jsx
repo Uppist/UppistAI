@@ -5,51 +5,48 @@ import FirstGrid from "./FirstGrid/FirstGrid";
 import SecondGrid from "./SecondGrid/SecondGrid";
 import ThirdGrid from "./ThirdGrid";
 import { ChannelContext, UserContext } from "../../../contexts/Context";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { useContext, useMemo, useState } from "react";
 import api from "../../../api/axios";
 import { toast } from "react-toastify";
-// import { useContext } from "react";
-// import { ChannelContext } from "../../../contexts/Context";
-const storage_key = "website_api_key";
-const expiry_date = "website_api_key_expiry";
 
 export default function Channels() {
   const { type } = useParams();
-  const [isClick, setIsClick] = useState(false);
+  // const [isClick, setIsClick] = useState(false);
   const [assignedUserId, setAssignedUserId] = useState("");
-
   const [isLoadingConversation, setIsLoadingConversation] = useState(false);
-
   const [selectedEmail, setSelectedEmail] = useState(null);
+  const [details, setDetails] = useState({
+    intent: "",
+    ai_agent: "",
+  });
   const {
     conversations,
-    setSaveAPI,
-    saveAPI,
+    // setSaveAPI,
+    // saveAPI,
     setEachConversations,
     setSelectedSessionId,
   } = useContext(ChannelContext);
   const { userDetails } = useContext(UserContext);
 
-  function getStoredApiKey() {
-    const key = localStorage.getItem(storage_key);
-    const expiry = localStorage.getItem(expiry_date);
+  // function getStoredApiKey() {
+  //   const key = localStorage.getItem(storage_key);
+  //   const expiry = localStorage.getItem(expiry_date);
 
-    if (!key || !expiry) return "";
+  //   if (!key || !expiry) return "";
 
-    if (Date.now() > Number(expiry)) {
-      localStorage.removeItem(storage_key);
-      localStorage.removeItem(expiry_date);
-      return "";
-    }
+  //   if (Date.now() > Number(expiry)) {
+  //     localStorage.removeItem(storage_key);
+  //     localStorage.removeItem(expiry_date);
+  //     return "";
+  //   }
 
-    return key;
-  }
+  //   return key;
+  // }
 
-  const [apiKey, setApiKey] = useState(() => getStoredApiKey());
-  const [isApiKeyAccepted, setIsApiKeyAccepted] = useState(() =>
-    Boolean(localStorage.getItem(storage_key)),
-  );
+  // const [apiKey, setApiKey] = useState(() => getStoredApiKey());
+  // const [isApiKeyAccepted, setIsApiKeyAccepted] = useState(() =>
+  //   Boolean(localStorage.getItem(storage_key)),
+  // );
   const title =
     type === "whatsapp"
       ? "Whatsapp"
@@ -76,52 +73,6 @@ export default function Channels() {
 
     return [];
   }, [conversations, type]);
-  async function Enter() {
-    if (!apiKey) {
-      toast.error("Please enter an API key.");
-      return;
-    }
-
-    setIsClick(true);
-
-    try {
-      const headers = {
-        Authorization: `Bearer ${apiKey}`,
-      };
-
-      if (type === "website") {
-        if (!filteredConversations.length) {
-          throw new Error("No website conversations available.");
-        }
-
-        // Validate the API key for website chat history
-        await api.get(
-          `/v1/conversations/${filteredConversations[0].sessionId}/messages`,
-          { headers },
-        );
-      }
-
-      setSaveAPI(apiKey);
-      setIsApiKeyAccepted(true);
-
-      localStorage.setItem(storage_key, apiKey);
-      localStorage.setItem(
-        expiry_date,
-        (Date.now() + 7 * 24 * 60 * 60 * 1000).toString(),
-      );
-    } catch (err) {
-      toast.error(
-        err.response?.data?.error ||
-          (type === "website"
-            ? "Invalid API key"
-            : "Unable to validate API key."),
-      );
-    } finally {
-      setIsClick(false);
-    }
-  }
-
-  // console.log(filteredConversations.length);
 
   async function handleEmailClick(email) {
     const conversation = filteredConversations.find(
@@ -134,6 +85,7 @@ export default function Channels() {
     }
 
     setIsLoadingConversation(true);
+    const token = localStorage.getItem("Token");
 
     try {
       // Load the messages
@@ -141,14 +93,22 @@ export default function Channels() {
         `/v1/conversations/${email.sessionId}/messages`,
         {
           headers: {
-            Authorization: `Bearer ${saveAPI}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
 
       setEachConversations(messageRes.data.messages);
-      setSelectedEmail(conversation.contactIdentifier);
+      {
+        type === "chats"
+          ? setSelectedEmail(conversation.contactName)
+          : setSelectedEmail(conversation.contactIdentifier);
+      }
       setSelectedSessionId(conversation.sessionId);
+      setDetails({
+        intent: conversation.intentTag,
+        ai_agent: conversation.aiAgentName,
+      });
 
       // Join conversation if agent/admin
       if (
@@ -175,17 +135,17 @@ export default function Channels() {
     }
   }
 
-  useEffect(() => {
-    if (type !== "website" || !apiKey) return;
+  // useEffect(() => {
+  //   if (type !== "website" || !apiKey) return;
 
-    if (isApiKeyAccepted) {
-      setSaveAPI(apiKey);
-    }
-  }, [apiKey, isApiKeyAccepted, setSaveAPI, type]);
+  //   if (isApiKeyAccepted) {
+  //     setSaveAPI(apiKey);
+  //   }
+  // }, [apiKey, setSaveAPI, type]);
 
-  const shouldShowApiKeyModal =
-    filteredConversations.length > 0 && !isApiKeyAccepted;
-  console.log();
+  // const shouldShowApiKeyModal =
+  //   filteredConversations.length > 0 && !isApiKeyAccepted;
+  // console.log();
   return (
     <>
       <div className='grid grid-cols-[25%_50%_25%] h-full'>
@@ -198,14 +158,16 @@ export default function Channels() {
         <SecondGrid
           filteredConversations={filteredConversations}
           selectedEmail={selectedEmail}
-          selectedSessionId={selectedEmail}
           assignedUserId={assignedUserId}
           isLoadingConversation={isLoadingConversation}
           type={type}
         />
-        <ThirdGrid filteredConversations={filteredConversations} />
+        <ThirdGrid
+          filteredConversations={filteredConversations}
+          details={details}
+        />
 
-        {shouldShowApiKeyModal && (
+        {/* {shouldShowApiKeyModal && (
           <div className='fixed inset-0 flex items-center justify-center left-18'>
             <div className='absolute inset-0 bg-black/40 backdrop-blur-sm'></div>
             <div className='bg-white p-4 absolute flex flex-col items-end gap-y-2.5 w-1/2'>
@@ -256,7 +218,7 @@ export default function Channels() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

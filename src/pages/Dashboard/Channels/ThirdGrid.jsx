@@ -3,7 +3,7 @@
 // import { useContext } from "react";
 // import { ChannelContext } from "../../../contexts/Context";
 
-export default function ThirdGrid() {
+export default function ThirdGrid({ details }) {
   // const { eachConversations } = useContext(ChannelContext);
 
   // console.log(filteredConversations);
@@ -12,7 +12,9 @@ export default function ThirdGrid() {
     <div className=' border border-light-grey flex flex-col '>
       <div className='p-6 flex flex-col gap-y-1.5 border-b border-b-light-grey'>
         <h3 className='text-xs font-semibold text-black uppercase'>AI Agent</h3>
-        {/* <span className='text-sm font-normal text-grey'>Josh</span> */}
+        <span className='text-sm font-normal text-grey'>
+          {details.ai_agent}
+        </span>
       </div>
       <div className='p-6 flex flex-col gap-y-1.5 border-b border-b-light-grey'>
         <h4 className='text-xs font-semibold text-black uppercase'>
@@ -27,9 +29,9 @@ export default function ThirdGrid() {
         <h3 className='text-xs font-semibold text-black uppercase'>
           Intent Tag
         </h3>
-        {/* <span className='bg-pink text-bg px-2.5 py-1.5 w-fit rounded-sm text-[10px] font-medium'>
-          Order Status
-        </span> */}
+        <span className='bg-pink text-bg px-2.5 py-1.5 w-fit rounded-sm text-[10px] font-medium'>
+          {details.intent}
+        </span>
       </div>
       <div className='p-6 flex flex-col gap-y-1.5 border-b border-b-light-grey'>
         <h3 className='text-xs font-semibold text-black uppercase'>

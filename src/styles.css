@@ -82,6 +82,7 @@ body::-webkit-scrollbar {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+  overflow: scroll;
 }
 
 /*style for input*/

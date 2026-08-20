@@ -6,7 +6,6 @@ import contact from "../../../assets/Dashboard/dashboard/contact.svg";
 import score from "../../../assets/Dashboard/dashboard/score.svg";
 import Conversation from "./Conversations";
 import Distribution from "./Distribution";
-import Performance from "./Performance";
 import { useContext } from "react";
 import { ReportContext } from "../../../contexts/Context";
 import ActiveConversation from "../DashboardContent/ActiveConversation";

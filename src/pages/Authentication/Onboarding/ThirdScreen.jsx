@@ -92,7 +92,7 @@ export default function ThirdScreen() {
     navigate("/onboarding/4");
   }
   return (
-    <div className='flex flex-col lg:h-screen lg:mt-8 justify-center gap-y-10 lg:p-20 animate-fade-up overflow-scroll no-scrollbar sm: p-7 sm: -mt-30'>
+    <div className='flex flex-col lg:h-screen lg:mt-8 justify-center gap-y-10 lg:p-20 animate-fade-up no-scrollbar'>
       <div className='mt-50 flex items-center justify-between'>
         <Link to={-1}>
           {" "}

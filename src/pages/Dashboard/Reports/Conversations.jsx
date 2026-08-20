@@ -19,7 +19,7 @@ export default function Conversation() {
 
   console.log(activeChannels);
   return (
-    <div className='border border-light-grey rounded-2xl p-4 flex flex-col gap-y-4 h-80'>
+    <div className='border border-light-grey rounded-2xl p-4 flex flex-col gap-y-4 h-90'>
       {/*Text */}
       <div className='mt-2'>
         <h3 className='text-base font-semibold text-black'>
@@ -69,12 +69,14 @@ export default function Conversation() {
 
           <Bar
             dataKey='aiResolved'
+            name='AI resolved'
             fill='#FF9200'
             radius={[6, 6, 0, 0]}
             maxBarSize={40}
           />
           <Bar
             dataKey='liveAgentsResolved'
+            name='Live Agent resolved'
             fill='#FFE6C0'
             radius={[6, 6, 0, 0]}
             maxBarSize={40}
