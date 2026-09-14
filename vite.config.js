@@ -14,7 +14,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   esbuild: {
-    drop: ["console", "debugger"],
+    // drop: ["console", "debugger"],
   },
   base: "/UppistAI/",
 });
