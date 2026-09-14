@@ -4,11 +4,11 @@ import DashboardProvider from "../../contexts/DashboardProvider";
 import UserProvider from "../../contexts/UserProvider";
 import Dashboard from "./Dashboard";
 
-export default function DashboardLayout() {
+export default function DashboardLayout({ showRoute }) {
   return (
     <UserProvider>
       <DashboardProvider>
-        <Dashboard />
+        <Dashboard showRoute={showRoute} />
       </DashboardProvider>
     </UserProvider>
   );

@@ -23,48 +23,48 @@ export default function Settings() {
   const role = userDetails?.user?.role;
 
   return (
-    <div className='flex flex-col gap-y-5 p-6'>
+    <div className="flex flex-col gap-y-5 p-6">
       {/*If onboarding is not complete */}
 
       {showBanner && (
-        <div className='flex items-center gap-x-10'>
+        <div className="flex items-center gap-x-10">
           <div
-            className='flex items-center gap-x-4 cursor-pointer'
+            className="flex items-center gap-x-4 cursor-pointer"
             onClick={() => navigate("/integrations")}
           >
-            <span className='w-7.5 h-7.5 rounded-full bg-bg flex items-center justify-center text-xs font-semibold text-white'>
+            <span className="w-7.5 h-7.5 rounded-full bg-bg flex items-center justify-center text-xs font-semibold text-white">
               <svg
-                width='13'
-                height='10'
-                viewBox='0 0 13 10'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
+                width="13"
+                height="10"
+                viewBox="0 0 13 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d='M0 5.74918L1.53094 4.24764L4.33514 6.99692L11.4691 0L13 1.50154L4.33405 10L0 5.74918Z'
-                  fill='white'
+                  d="M0 5.74918L1.53094 4.24764L4.33514 6.99692L11.4691 0L13 1.50154L4.33405 10L0 5.74918Z"
+                  fill="white"
                 />
               </svg>
             </span>
-            <span className='text-xs font-semibold text-grey'>
+            <span className="text-xs font-semibold text-grey">
               Connect Channels
             </span>
           </div>
           <div
-            className='flex items-center gap-x-4 cursor-pointer '
+            className="flex items-center gap-x-4 cursor-pointer "
             onClick={() => navigate("/settings?type=agents")}
           >
-            <span className='w-7.5 h-7.5 rounded-full bg-bg flex items-center justify-center text-xs font-semibold text-white'>
+            <span className="w-7.5 h-7.5 rounded-full bg-bg flex items-center justify-center text-xs font-semibold text-white">
               2
             </span>
-            <span className='text-xs font-semibold text-grey'>
+            <span className="text-xs font-semibold text-grey">
               Customize AI
             </span>
           </div>
         </div>
       )}
 
-      <div className='p-1 border border-light-grey rounded-xl w-fit flex items-center gap-x-5 pr-5'>
+      <div className="p-1 border border-light-grey rounded-xl w-fit flex items-center gap-x-5 pr-5">
         {" "}
         <span
           className={

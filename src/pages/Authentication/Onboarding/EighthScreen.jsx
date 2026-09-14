@@ -17,9 +17,9 @@ export default function EighthScreen({ appLoading, setAppLoading }) {
   }
 
   return (
-    <div className='flex flex-col lg:h-screen justify-center gap-y-10 lg:p-20 animate-fade-up overflow-scroll no-scrollbar sm: p-7 sm: -mt-30'>
+    <div className='flex flex-col lg:h-screen justify-center gap-y-10  animate-fade-up overflow-scroll no-scrollbar p-5 px-5 lg:p-10'>
       {/* */}
-      <div className='mt-50 flex items-center justify-between'>
+      <div className='mt-30 flex items-center justify-between lg:mt-10'>
         <Link to={-1}>
           {" "}
           <span className='text-black text-sm font-normal flex items-center gap-x-2'>
@@ -43,6 +43,7 @@ export default function EighthScreen({ appLoading, setAppLoading }) {
       <div className='flex flex-col gap-y-6'>
         <div className='flex flex-col gap-y-2 items-center'>
           <svg
+          className="w-10 h-10 lg:w-20 h-20"
             width='80'
             height='80'
             viewBox='0 0 80 80'
@@ -55,7 +56,7 @@ export default function EighthScreen({ appLoading, setAppLoading }) {
             />
           </svg>
 
-          <h2 className='m-0px text-black text-3xl font-bold text-center'>
+          <h2 className=' text-2xl m-0px text-black  font-bold text-center lg:text-3xl'>
             Onboarding Successful{" "}
           </h2>
         </div>

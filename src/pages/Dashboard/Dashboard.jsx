@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar/Sidebar";
 import { UserContext } from "../../contexts/Context";
 import { useContext, useEffect } from "react";
 
-export default function Dashboard() {
+export default function Dashboard({ showRoute }) {
   const location = useLocation();
   const path = location.pathname.startsWith("/channels");
   const navigate = useNavigate();
@@ -21,14 +21,16 @@ export default function Dashboard() {
   }, [userDetails, location.pathname, navigate]);
 
   return (
-    <div className='flex '>
+    <div className="flex ">
       <Sidebar />
 
-      <div className='w-auto absolute left-18 right-0 h-full'>
-        {!path && <Navbar />}
+      {showRoute && (
+        <div className="w-auto lg:absolute lg:left-18 lg:right-0 lg:h-full">
+          {!path && <Navbar />}
 
-        <Outlet />
-      </div>
+          <Outlet />
+        </div>
+      )}
     </div>
   );
 }

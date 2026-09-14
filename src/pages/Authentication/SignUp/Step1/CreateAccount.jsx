@@ -15,7 +15,7 @@ export default function CreateAccount({
   const navigate = useNavigate();
 
   return (
-    <div className='flex flex-col lg:mt-0 gap-y-6 sm: mt-20'>
+    <div className='flex flex-col  gap-y-6 mt-10 lg:mt-0'>
       <div className='flex flex-col gap-y-6'>
         <div className='flex flex-col gap-y-2'>
           <h2 className='text-3xl text-black font-bold'>Create your account</h2>
@@ -27,7 +27,7 @@ export default function CreateAccount({
           <Name handleChange={handleChange} details={details} />
           <Password handleChange={handleChange} details={details} />
         </form>
-        <p className='text-light font-normal text-sm'>
+        <p className='text-light text-center font-normal text-sm lg:text-baseline'>
           By creating your account, you are agreeing to our{" "}
           <span className='text-bg cursor-pointer'>Terms and Conditions</span>
         </p>

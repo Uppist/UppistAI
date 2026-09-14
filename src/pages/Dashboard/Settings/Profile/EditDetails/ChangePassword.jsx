@@ -36,7 +36,7 @@ export default function ChangePassword({ onClose }) {
           headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           toast.success("Password changed successfully.");
           setTimeout(() => {
             onClose();
@@ -49,83 +49,83 @@ export default function ChangePassword({ onClose }) {
     }
   }
   return (
-    <div className='dropdown'>
+    <div className="dropdown">
       {/*overlay */}
 
-      <div className='overlay' onClick={onClose}></div>
+      <div className="overlay" onClick={onClose}></div>
       {/*User Container */}
-      <div className='absolute flex flex-col gap-y-4 w-1/2  bg-white rounded-lg p-4  items-end justify-center'>
+      <div className="absolute flex flex-col gap-y-4 w-1/2  bg-white rounded-lg p-4  items-end justify-center">
         <svg
-          className='cursor-pointer flex'
+          className="cursor-pointer flex"
           onClick={onClose}
-          width='12'
-          height='12'
-          viewBox='0 0 12 12'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d='M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75'
-            stroke='#2B2B2B'
-            strokeWidth='1.5'
-            strokeLinecap='round'
-            strokeLinejoin='round'
+            d="M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75"
+            stroke="#2B2B2B"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
-        <div className='flex flex-col gap-y-6.5 w-full'>
+        <div className="flex flex-col gap-y-6.5 w-full">
           {" "}
           {/*Create Agent text */}
-          <div className='flex flex-col gap-y-2 items-center'>
-            <span className='text-xl font-semibold text-bg'>
+          <div className="flex flex-col gap-y-2 items-center">
+            <span className="text-xl font-semibold text-bg">
               Change Password
             </span>
-            <p className='text-grey text-base font-normal w-auto text-center'>
+            <p className="text-grey text-base font-normal w-auto text-center">
               Don’t worry we can help.
             </p>
           </div>
           {/*Change Password */}
-          <div className='flex flex-col gap-y-6 px-20'>
+          <div className="flex flex-col gap-y-6 px-20">
             {/*Current Password */}
-            <div className='flex flex-col gap-y-1.5'>
-              <span className='text'>Current Password</span>
+            <div className="flex flex-col gap-y-1.5">
+              <span className="text">Current Password</span>
               <input
-                type='password'
-                name='currentPassword'
+                type="password"
+                name="currentPassword"
                 value={resetPassword.currentPassword}
                 onChange={handleChange}
-                className='input'
-                id=''
+                className="input"
+                id=""
               />
             </div>
             {/*New Password */}
-            <div className='flex flex-col gap-y-1.5'>
-              <span className='text'>New Password</span>
+            <div className="flex flex-col gap-y-1.5">
+              <span className="text">New Password</span>
               <input
-                type='password'
-                name='newPassword'
+                type="password"
+                name="newPassword"
                 value={resetPassword.newPassword}
                 onChange={handleChange}
-                className='input'
-                id=''
+                className="input"
+                id=""
               />
             </div>
             {/*Confirm New Password */}
-            <div className='flex flex-col gap-y-1.5'>
-              <span className='text'>Confirm New Password</span>
+            <div className="flex flex-col gap-y-1.5">
+              <span className="text">Confirm New Password</span>
               <input
-                type='password'
-                name='confirmNewPassword'
+                type="password"
+                name="confirmNewPassword"
                 value={resetPassword.confirmNewPassword}
                 onChange={handleChange}
-                className='input'
-                id=''
+                className="input"
+                id=""
               />
             </div>
 
             {/*Submit Button */}
-            <div className='flex justify-end'>
+            <div className="flex justify-end">
               <button
-                className='button'
+                className="button"
                 onClick={handleSubmit}
                 disabled={!submit}
               >

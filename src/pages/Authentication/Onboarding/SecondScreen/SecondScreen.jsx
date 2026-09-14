@@ -54,11 +54,8 @@ export default function SecondScreen() {
 
   const showInput = details.industry?.toLowerCase() === "others";
   return (
-    <div className='flex flex-col gap-y-6 lg:h-screen -mt-11 px-20  justify-center animate-fade-up no-scrollbar'>
-      {/* <div className='mt-50 flex items-center justify-between'></div>  */}
+    <div className='flex flex-col gap-y-6 h-screen px-5 pb-0  justify-center animate-fade-up overflow-scroll no-scrollbar h-screen lg:px-10'>
 
-      {/* <div> */}
-      {/* <div className='flex flex-col gap-y-6 lg:h-screen -mt-11 px-20  justify-center animate-fade-up no-scrollbar'> */}
       <div className='flex flex-col gap-y-2'>
         <h2 className='m-0px text-black text-3xl font-bold'>
           About your business

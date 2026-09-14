@@ -16,7 +16,7 @@ export default function Sidebar() {
   const role = userDetails?.user?.role;
 
   return (
-    <div className='border border-light-grey h-screen w-18 p-4 fixed z-50 flex flex-col justify-between'>
+    <div className='hidden lg:border lg:border-light-grey lg:h-screen lg:w-18 lg:p-4 lg:fixed lg:z-50 lg:flex lg:flex-col lg:justify-between'>
       <div className='flex flex-col  items-center gap-y-10'>
         <div className='relative'>
           <div className='w-10 h-10 rounded-full bg-light-grey'></div>

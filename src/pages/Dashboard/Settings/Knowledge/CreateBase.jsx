@@ -46,7 +46,7 @@ export default function CreateBase({ onClose }) {
           },
         });
 
-        console.log("File response:", fileRes.data);
+        // console.log("File response:", fileRes.data);
 
         // newDocuments.push(fileRes.data);
       }
@@ -78,44 +78,44 @@ export default function CreateBase({ onClose }) {
   }
 
   return (
-    <div className='dropdown'>
-      <div className='overlay' onClick={onClose}></div>
+    <div className="dropdown">
+      <div className="overlay" onClick={onClose}></div>
 
       {/*Knowledge base Container */}
-      <div className='absolute flex flex-col gap-y-4 w-[50%] p-8  bg-white rounded-lg items-end justify-center'>
+      <div className="absolute flex flex-col gap-y-4 w-[50%] p-8  bg-white rounded-lg items-end justify-center">
         <svg
-          className='cursor-pointer flex'
+          className="cursor-pointer flex"
           onClick={onClose}
-          width='12'
-          height='12'
-          viewBox='0 0 12 12'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d='M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75'
-            stroke='#2B2B2B'
-            strokeWidth='1.5'
-            strokeLinecap='round'
-            strokeLinejoin='round'
+            d="M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75"
+            stroke="#2B2B2B"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
-        <div className='flex flex-col gap-y-6.5 w-full'>
+        <div className="flex flex-col gap-y-6.5 w-full">
           {" "}
           {/*Create Knowledge base text */}
-          <div className='flex flex-col gap-y-2 text-center'>
-            <span className='text-xl font-semibold text-bg'>
+          <div className="flex flex-col gap-y-2 text-center">
+            <span className="text-xl font-semibold text-bg">
               Add Knowledge Base
             </span>
-            <p className='text-grey text-base font-normal'>
+            <p className="text-grey text-base font-normal">
               Teach your AI what it needs to know.
             </p>
           </div>
-          <div className='flex flex-col gap-y-6'>
-            <div className='flex flex-col gap-y-3'>
-              <div className='flex flex-col gap-y-1'>
-                <h3 className='text-black text-sm font-bold'>Upload Pdf</h3>
-                <span className='text-light-black text-xs font-normal'>
+          <div className="flex flex-col gap-y-6">
+            <div className="flex flex-col gap-y-3">
+              <div className="flex flex-col gap-y-1">
+                <h3 className="text-black text-sm font-bold">Upload Pdf</h3>
+                <span className="text-light-black text-xs font-normal">
                   Train AI on your documents
                 </span>
               </div>
@@ -123,29 +123,29 @@ export default function CreateBase({ onClose }) {
               <Upload handleFile={handleFile} fileName={fileName} />
             </div>
 
-            <div className='flex flex-col gap-y-3 '>
-              <label className='text-base text-black font-bold' htmlFor=''>
+            <div className="flex flex-col gap-y-3 ">
+              <label className="text-base text-black font-bold" htmlFor="">
                 Add Website URL
               </label>
-              <span className='text-xs font-normal text-light-black -mt-3'>
+              <span className="text-xs font-normal text-light-black -mt-3">
                 Crawl your website for AI training
               </span>
               <input
-                type='text'
-                className=' border border-light-grey text-black text-base p-3 rounded-lg outline-none'
-                name='url'
-                id=''
+                type="text"
+                className=" border border-light-grey text-black text-base p-3 rounded-lg outline-none"
+                name="url"
+                id=""
                 value={details.url}
-                placeholder='Enter your website URL example: www.google.com'
+                placeholder="Enter your website URL example: www.google.com"
                 onChange={handleChange}
               />
             </div>
           </div>
-          <div className='flex justify-end'>
+          <div className="flex justify-end">
             <button
               disabled={!submit}
               onClick={Next}
-              className='bg-bg disabled:bg-disabled disabled:text-black  p-4 w-32 text-white font-bold text-sm cursor-pointer rounded-lg hover:opacity-50'
+              className="bg-bg disabled:bg-disabled disabled:text-black  p-4 w-32 text-white font-bold text-sm cursor-pointer rounded-lg hover:opacity-50"
             >
               {isClick ? (
                 <Box
@@ -157,7 +157,7 @@ export default function CreateBase({ onClose }) {
                 >
                   <CircularProgress
                     size={20}
-                    aria-label='loading...'
+                    aria-label="loading..."
                     sx={{ color: "white" }}
                   />
                 </Box>

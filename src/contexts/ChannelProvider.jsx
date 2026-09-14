@@ -82,6 +82,11 @@ export default function ChannelProvider({ children }) {
       setActiveChannel(channelRes.data.channels || channelRes.data);
     } catch (err) {
       console.error("Channel fetch error:", err);
+      if (err.response?.status === 401) {
+        localStorage.removeItem("Token");
+        window.dispatchEvent(new Event("auth:token-removed"));
+        navigate("/signin");
+      }
     }
   }, []);
 

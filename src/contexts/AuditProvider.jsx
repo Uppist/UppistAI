@@ -39,7 +39,12 @@ export default function AuditProvider({ children }) {
         setAuditLog(res.data.logs || []);
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
+        if (err.response?.status === 401) {
+          localStorage.removeItem("Token");
+          window.dispatchEvent(new Event("auth:token-removed"));
+          navigate("/signin");
+        }
       });
   }, [isAuthenticated]);
   return (

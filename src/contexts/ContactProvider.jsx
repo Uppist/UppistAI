@@ -22,13 +22,17 @@ export default function ContactProvider({ children }) {
       .get(`/dashboard/contacts/${id}`, { headers })
       .then((res) => {
         // const detail = res.data.conversations || res.data;
-        console.log(res.data);
+        // console.log(res.data);
         setContactDetail(res.data);
         return res.data;
       })
       .catch((err) => {
-        console.log(err.response?.data || err.message);
-
+        // console.log(err.response?.data || err.message);
+        if (err.response?.status === 401) {
+          localStorage.removeItem("Token");
+          window.dispatchEvent(new Event("auth:token-removed"));
+          navigate("/signin");
+        }
         throw err;
       });
   }

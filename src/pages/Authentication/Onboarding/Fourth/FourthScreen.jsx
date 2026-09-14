@@ -60,7 +60,7 @@ export default function FourthScreen() {
   }
 
   return (
-    <div className='flex flex-col lg:h-screen justify-center gap-y-10 lg:p-20 animate-fade-up overflow-scroll no-scrollbar sm: p-7 sm: -mt-30'>
+    <div className='flex flex-col lg:h-screen justify-center p-5 -mt-30 gap-y-10  animate-fade-up overflow-scroll no-scrollbar lg:p-10'>
       <div className='mt-50 flex items-center justify-between'>
         <Link to={-1}>
           {" "}

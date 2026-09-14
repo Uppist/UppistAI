@@ -17,7 +17,7 @@ export default function DeleteBase({ onClose, id }) {
         headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setDocuments((documents) => documents.filter((data) => data.id !== id));
 
         toast.success("Deleted Successfully");
@@ -33,51 +33,51 @@ export default function DeleteBase({ onClose, id }) {
     // alert(id);
   }
   return (
-    <div className='dropdown'>
-      <div className='overlay' onClick={onClose}></div>
+    <div className="dropdown">
+      <div className="overlay" onClick={onClose}></div>
 
       {/*Knowledge base Container */}
-      <div className='absolute flex flex-col gap-y-4 w-[40%] p-8  bg-white rounded-lg items-end justify-center'>
+      <div className="absolute flex flex-col gap-y-4 w-[40%] p-8  bg-white rounded-lg items-end justify-center">
         <svg
-          className='cursor-pointer flex'
+          className="cursor-pointer flex"
           onClick={onClose}
-          width='12'
-          height='12'
-          viewBox='0 0 12 12'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d='M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75'
-            stroke='#2B2B2B'
-            strokeWidth='1.5'
-            strokeLinecap='round'
-            strokeLinejoin='round'
+            d="M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75"
+            stroke="#2B2B2B"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
-        <div className='flex flex-col gap-y-6.5 w-full'>
-          <div className='flex flex-col gap-y-2 text-center'>
-            <span className='text-xl font-semibold text-bg'>
+        <div className="flex flex-col gap-y-6.5 w-full">
+          <div className="flex flex-col gap-y-2 text-center">
+            <span className="text-xl font-semibold text-bg">
               Delete Knowledge Base?
             </span>
-            <p className='text-grey text-base font-normal'>
+            <p className="text-grey text-base font-normal">
               This will permanently remove this knowledge base and its
               configuration. This action cannot be undone.{" "}
             </p>
           </div>
 
-          <div className='flex items-center justify-center gap-x-2'>
+          <div className="flex items-center justify-center gap-x-2">
             <button
-              type='button'
+              type="button"
               onClick={onClose}
-              className='p-3 px-10 rounded-lg border cursor-pointer border-light-grey text-sm font-semibold text-light-black'
+              className="p-3 px-10 rounded-lg border cursor-pointer border-light-grey text-sm font-semibold text-light-black"
             >
               Cancel
             </button>
             <button
-              type='button'
+              type="button"
               onClick={Delete}
-              className='bg-red p-3 px-10 cursor-pointer rounded-lg text-sm font-semibold text-white hover:bg-red-400 '
+              className="bg-red p-3 px-10 cursor-pointer rounded-lg text-sm font-semibold text-white hover:bg-red-400 "
             >
               {isClick ? (
                 <Box
@@ -89,7 +89,7 @@ export default function DeleteBase({ onClose, id }) {
                 >
                   <CircularProgress
                     size={20}
-                    aria-label='loading...'
+                    aria-label="loading..."
                     sx={{ color: "white" }}
                   />
                 </Box>

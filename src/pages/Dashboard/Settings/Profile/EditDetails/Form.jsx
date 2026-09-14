@@ -38,7 +38,7 @@ export default function Form() {
     setEditProfile(true);
   }
 
-  console.log(userDetails);
+  // console.log(userDetails);
 
   function Changes() {
     api
@@ -48,7 +48,7 @@ export default function Form() {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         toast.success("Updated Succesfully");
         // setUserDetails((userDetails) => {
         //   return [...userDetails, details];
@@ -104,8 +104,8 @@ export default function Form() {
   // }
 
   return (
-    <div className='w-screen flex flex-col gap-y-8'>
-      <form action='' className='flex flex-col gap-y-4'>
+    <div className="w-screen flex flex-col gap-y-8">
+      <form action="" className="flex flex-col gap-y-4">
         {/* <div className='grid grid-cols-2 gap-x-9 justify-between'> */}
         {/*First Name */}
         {/* <div className='flex flex-col gap-y-1'>
@@ -135,37 +135,37 @@ export default function Form() {
           </div>
         </div> */}
 
-        <div className='grid grid-cols-2 gap-x-9 justify-between'>
+        <div className="grid grid-cols-2 gap-x-9 justify-between">
           {" "}
           {/*Email */}
-          <div className='flex flex-col gap-y-1'>
-            <span className='text-sm font-bold text-black'>Work Email</span>
+          <div className="flex flex-col gap-y-1">
+            <span className="text-sm font-bold text-black">Work Email</span>
             <input
-              className='p-2.5 rounded-lg border border-light-grey outline-none'
-              type='email'
-              name='work_email'
+              className="p-2.5 rounded-lg border border-light-grey outline-none"
+              type="email"
+              name="work_email"
               value={userDetails?.user?.workEmail || userDetails?.user?.email}
               onChange={handleChange}
-              id=''
+              id=""
             />
           </div>
           {/*Company Name */}
-          <div className='flex flex-col gap-y-1'>
+          <div className="flex flex-col gap-y-1">
             {" "}
-            <span className='text-sm font-bold text-black'>Company Name</span>
+            <span className="text-sm font-bold text-black">Company Name</span>
             <input
-              className='p-2.5 rounded-lg border border-light-grey outline-none'
-              type='text'
-              name='company_name'
+              className="p-2.5 rounded-lg border border-light-grey outline-none"
+              type="text"
+              name="company_name"
               value={userDetails?.user?.fullName}
               onChange={handleChange}
-              id=''
+              id=""
             />
           </div>
         </div>
       </form>
 
-      <div className='flex items-center justify-end gap-x-5'>
+      <div className="flex items-center justify-end gap-x-5">
         {/*set user status*/}
         {/* <div className='flex items-center gap-x-4'>
 
@@ -196,16 +196,16 @@ export default function Form() {
           </div>
         </div> */}
         <button
-          type='button'
+          type="button"
           onClick={handleOpenPassword}
-          className='py-3 px-3 border border-light-grey rounded-lg text-sm font-bold text-black cursor-pointer hover:bg-light-grey'
+          className="py-3 px-3 border border-light-grey rounded-lg text-sm font-bold text-black cursor-pointer hover:bg-light-grey"
         >
           Change Password
         </button>
         <button
-          type='button'
+          type="button"
           // disabled={!changes}
-          className='button'
+          className="button"
           onClick={handleEdit}
         >
           Edit Profile

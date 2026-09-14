@@ -45,7 +45,7 @@ export default function UserProvider({ children }) {
         setUserDetails(res.data);
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
         if (err.response?.status === 401) {
           localStorage.removeItem("Token");
           window.dispatchEvent(new Event("auth:token-removed"));
@@ -54,7 +54,7 @@ export default function UserProvider({ children }) {
       });
 
     api.get("dashboard/notifications", { headers }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setNotifications(res.data.notifications || []);
     });
   }, [isAuthenticated, navigate]);

@@ -27,7 +27,7 @@ export default function ChangePassword() {
     }
   }
   return (
-    <div className='flex flex-col h-screen justify-center gap-y-10 p-10 animate-fade-up'>
+    <div className='flex flex-col h-screen justify-center gap-y-10 p-5 animate-fade-up lg:p-10'>
       <Link to='/signin/forgot-password'>
         {" "}
         <div className='cursor-pointer flex items-center gap-x-2 text-black text-base font-normal'>

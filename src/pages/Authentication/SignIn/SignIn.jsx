@@ -70,18 +70,21 @@ export default function SignIn({ appLoading, setAppLoading }) {
     <Loader />;
     return;
   }
+
+
   return (
     <>
       {" "}
-      <div className='flex flex-col gap-y-18 lg:p-20 lg:pb-140 animate-fade-up overflow-scroll no-scrollbar sm: p-10 sm: pb-30 sm: mt-20'>
-        {!MobileView && (
+      <div className='flex flex-col gap-y-18 animate-fade-up overflow-scroll no-scrollbar px-5 pb-20 mt-0 lg:p-10 lg:pb-140 '>
+     
+     {/*   {!MobileView && (*/}
           <div className='flex flex-col gap-y-6 justify-center items-center'>
-            <img src={logo} alt='Uppist Logo' />
-            <span className='text-light font-normal text-xl'>
+            <img src={logo} className="hidden lg:block" alt='Uppist Logo' />
+            <span className='hidden lg:block lg:text-light lg:font-normal lg:text-xl'>
               AI omnichannel customer support platform
             </span>
           </div>
-        )}
+        {/* )} */}
 
         <div className='flex flex-col gap-y-6'>
           <div className='flex flex-col gap-y-6'>

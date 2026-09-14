@@ -33,14 +33,14 @@ export default function CreateUserProvider({ children }) {
 
     //get users
     api.get("/users", { headers }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setGetUsers(res.data.users);
     });
 
     //get All APIs
 
     api.get("/keys", { headers }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setListAPI(res.data.keys);
     });
   }, [isAuthenticated, setGetUsers]);

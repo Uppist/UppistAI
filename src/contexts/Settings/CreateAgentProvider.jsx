@@ -32,7 +32,7 @@ export default function CreateAgentProvider({ children }) {
     api
       .get("/agents", { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setGetAgents(res.data.agents);
       });
   }, [isAuthenticated, setGetAgents]);

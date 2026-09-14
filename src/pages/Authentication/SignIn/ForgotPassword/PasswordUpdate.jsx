@@ -19,7 +19,7 @@ export default function PasswordUpdate({ appLoading, setAppLoading }) {
     return;
   }
   return (
-    <div className='flex flex-col justify-center gap-y-6 p-20 pb-140 animate-fade-up overflow-scroll no-scrollbar'>
+    <div className='flex flex-col justify-center gap-y-6 p-5 pb-140 animate-fade-up overflow-scroll no-scrollbar lg:p-10'>
       <div className='flex flex-col gap-y-2 justify-center'>
         <h2 className='m-0px text-black text-3xl font-bold'>
           Password Update Successful{" "}

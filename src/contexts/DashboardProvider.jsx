@@ -20,7 +20,7 @@ export default function DashboardProvider({ children }) {
     const headers = { Authorization: `Bearer ${token}` };
 
     api.get("dashboard/stats", { headers }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setConversations(res.data.kpis.activeConversations);
       setOnlineAgent(res.data.kpis.onlineLiveAgents);
       setResolved(res.data.kpis.resolvedToday);

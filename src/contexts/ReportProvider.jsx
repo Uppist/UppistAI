@@ -39,7 +39,7 @@ export default function ReportProvider({ children }) {
     const headers = { Authorization: `Bearer ${token}` };
 
     api.get("dashboard/reports", { headers }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setTotalConversations(res.data.kpis.totalConversations);
       setResolved(res.data.kpis.resolvedByAi);
       setResponseTime(res.data.kpis.avgResponseTime);

@@ -70,7 +70,7 @@ export default function Step2() {
   }
 
   return (
-    <div className='flex flex-col justify-center gap-y-6 lg:p-20 lg:pb-140 animate-fade-up overflow-scroll no-scrollbar sm: p-10 sm: pb-30 sm: mt-20'>
+    <div className='flex flex-col justify-center gap-y-6  animate-fade-up overflow-scroll no-scrollbar p-5 pb-30 mt-20 lg:p-20 lg:pb-140'>
       {location.state?.flow === "reset" && (
         <Link to={-1}>
           {" "}

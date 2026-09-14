@@ -30,7 +30,7 @@ export default function Whatsapp({ onClose, onConnect, Success }) {
     api
       .post("/channels/whatsapp", data, { headers })
       .then(async (res) => {
-        console.log(res.data);
+        // console.log(res.data);
         await fetchChannelData();
         onConnect();
         setIsClick(false);
@@ -50,58 +50,58 @@ export default function Whatsapp({ onClose, onConnect, Success }) {
 
   const isNumber = number.number && number.business && number.token;
   return (
-    <div className='flex flex-col gap-y-5'>
+    <div className="flex flex-col gap-y-5">
       {" "}
-      <div className='flex items-baseline flex-col gap-y-2 px-8'>
+      <div className="flex items-baseline flex-col gap-y-2 px-8">
         {/*Number ID */}
-        <div className='w-full flex flex-col gap-y-2 items-baseline'>
-          <label htmlFor='' className='text-sm font-bold text-black'>
+        <div className="w-full flex flex-col gap-y-2 items-baseline">
+          <label htmlFor="" className="text-sm font-bold text-black">
             Phone Number ID
           </label>
           <input
-            type='text'
-            className='border border-light-grey w-full rounded-lg p-2.5 flex items-center outline-none bg-transparent text-sm font-normal text-black ml-1'
-            name='number'
+            type="text"
+            className="border border-light-grey w-full rounded-lg p-2.5 flex items-center outline-none bg-transparent text-sm font-normal text-black ml-1"
+            name="number"
             value={number.number}
             onChange={handleClick}
-            id=''
+            id=""
           />
         </div>
 
         {/*Whatsapp Business ID */}
-        <div className='w-full flex flex-col gap-y-2 items-baseline'>
-          <label htmlFor='' className='text-sm font-bold text-black'>
+        <div className="w-full flex flex-col gap-y-2 items-baseline">
+          <label htmlFor="" className="text-sm font-bold text-black">
             Whatsapp Business ID
           </label>
           <input
-            type='text'
-            className='border border-light-grey w-full rounded-lg p-2.5 flex items-center outline-none bg-transparent text-sm font-normal text-black ml-1'
-            name='business'
+            type="text"
+            className="border border-light-grey w-full rounded-lg p-2.5 flex items-center outline-none bg-transparent text-sm font-normal text-black ml-1"
+            name="business"
             value={number.business}
             onChange={handleClick}
-            id=''
+            id=""
           />
         </div>
 
         {/**Access token */}
-        <div className='w-full flex flex-col gap-y-2 items-baseline'>
-          <label htmlFor='' className='text-sm font-bold text-black'>
+        <div className="w-full flex flex-col gap-y-2 items-baseline">
+          <label htmlFor="" className="text-sm font-bold text-black">
             Access Token
           </label>
           <input
-            type='password'
-            className='border border-light-grey w-full rounded-lg p-2.5 flex items-center outline-none bg-transparent text-sm font-normal text-black ml-1'
-            name='token'
+            type="password"
+            className="border border-light-grey w-full rounded-lg p-2.5 flex items-center outline-none bg-transparent text-sm font-normal text-black ml-1"
+            name="token"
             value={number.token}
             onChange={handleClick}
-            id=''
+            id=""
           />
         </div>
       </div>
       {/*Next button */}
-      <div className='flex items-center gap-x-4 justify-end'>
+      <div className="flex items-center gap-x-4 justify-end">
         <span
-          className='text-sm font-semibold text-bg cursor-pointer'
+          className="text-sm font-semibold text-bg cursor-pointer"
           onClick={() => {
             onConnect();
             onClose();
@@ -110,9 +110,9 @@ export default function Whatsapp({ onClose, onConnect, Success }) {
           Skip and Connect via Facebook
         </span>
         <button
-          type='button'
+          type="button"
           disabled={!isNumber}
-          className='button'
+          className="button"
           onClick={Next}
         >
           {isClick ? (
@@ -126,7 +126,7 @@ export default function Whatsapp({ onClose, onConnect, Success }) {
               <CircularProgress
                 size={20}
                 sx={{ color: "white" }}
-                aria-label='loading...'
+                aria-label="loading..."
               />
             </Box>
           ) : (

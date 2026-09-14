@@ -30,7 +30,7 @@ export default function MobileStep1({
   }
 
   return (
-    <div className='flex flex-col gap-y-6 mt-30 items-center justify-center'>
+    <div className='flex flex-col gap-y-6 mt-10 mb-20 items-center justify-center'>
       {" "}
       {/*Text */}
       <div className='flex flex-col gap-y-6 justify-center items-center'>

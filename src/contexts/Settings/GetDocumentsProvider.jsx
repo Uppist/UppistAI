@@ -37,7 +37,7 @@ export default function GetDocumentsProvider({ children }) {
         },
       });
 
-      console.log(res.data);
+      // console.log(res.data);
       setDocuments(res.data.documents);
     } catch (err) {
       console.log(err.response);

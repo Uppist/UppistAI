@@ -76,120 +76,120 @@ export default function CreateUser({ onClose }) {
   const sendLink = details.name && details.email && details.role;
 
   return (
-    <div className='dropdown'>
+    <div className="dropdown">
       {/*overlay */}
 
-      <div className='overlay' onClick={onClose}></div>
+      <div className="overlay" onClick={onClose}></div>
 
       {/*User Container */}
-      <div className='absolute flex flex-col gap-y-4 w-1/2  bg-white rounded-lg p-4  items-end justify-center'>
+      <div className="absolute flex flex-col gap-y-4 w-1/2  bg-white rounded-lg p-4  items-end justify-center">
         <svg
-          className='cursor-pointer flex'
+          className="cursor-pointer flex"
           onClick={onClose}
-          width='12'
-          height='12'
-          viewBox='0 0 12 12'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d='M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75'
-            stroke='#2B2B2B'
-            strokeWidth='1.5'
-            strokeLinecap='round'
-            strokeLinejoin='round'
+            d="M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75"
+            stroke="#2B2B2B"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
-        <div className='flex flex-col gap-y-6.5'>
+        <div className="flex flex-col gap-y-6.5">
           {" "}
           {/*Create Agent text */}
-          <div className='flex flex-col gap-y-2 text-center'>
-            <span className='text-xl font-semibold text-bg'>
+          <div className="flex flex-col gap-y-2 text-center">
+            <span className="text-xl font-semibold text-bg">
               Create New User
             </span>
-            <p className='text-grey text-base font-normal w-auto text-center pl-10'>
+            <p className="text-grey text-base font-normal w-auto text-center pl-10">
               To add new user, input their email address in the space provided
               below, a link would be sent to them to create an account.{" "}
             </p>
           </div>
           {/*form */}
-          <form className='flex flex-col gap-y-6 px-20'>
+          <form className="flex flex-col gap-y-6 px-20">
             {/*Name */}
-            <div className='flex flex-col gap-y-2'>
-              <span className='text'>Name</span>
+            <div className="flex flex-col gap-y-2">
+              <span className="text">Name</span>
               <input
-                type='text'
-                placeholder='Enter user full name'
-                className='input'
-                name='name'
+                type="text"
+                placeholder="Enter user full name"
+                className="input"
+                name="name"
                 value={details.name}
                 onChange={handleChange}
               />
             </div>
             {/*Email */}
-            <div className='flex flex-col gap-y-2'>
-              <span className='text'>Work Email</span>
+            <div className="flex flex-col gap-y-2">
+              <span className="text">Work Email</span>
               <input
-                type='text'
-                placeholder='Enter user work email'
-                className='input'
-                name='email'
+                type="text"
+                placeholder="Enter user work email"
+                className="input"
+                name="email"
                 value={details.email}
                 onChange={handleChange}
               />
             </div>
 
-            <div className='flex flex-col gap-y-2'>
-              <span className='text'>Role</span>
+            <div className="flex flex-col gap-y-2">
+              <span className="text">Role</span>
               {/*Select a role */}
               <div
-                className='w-full flex items-center justify-between border border-light-grey p-2 rounded-lg'
+                className="w-full flex items-center justify-between border border-light-grey p-2 rounded-lg"
                 onClick={clickRole}
               >
-                <span className='text-xm font-normal text-black'>
+                <span className="text-xm font-normal text-black">
                   {details.role || "Select"}
                 </span>
                 <svg
-                  width='16'
-                  className='cursor-pointer'
-                  height='16'
-                  viewBox='0 0 16 16'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
+                  width="16"
+                  className="cursor-pointer"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g opacity='0.5'>
+                  <g opacity="0.5">
                     <path
-                      d='M4 6L8 10L12 6'
-                      stroke='#2B2B2B'
-                      strokeWidth='1.33333'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
+                      d="M4 6L8 10L12 6"
+                      stroke="#2B2B2B"
+                      strokeWidth="1.33333"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </g>
                 </svg>
               </div>
 
               {dropdown && (
-                <div className='bg-white p-2 rounded-lg shadow-2xl flex flex-col gap-y-4'>
+                <div className="bg-white p-2 rounded-lg shadow-2xl flex flex-col gap-y-4">
                   <span
                     onClick={() => handleSelectRole("Manager")}
-                    className='cursor-pointer'
+                    className="cursor-pointer"
                   >
                     Manager
                   </span>
                   <span
                     onClick={() => handleSelectRole("Live Agent")}
-                    className='cursor-pointer'
+                    className="cursor-pointer"
                   >
                     Live Agent
                   </span>
                 </div>
               )}
             </div>
-            <div className='flex items-center justify-center'>
+            <div className="flex items-center justify-center">
               <button
-                className='button'
-                type='submit'
+                className="button"
+                type="submit"
                 disabled={!sendLink}
                 onClick={handleSubmit}
               >
@@ -204,7 +204,7 @@ export default function CreateUser({ onClose }) {
                     <CircularProgress
                       size={20}
                       sx={{ color: "white" }}
-                      aria-label='loading...'
+                      aria-label="loading..."
                     />
                   </Box>
                 ) : (

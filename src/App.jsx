@@ -4,7 +4,7 @@ import "./styles.css";
 import FirstScreen from "./pages/Authentication/Onboarding/FirstScreen";
 import img from "./assets/Onboarding/leftPanel.svg";
 import SecondScreen from "./pages/Authentication/Onboarding/SecondScreen/SecondScreen";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Loader from "./components/Animation/Loader";
 import ThirdScreen from "./pages/Authentication/Onboarding/ThirdScreen";
 import FourthScreen from "./pages/Authentication/Onboarding/Fourth/FourthScreen";
@@ -29,10 +29,15 @@ import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Channels from "./pages/Dashboard/Channels/Channels";
 import Audit from "./pages/Dashboard/Audit/Audit";
+import LoadingBar from "react-top-loading-bar";
 
 export default function App() {
   const [appLoading, setAppLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
+  const [showRoute, setShowRoute] = useState(false);
+
+  const ref = useRef(null);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -54,6 +59,32 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (appLoading) return;
+
+    setShowRoute(false);
+
+    // Start the progress bar
+    ref.current?.continuousStart();
+
+    // Reach 70%
+    const progressTimer = setTimeout(() => {
+      ref.current?.staticStart(70);
+
+      setShowRoute(true);
+    }, 1000);
+
+    // Finish after the new route has rendered
+    const completeTimer = setTimeout(() => {
+      ref.current?.complete();
+    }, 600);
+
+    return () => {
+      clearTimeout(progressTimer);
+      clearTimeout(completeTimer);
+    };
+  }, [location.pathname, appLoading]);
+
   if (appLoading) {
     return <Loader />;
   }
@@ -67,8 +98,16 @@ export default function App() {
 
   return (
     <>
-      {" "}
+      <LoadingBar
+        color="#FF9200"
+        className="bg-[#FF9200] h-1.5 "
+        ref={ref}
+        height={5}
+      />
+
       <ToastContainer />
+
+      {/*Routes */}
       <section
         className={
           path && !isMobile
@@ -76,12 +115,12 @@ export default function App() {
             : ""
         }
       >
-        {path && !isMobile && <img src={img} className='w-screen' alt='' />}
+        {path && !isMobile && <img src={img} className="w-screen" alt="" />}
         <Routes>
-          <Route path='/' element={<Step1 />} />
-          <Route path='/email-verification/verify-code' element={<Step2 />} />
+          <Route path="/" element={<Step1 />} />
+          <Route path="/email-verification/verify-code" element={<Step2 />} />
           <Route
-            path='/email-verification'
+            path="/email-verification"
             element={
               <VerifyEmail
                 appLoading={appLoading}
@@ -90,15 +129,15 @@ export default function App() {
             }
           />
 
-          <Route path='/onboarding/1' element={<FirstScreen />} />
-          <Route path='/onboarding/2' element={<SecondScreen />} />
-          <Route path='/onboarding/3' element={<ThirdScreen />} />
-          <Route path='/onboarding/4' element={<FourthScreen />} />
-          <Route path='/onboarding/5' element={<FifthScreen />} />
-          <Route path='/onboarding/6' element={<SixthScreen />} />
-          <Route path='/onboarding/7' element={<SeventhScreen />} />
+          <Route path="/onboarding/1" element={<FirstScreen />} />
+          <Route path="/onboarding/2" element={<SecondScreen />} />
+          <Route path="/onboarding/3" element={<ThirdScreen />} />
+          <Route path="/onboarding/4" element={<FourthScreen />} />
+          <Route path="/onboarding/5" element={<FifthScreen />} />
+          <Route path="/onboarding/6" element={<SixthScreen />} />
+          <Route path="/onboarding/7" element={<SeventhScreen />} />
           <Route
-            path='/onboarding/8'
+            path="/onboarding/8"
             element={
               <EighthScreen
                 appLoading={appLoading}
@@ -108,25 +147,25 @@ export default function App() {
           />
 
           <Route
-            path='/signin'
+            path="/signin"
             element={
               <SignIn appLoading={appLoading} setAppLoading={setAppLoading} />
             }
           />
-          <Route path='/signin/forgot-password' element={<Forgot />} />
-          <Route path='/signin/change-password' element={<ChangePassword />} />
-          <Route path='/signin/password-reset' element={<PasswordUpdate />} />
+          <Route path="/signin/forgot-password" element={<Forgot />} />
+          <Route path="/signin/change-password" element={<ChangePassword />} />
+          <Route path="/signin/password-reset" element={<PasswordUpdate />} />
 
-          <Route element={<DashboardLayout />}>
-            <Route path='/dashboard' element={<Content />} />
-            <Route path='/contacts' element={<Contacts />} />
-            <Route path='/audit_logs' element={<Audit />} />
-            <Route path='/intelligence' element={<Reports />} />
-            <Route path='/integrations' element={<Integrations />} />
-            <Route path='/settings' element={<Settings />} />
-            <Route path='/channels/:type' element={<Channels />} />
+          <Route element={<DashboardLayout showRoute={showRoute} />}>
+            <Route path="/dashboard" element={<Content />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/audit_logs" element={<Audit />} />
+            <Route path="/intelligence" element={<Reports />} />
+            <Route path="/integrations" element={<Integrations />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/channels/:type" element={<Channels />} />
           </Route>
-        </Routes>{" "}
+        </Routes>
       </section>
     </>
   );
