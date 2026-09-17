@@ -5,7 +5,7 @@ import FirstGrid from "./FirstGrid/FirstGrid";
 import SecondGrid from "./SecondGrid/SecondGrid";
 import ThirdGrid from "./ThirdGrid";
 import { ChannelContext, UserContext } from "../../../contexts/Context";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import api from "../../../api/axios";
 import { toast } from "react-toastify";
 
@@ -84,21 +84,39 @@ export default function Channels() {
       return;
     }
 
+    console.log(conversation.sessionId);
+
     setIsLoadingConversation(true);
     const token = localStorage.getItem("Token");
 
     try {
       // Load the messages
-      const messageRes = await api.get(
-        `/v1/conversations/${email.sessionId}/messages`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+      if (
+        userDetails?.user?.role === "admin" ||
+        userDetails?.user?.role === "owner"
+      ) {
+        const messageRes = await api.get(
+          `/v1/conversations/${email.sessionId}/messages`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
+        );
+        setEachConversations(messageRes.data.messages);
+      } else {
+        const agentRes = await api.get(
+          `dashboard/conversations/${email.sessionId}/messages`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        setEachConversations(agentRes.data.messages);
+        console.log("agent response");
+      }
 
-      setEachConversations(messageRes.data.messages);
       {
         type === "chats"
           ? setSelectedEmail(conversation.contactName)
@@ -125,7 +143,8 @@ export default function Channels() {
           },
         );
 
-        setAssignedUserId(joinRes.data.assignedUserId);
+        setAssignedUserId(joinRes.data.ticket.assignedUserId);
+        // console.log(joinRes.data);
       }
     } catch (err) {
       console.error(err.response);
@@ -146,9 +165,13 @@ export default function Channels() {
   // const shouldShowApiKeyModal =
   //   filteredConversations.length > 0 && !isApiKeyAccepted;
   // console.log();
+
+  // useEffect(() => {
+  //   console.log(assignedUserId);
+  // }, []);
   return (
     <>
-      <div className='grid grid-cols-[25%_50%_25%] h-full'>
+      <div className="grid grid-cols-[25%_50%_25%] h-full">
         <FirstGrid
           title={title}
           type={type}
@@ -161,6 +184,7 @@ export default function Channels() {
           assignedUserId={assignedUserId}
           isLoadingConversation={isLoadingConversation}
           type={type}
+          details={details}
         />
         <ThirdGrid
           filteredConversations={filteredConversations}

@@ -11,14 +11,14 @@ export default function Dashboard({ showRoute }) {
   const path = location.pathname.startsWith("/channels");
   const navigate = useNavigate();
   const { userDetails } = useContext(UserContext);
-  useEffect(() => {
-    if (
-      userDetails?.user?.role === "agent" &&
-      location.pathname === "/dashboard"
-    ) {
-      navigate("/channels/whatsapp");
-    }
-  }, [userDetails, location.pathname, navigate]);
+  // useEffect(() => {
+  //   if (
+  //     userDetails?.user?.role === "agent" &&
+  //     location.pathname === "/dashboard"
+  //   ) {
+  //     navigate("/channels/whatsapp");
+  //   }
+  // }, [userDetails, location.pathname, navigate]);
 
   return (
     <div className="flex ">

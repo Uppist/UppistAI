@@ -24,48 +24,11 @@ export default function ChannelProvider({ children }) {
   const [conversations, setConversations] = useState([]);
   const [eachConversations, setEachConversations] = useState([]);
   const [selectedSessionId, setSelectedSessionId] = useState(null);
-  const [saveAPI, setSaveAPI] = useState(() => {
-    return JSON.parse(localStorage.getItem("saveAPI")) || false;
-  });
 
   const [activeChannel, setActiveChannel] = useState([]);
   const userContext = useContext(UserContext);
   const isAuthenticated =
     userContext?.isAuthenticated ?? Boolean(localStorage.getItem("Token"));
-
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("Token");
-  //   const headers = {
-  //     Authorization: `Bearer ${token}`,
-  //   };
-
-  //   //get all conversations
-  //   api
-  //     .get("/dashboard/conversations", { headers })
-  //     .then((res) => {
-  //       const conversationsData = res.data.conversations || res.data;
-  //       setConversations(conversationsData);
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("Agent conversations error:", err);
-  //       // navigate("/signin");
-  //     });
-
-  //   api
-  //     .get("/channels", { headers })
-  //     .then((res) => {
-  //       const channelsData = res.data.channels || res.data;
-  //       setActiveChannel(channelsData);
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("Agent channels error:", err);
-  //       // navigate("/signin");
-  //     });
-  // }, []);
 
   const fetchChannelData = useCallback(async () => {
     const token = localStorage.getItem("Token");
@@ -110,11 +73,10 @@ export default function ChannelProvider({ children }) {
   }, [isAuthenticated, fetchChannelData]);
   //listen for incoming message
   useEffect(() => {
-    if (!selectedSessionId || !saveAPI) return;
+    if (!selectedSessionId) return;
 
     connectSSE({
       sessionId: selectedSessionId,
-      apiKey: saveAPI,
 
       onConnected(data) {
         console.log("Connected", data);
@@ -219,7 +181,7 @@ export default function ChannelProvider({ children }) {
     });
 
     return () => disconnectSSE();
-  }, [selectedSessionId, saveAPI]);
+  }, [selectedSessionId]);
 
   return (
     <ChannelContext.Provider
@@ -228,8 +190,6 @@ export default function ChannelProvider({ children }) {
         setConversations,
         eachConversations,
         setEachConversations,
-        saveAPI,
-        setSaveAPI,
         activeChannel,
         setActiveChannel,
         selectedSessionId,

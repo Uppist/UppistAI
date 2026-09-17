@@ -17,45 +17,43 @@ export default function Logo1({ role, isSocials, setIsSocials }) {
     <div className="flex flex-col items-center gap-y-4.5">
       {/*Dashboard */}
 
-      {(role === "owner" || role === "admin") && (
-        <NavLink
-          to="/dashboard"
-          onClick={() => setIsSocials(false)}
-          className={({ isActive }) =>
-            `group relative ${
-              isActive
-                ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg before:content-[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
-                : "cursor-pointer text-grey px-4 py-2"
-            }`
-          }
+      <NavLink
+        to="/dashboard"
+        onClick={() => setIsSocials(false)}
+        className={({ isActive }) =>
+          `group relative ${
+            isActive
+              ? "cursor-pointer bg-pink border text-bg border-pink px-4 py-2 rounded-lg before:content-[''] before:absolute before:w-1 before:h-4.5 before:bg-bg before:left-2 before:rounded-r-lg"
+              : "cursor-pointer text-grey px-4 py-2"
+          }`
+        }
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2.5 9.99101V12.083C2.5 14.8328 2.5 16.2078 3.35427 17.0621C4.20854 17.9163 5.58347 17.9163 8.33333 17.9163H11.6667C14.4165 17.9163 15.7914 17.9163 16.6457 17.0621C17.5 16.2078 17.5 14.8328 17.5 12.083V9.99101C17.5 8.58992 17.5 7.88945 17.2034 7.28305C16.9068 6.67665 16.3539 6.24657 15.248 5.38643L13.5813 4.09013C11.8609 2.75205 11.0007 2.08301 10 2.08301C8.99925 2.08301 8.13908 2.75205 6.41868 4.09013L4.75201 5.38643C3.64611 6.24657 3.09316 6.67665 2.79658 7.28305C2.5 7.88945 2.5 8.58992 2.5 9.99101Z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M12.5002 14.167C11.8339 14.6857 10.9587 15.0003 10.0002 15.0003C9.04158 15.0003 8.16642 14.6857 7.50015 14.167"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 ">
-            Dashboard
-          </span>
-        </NavLink>
-      )}
+          <path
+            d="M2.5 9.99101V12.083C2.5 14.8328 2.5 16.2078 3.35427 17.0621C4.20854 17.9163 5.58347 17.9163 8.33333 17.9163H11.6667C14.4165 17.9163 15.7914 17.9163 16.6457 17.0621C17.5 16.2078 17.5 14.8328 17.5 12.083V9.99101C17.5 8.58992 17.5 7.88945 17.2034 7.28305C16.9068 6.67665 16.3539 6.24657 15.248 5.38643L13.5813 4.09013C11.8609 2.75205 11.0007 2.08301 10 2.08301C8.99925 2.08301 8.13908 2.75205 6.41868 4.09013L4.75201 5.38643C3.64611 6.24657 3.09316 6.67665 2.79658 7.28305C2.5 7.88945 2.5 8.58992 2.5 9.99101Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12.5002 14.167C11.8339 14.6857 10.9587 15.0003 10.0002 15.0003C9.04158 15.0003 8.16642 14.6857 7.50015 14.167"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <span className="hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 ">
+          Dashboard
+        </span>
+      </NavLink>
 
       {/*Channels */}
       <div className="group flex flex-col relative z-300">

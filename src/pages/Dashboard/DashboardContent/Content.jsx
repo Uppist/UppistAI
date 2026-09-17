@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import LatestAuditLog from "./LatestAuditLog";
 import Channels from "./Channels";
 import NewContact from "./NewContact";
+import AgentDashboard from "./AgentDashboard/AgentDashboard";
 
 const safeMetricValue = (value) => {
   if (typeof value === "number" && Number.isFinite(value)) return value;
@@ -67,85 +68,95 @@ export default function Content() {
 
   return (
     <div className="flex flex-col  gap-y-10 pl-6 mt-5 lg:h-140 2xl:h-190 overflow-scroll no-scrollbar w-auto pr-6">
-      {/*If onboarding is not completed */}
-      {shouldShowOnboardingBanner ? (
-        <div className="flex flex-col gap-y-5 items-end bg-pink border border-bg p-8 w-full  rounded-2xl">
-          {/*Cancel */}
-          <svg
-            className="cursor-pointer flex"
-            onClick={() => setIsVisible(false)}
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75"
-              stroke="#2B2B2B"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          {/*Content */}
-          <div className="flex w-full justify-between ">
-            <div className="flex flex-col gap-y-2">
-              <h3 className="text-base font-semibold text-black">
-                You're almost ready to go
-              </h3>
-              <span className="text-base font-normal text-black">
-                Some setup steps are still incomplete. Complete your onboarding
-                to unlock the full experience and ensure everything works
-                correctly.
-              </span>
+      {/*dashboard for admin and owner */}
+      {(userDetails?.user?.role === "owner" ||
+        userDetails?.user?.role === "admin") && (
+        <>
+          {/*If onboarding is not completed */}
+          {shouldShowOnboardingBanner ? (
+            <div className="flex flex-col gap-y-5 items-end bg-pink border border-bg p-8 w-full  rounded-2xl">
+              {/*Cancel */}
+              <svg
+                className="cursor-pointer flex"
+                onClick={() => setIsVisible(false)}
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.75 11.236L5.993 5.993L11.236 11.236M11.236 0.75L5.992 5.993L0.75 0.75"
+                  stroke="#2B2B2B"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {/*Content */}
+              <div className="flex w-full justify-between ">
+                <div className="flex flex-col gap-y-2">
+                  <h3 className="text-base font-semibold text-black">
+                    You're almost ready to go
+                  </h3>
+                  <span className="text-base font-normal text-black">
+                    Some setup steps are still incomplete. Complete your
+                    onboarding to unlock the full experience and ensure
+                    everything works correctly.
+                  </span>
+                </div>
+                <button
+                  className="bg-bg rounded-lg py-1 px-2 text-sm font-semibold text-white cursor-pointer hover:opacity-50"
+                  onClick={() => navigate("/integrations")}
+                >
+                  Continue Setup
+                </button>
+              </div>
             </div>
-            <button
-              className="bg-bg rounded-lg py-1 px-2 text-sm font-semibold text-white cursor-pointer hover:opacity-50"
-              onClick={() => navigate("/integrations")}
-            >
-              Continue Setup
-            </button>
+          ) : (
+            ""
+          )}
+
+          {/*first container */}
+          <div className="grid grid-cols-5 gap-x-10 w-full">
+            {list.map((data, index) => (
+              <div
+                className="border border-light-grey p-4 flex flex-col gap-y-2.5 rounded-lg"
+                key={index}
+              >
+                <div className="flex items-center gap-x-2">
+                  <img src={data.svg} alt="" />
+                  <span className="text-xs font-normal text-grey">
+                    {data.text}
+                  </span>
+                </div>
+                <span className="text-xl font-semibold text-black">
+                  {data.number}
+                </span>
+                <p className="text-[10px] font-medium text-green">
+                  {data.increase}
+                </p>
+              </div>
+            ))}
           </div>
-        </div>
-      ) : (
-        ""
+
+          {/*Second container */}
+          <div className="grid grid-cols-3 gap-x-10">
+            <RecentConversation />
+            <ActiveConversation />
+            <TopIntent />
+          </div>
+
+          {/*third card */}
+          <div className="grid grid-cols-3 gap-x-10 pb-5">
+            <NewContact />
+            <LatestAuditLog />
+            <Channels />
+          </div>
+        </>
       )}
 
-      {/*first container */}
-      <div className="grid grid-cols-5 gap-x-10 w-full">
-        {list.map((data, index) => (
-          <div
-            className="border border-light-grey p-4 flex flex-col gap-y-2.5 rounded-lg"
-            key={index}
-          >
-            <div className="flex items-center gap-x-2">
-              <img src={data.svg} alt="" />
-              <span className="text-xs font-normal text-grey">{data.text}</span>
-            </div>
-            <span className="text-xl font-semibold text-black">
-              {data.number}
-            </span>
-            <p className="text-[10px] font-medium text-green">
-              {data.increase}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/*Second container */}
-      <div className="grid grid-cols-3 gap-x-10">
-        <RecentConversation />
-        <ActiveConversation />
-        <TopIntent />
-      </div>
-
-      {/*third card */}
-      <div className="grid grid-cols-3 gap-x-10 pb-5">
-        <NewContact />
-        <LatestAuditLog />
-        <Channels />
-      </div>
+      {userDetails?.user?.role === "agent" && <AgentDashboard />}
     </div>
   );
 }

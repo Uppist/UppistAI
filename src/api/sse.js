@@ -8,7 +8,6 @@ let abortController = null;
 
 export function connectSSE({
   sessionId,
-  apiKey,
   onConnected,
   onAssistantMessage,
   onAgentMessage,
@@ -22,12 +21,12 @@ export function connectSSE({
   abortController = new AbortController();
 
   fetchEventSource(
-    `${import.meta.env.VITE_API_URL}/v1/conversations/${sessionId}/events`,
+    `${import.meta.env.VITE_API_URL}v1/conversations/${sessionId}/events`,
     {
       method: "GET",
 
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${localStorage.getItem("Token")}`,
         Accept: "text/event-stream",
       },
 

@@ -3,6 +3,8 @@
 import { formatTime } from "../../../../utils/Time";
 import ReactMarkdown from "react-markdown";
 import dayjs from "dayjs";
+import { useContext } from "react";
+import { UserContext } from "../../../../contexts/Context";
 
 export default function Chats({ eachConversations, assignedUserId }) {
   // console.log(eachConversations, "eachConversations");
@@ -20,6 +22,8 @@ export default function Chats({ eachConversations, assignedUserId }) {
 
     return messageDate.format("dddd, MMMM D, YYYY");
   };
+
+  const { userDetails } = useContext(UserContext);
   return (
     <div className="p-4 px-6 flex flex-col gap-y-2 pb-10 overflow-scroll no-scrollbar">
       {eachConversations?.map((conversation, index) => {
@@ -32,6 +36,10 @@ export default function Chats({ eachConversations, assignedUserId }) {
 
         const showAgentJoinedMessage =
           assignedUserId && isAgentMessage && index === firstAgentMessageIndex;
+
+        const showOnAdminSection =
+          isAgentMessage && index === firstAgentMessageIndex;
+
         const currentDate = dayjs(conversation?.created_at);
         const previousDate =
           index > 0 ? dayjs(eachConversations[index - 1]?.created_at) : null;
@@ -50,7 +58,7 @@ export default function Chats({ eachConversations, assignedUserId }) {
               </div>
             )}
             {/*Live agent joined conversation */}
-            {showAgentJoinedMessage && (
+            {userDetails?.user.role === "agent" && showAgentJoinedMessage && (
               <div className="flex items-center justify-center my-3">
                 <div className="flex items-center gap-x-2 w-full">
                   <div className="h-px bg-light-grey flex-1"></div>
@@ -63,6 +71,21 @@ export default function Chats({ eachConversations, assignedUserId }) {
                 </div>
               </div>
             )}
+            {/*owner */}
+            {userDetails?.user.role !== "agent" && showOnAdminSection && (
+              <div className="flex items-center justify-center my-3">
+                <div className="flex items-center gap-x-2 w-full">
+                  <div className="h-px bg-light-grey flex-1"></div>
+
+                  <span className="text-[10px] text-grey whitespace-nowrap">
+                    Live agent joined the conversation
+                  </span>
+
+                  <div className="h-px bg-light-grey flex-1"></div>
+                </div>
+              </div>
+            )}
+
             {conversation?.role === "assistant" ||
             conversation?.role === "agent" ? (
               //bot conversation
