@@ -54,18 +54,17 @@ export default function SecondScreen() {
 
   const showInput = details.industry?.toLowerCase() === "others";
   return (
-    <div className='flex flex-col gap-y-6 h-screen px-5 pb-0  justify-center animate-fade-up overflow-scroll no-scrollbar h-screen lg:px-10'>
-
-      <div className='flex flex-col gap-y-2'>
-        <h2 className='m-0px text-black text-3xl font-bold'>
+    <div className="flex flex-col gap-y-6  px-5 pb-0  justify-center animate-fade-up overflow-scroll no-scrollbar h-screen lg:px-10">
+      <div className="flex flex-col gap-y-2">
+        <h2 className="m-0px text-black text-3xl font-bold">
           About your business
         </h2>
-        <span className='text-light text-base font-normal'>
+        <span className="text-light text-base font-normal">
           Helps us tailor the AI to your needs
         </span>
       </div>
 
-      <form className='flex flex-col gap-y-4'>
+      <form className="flex flex-col gap-y-4">
         {/* <Company details={details} handleChange={handleChange} /> */}
         <Industry
           industry={industry}
@@ -90,7 +89,7 @@ export default function SecondScreen() {
         <button
           disabled={!submit}
           onClick={Next}
-          className='bg-bg disabled:bg-disabled disabled:text-black w-full p-3 text-white font-bold text-sm cursor-pointer rounded-lg'
+          className="bg-bg disabled:bg-disabled disabled:text-black w-full p-3 text-white font-bold text-sm cursor-pointer rounded-lg"
         >
           Next
         </button>

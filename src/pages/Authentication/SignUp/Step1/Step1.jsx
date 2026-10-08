@@ -38,9 +38,7 @@ export default function Step1() {
 
   function Create() {
     if (details.password !== details.confirm_password) {
-      toast.error("Passwords do not match", {
-        autoClose: 3000,
-      });
+      toast.error("Passwords do not match");
       return;
     } else {
       setIsClick(true);

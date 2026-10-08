@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { UserContext } from "../../../../contexts/Context";
 
 export default function Chats({ eachConversations, assignedUserId }) {
-  // console.log(eachConversations, "eachConversations");
+  console.log(eachConversations, "eachConversations");
 
   const getDateLabel = (date) => {
     const messageDate = dayjs(date);

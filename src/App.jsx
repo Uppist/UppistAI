@@ -105,7 +105,7 @@ export default function App() {
         height={5}
       />
 
-      <ToastContainer />
+      <ToastContainer autoClose={2000} />
 
       {/*Routes */}
       <section
@@ -163,7 +163,7 @@ export default function App() {
             <Route path="/intelligence" element={<Reports />} />
             <Route path="/integrations" element={<Integrations />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/channels/:type" element={<Channels />} />
+            <Route path="/inbox/:type" element={<Channels />} />
           </Route>
         </Routes>
       </section>

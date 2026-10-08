@@ -41,7 +41,7 @@ export default function RecentConversation() {
                       </span>
                       {/*channel */}
                       <div className="border border-light-grey px-1.5 py-1 flex items-center rounded-sm">
-                        <span className="text-[8px] font-medium text-light-black">
+                        <span className="text-[8px] font-medium capitalize text-light-black">
                           {data.channel}
                         </span>
                       </div>

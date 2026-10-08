@@ -38,9 +38,6 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-.toasify {
-  font-family: var(--font-family);
-}
 
 @keyframes fade-up {
   from {

@@ -65,7 +65,7 @@ export default function ChannelProvider({ children }) {
     fetchChannelData();
     const interval = setInterval(() => {
       fetchChannelData();
-    }, 2000);
+    }, 1500);
 
     return () => {
       clearInterval(interval);
@@ -142,6 +142,19 @@ export default function ChannelProvider({ children }) {
         };
 
         setEachConversations((prev) => {
+          const optimisticIndex = prev.findIndex(
+            (item) =>
+              item?.optimistic &&
+              item?.role === "agent" &&
+              item?.content === content,
+          );
+
+          if (optimisticIndex !== -1) {
+            return prev.map((item, index) =>
+              index === optimisticIndex ? normalizedMessage : item,
+            );
+          }
+
           const alreadyExists = prev.some(
             (item) =>
               (item?.id &&

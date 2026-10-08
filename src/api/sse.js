@@ -20,13 +20,14 @@ export function connectSSE({
 
   abortController = new AbortController();
 
+  const token = localStorage.getItem("Token");
   fetchEventSource(
     `${import.meta.env.VITE_API_URL}v1/conversations/${sessionId}/events`,
     {
       method: "GET",
 
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("Token")}`,
+        Authorization: `Bearer ${token}`,
         Accept: "text/event-stream",
       },
 
@@ -42,6 +43,11 @@ export function connectSSE({
       },
 
       onmessage(event) {
+        console.log(" RAW SSE:", {
+          event: event.event,
+          data: event.data,
+        });
+
         if (!event.data) return;
 
         const data = JSON.parse(event.data);
@@ -56,6 +62,8 @@ export function connectSSE({
             break;
 
           case "agent_message":
+            console.log("AGENT MESSAGE RECEIVED:", data);
+
             onAgentMessage?.(data);
             break;
 

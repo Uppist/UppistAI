@@ -8,6 +8,7 @@ import { ChannelContext, UserContext } from "../../../contexts/Context";
 import { useContext, useEffect, useMemo, useState } from "react";
 import api from "../../../api/axios";
 import { toast } from "react-toastify";
+import { connectSSE } from "../../../api/sse";
 
 export default function Channels() {
   const { type } = useParams();
@@ -15,38 +16,15 @@ export default function Channels() {
   const [assignedUserId, setAssignedUserId] = useState("");
   const [isLoadingConversation, setIsLoadingConversation] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
   const [details, setDetails] = useState({
     intent: "",
     ai_agent: "",
   });
-  const {
-    conversations,
-    // setSaveAPI,
-    // saveAPI,
-    setEachConversations,
-    setSelectedSessionId,
-  } = useContext(ChannelContext);
+  const { conversations, setEachConversations, setSelectedSessionId } =
+    useContext(ChannelContext);
   const { userDetails } = useContext(UserContext);
 
-  // function getStoredApiKey() {
-  //   const key = localStorage.getItem(storage_key);
-  //   const expiry = localStorage.getItem(expiry_date);
-
-  //   if (!key || !expiry) return "";
-
-  //   if (Date.now() > Number(expiry)) {
-  //     localStorage.removeItem(storage_key);
-  //     localStorage.removeItem(expiry_date);
-  //     return "";
-  //   }
-
-  //   return key;
-  // }
-
-  // const [apiKey, setApiKey] = useState(() => getStoredApiKey());
-  // const [isApiKeyAccepted, setIsApiKeyAccepted] = useState(() =>
-  //   Boolean(localStorage.getItem(storage_key)),
-  // );
   const title =
     type === "whatsapp"
       ? "Whatsapp"
@@ -123,6 +101,7 @@ export default function Channels() {
           : setSelectedEmail(conversation.contactIdentifier);
       }
       setSelectedSessionId(conversation.sessionId);
+      setSelectedStatus(conversation.status);
       setDetails({
         intent: conversation.intentTag,
         ai_agent: conversation.aiAgentName,
@@ -130,7 +109,8 @@ export default function Channels() {
 
       // Join conversation if agent/admin
       if (
-        userDetails?.user?.role === "agent" ||
+        (userDetails?.user?.role === "agent" &&
+          conversation?.status !== "resolved") ||
         userDetails?.user?.role === "admin"
       ) {
         const joinRes = await api.post(
@@ -154,21 +134,6 @@ export default function Channels() {
     }
   }
 
-  // useEffect(() => {
-  //   if (type !== "website" || !apiKey) return;
-
-  //   if (isApiKeyAccepted) {
-  //     setSaveAPI(apiKey);
-  //   }
-  // }, [apiKey, setSaveAPI, type]);
-
-  // const shouldShowApiKeyModal =
-  //   filteredConversations.length > 0 && !isApiKeyAccepted;
-  // console.log();
-
-  // useEffect(() => {
-  //   console.log(assignedUserId);
-  // }, []);
   return (
     <>
       <div className="grid grid-cols-[25%_50%_25%] h-full">
@@ -185,64 +150,12 @@ export default function Channels() {
           isLoadingConversation={isLoadingConversation}
           type={type}
           details={details}
+          selectedStatus={selectedStatus}
         />
         <ThirdGrid
           filteredConversations={filteredConversations}
           details={details}
         />
-
-        {/* {shouldShowApiKeyModal && (
-          <div className='fixed inset-0 flex items-center justify-center left-18'>
-            <div className='absolute inset-0 bg-black/40 backdrop-blur-sm'></div>
-            <div className='bg-white p-4 absolute flex flex-col items-end gap-y-2.5 w-1/2'>
-              <div className='flex flex-col z-100 items-center gap-y-2'>
-                <h3 className='text-center text-xl text-bg font-semibold'>
-                  Enter API Key
-                </h3>
-                <p className='text-base font-normal text-center text-grey w-9/12'>
-                  Paste the API key you previously generated to access your
-                  website chat history.
-                </p>
-                <div className='flex items-center gap-x-2'>
-                  <input
-                    type='password'
-                    name='api'
-                    value={apiKey}
-                    onChange={(e) => {
-                      setApiKey(e.target.value);
-                      setIsApiKeyAccepted(false);
-                    }}
-                    className='input'
-                    id=''
-                  />
-                </div>
-                <button
-                  className='button w-full'
-                  onClick={Enter}
-                  disabled={!apiKey}
-                >
-                  {isClick ? (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <CircularProgress
-                        size={20}
-                        sx={{ color: "white" }}
-                        aria-label='loading...'
-                      />
-                    </Box>
-                  ) : (
-                    "Enter"
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        )} */}
       </div>
     </>
   );

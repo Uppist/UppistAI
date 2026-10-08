@@ -96,10 +96,10 @@ export default function UserContainer() {
 
   return (
     <div className="flex flex-col gap-y-9.5" ref={menuRef}>
-      <div className="grid grid-cols-[25%_25%_25%_15%] gap-x-10 border-b border-b-light-grey pb-6">
+      <div className="grid grid-cols-[20%_20%_20%_20%_2%] gap-x-10 border-b border-b-light-grey pb-6">
         <span className="text-sm text-[#4A4549] font-semibold">Name</span>
         <span className="text-sm text-[#4A4549] font-semibold">Email</span>
-        {/* <span className='text-sm text-[#4A4549] font-semibold'>Status</span> */}
+        <span className="text-sm text-[#4A4549] font-semibold">Status</span>
         <span className="text-sm text-[#4A4549] font-semibold">Role</span>
         <span className="hidden">Status</span>
       </div>
@@ -112,7 +112,7 @@ export default function UserContainer() {
         ) : (
           getUsers.map((item, index) => (
             <div
-              className="grid grid-cols-[25%_25%_25%_15%] gap-x-10 border-b border-b-light-grey pb-6 items-center"
+              className="grid grid-cols-[20%_20%_20%_20%_2%] gap-x-10 border-b border-b-light-grey pb-6 items-center"
               key={item.id}
             >
               <div className="flex items-center gap-x-2">
@@ -122,35 +122,35 @@ export default function UserContainer() {
                 <span className="text2">{item.name}</span>
               </div>
               <span className="text2">{item.email}</span>
-              {/* <span className='text2'>
+              <span className="text2">
                 {item.presenceStatus === "online" ? (
-                  <span className='flex items-center gap-x-2'>
+                  <span className="flex items-center gap-x-2">
                     <svg
-                      width='6'
-                      height='6'
-                      viewBox='0 0 6 6'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
+                      width="6"
+                      height="6"
+                      viewBox="0 0 6 6"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width='6' height='6' rx='3' fill='#59C0B6' />
+                      <rect width="6" height="6" rx="3" fill="#59C0B6" />
                     </svg>
                     Online
                   </span>
                 ) : (
-                  <span className='flex items-center gap-x-2'>
+                  <span className="flex items-center gap-x-2">
                     <svg
-                      width='6'
-                      height='6'
-                      viewBox='0 0 6 6'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
+                      width="6"
+                      height="6"
+                      viewBox="0 0 6 6"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width='6' height='6' rx='3' fill='#667085' />
+                      <rect width="6" height="6" rx="3" fill="#667085" />
                     </svg>
                     Offline
                   </span>
                 )}
-              </span> */}
+              </span>
               <span className="text2 border px-3 py-1.5 rounded-lg w-fit border-light-grey capitalize">
                 {item.role}
               </span>

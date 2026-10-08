@@ -8,15 +8,36 @@ import { ChannelContext } from "../../../../contexts/Context";
 export default function Input() {
   const [text, setText] = useState("");
 
-  const { selectedSessionId } = useContext(ChannelContext);
+  const { selectedSessionId, setEachConversations } =
+    useContext(ChannelContext);
 
   async function Send() {
+    // const data = {
+    //   message: text,
+    //   takeover: true,
+    // };
+
+    const messageText = text.trim();
+
+    if (!selectedSessionId || !messageText) return;
+
     const data = {
-      message: text,
+      role: "agent",
+      message: messageText,
+      created_at: new Date().toISOString(),
       takeover: true,
     };
+
+    const optimisticMessage = {
+      id: `optimistic-${data.created_at}`,
+      role: "agent",
+      content: messageText,
+      created_at: data.created_at,
+      optimistic: true,
+    };
+    setEachConversations((prev) => [...prev, optimisticMessage]);
     try {
-      const res = await api.post(
+      await api.post(
         `/dashboard/conversations/${selectedSessionId}/agent-reply`,
         data,
         {
@@ -25,10 +46,11 @@ export default function Input() {
           },
         },
       );
-      console.log(res.data, "res.data");
-
       setText("");
     } catch (err) {
+      setEachConversations((prev) =>
+        prev.filter((message) => message.id !== optimisticMessage.id),
+      );
       toast.error(err.response?.data?.error || "Failed to send message");
     }
   }

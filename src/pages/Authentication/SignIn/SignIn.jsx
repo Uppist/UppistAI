@@ -71,46 +71,44 @@ export default function SignIn({ appLoading, setAppLoading }) {
     return;
   }
 
-
   return (
     <>
       {" "}
-      <div className='flex flex-col gap-y-18 animate-fade-up overflow-scroll no-scrollbar px-5 pb-20 mt-0 lg:p-10 lg:pb-140 '>
-     
-     {/*   {!MobileView && (*/}
-          <div className='flex flex-col gap-y-6 justify-center items-center'>
-            <img src={logo} className="hidden lg:block" alt='Uppist Logo' />
-            <span className='hidden lg:block lg:text-light lg:font-normal lg:text-xl'>
-              AI omnichannel customer support platform
-            </span>
-          </div>
+      <div className="flex flex-col gap-y-18 animate-fade-up overflow-scroll h-screen no-scrollbar px-5 pb-20 mt-0 lg:p-10 ">
+        {/*   {!MobileView && (*/}
+        <div className="flex flex-col gap-y-6 justify-center items-center">
+          <img src={logo} className="hidden lg:block" alt="Uppist Logo" />
+          <span className="hidden lg:block lg:text-light lg:font-normal lg:text-xl">
+            AI omnichannel customer support platform
+          </span>
+        </div>
         {/* )} */}
 
-        <div className='flex flex-col gap-y-6'>
-          <div className='flex flex-col gap-y-6'>
-            <div className='flex flex-col gap-y-2'>
-              <h2 className='text-3xl text-black font-bold'>Welcome Back! </h2>
-              <span className='text-light font-normal text-base'>
+        <div className="flex flex-col gap-y-6">
+          <div className="flex flex-col gap-y-6">
+            <div className="flex flex-col gap-y-2">
+              <h2 className="text-3xl text-black font-bold">Welcome Back! </h2>
+              <span className="text-light font-normal text-base">
                 Track, optimize, and scale your support{" "}
               </span>
             </div>
-            <form action='' className='flex flex-col gap-y-4'>
+            <form action="" className="flex flex-col gap-y-4">
               <Form details={details} handleChange={handleChange} />
             </form>
-            <div className='w-full text-center flex items-center justify-center'>
+            <div className="w-full text-center flex items-center justify-center">
               <p
                 onClick={Forgot}
-                className='text-light font-normal w-fit text-sm text-center cursor-pointer'
+                className="text-light font-normal w-fit text-sm text-center cursor-pointer"
               >
                 Forgot Password?
               </p>
             </div>
 
             <button
-              type='submit'
+              type="submit"
               disabled={!submit}
               onClick={Next}
-              className='bg-bg disabled:bg-disabled disabled:text-black disabled:cursor-not-allowed w-full p-3 text-white font-bold text-sm cursor-pointer rounded-lg hover:opacity-50'
+              className="bg-bg disabled:bg-disabled disabled:text-black disabled:cursor-not-allowed w-full p-3 text-white font-bold text-sm cursor-pointer rounded-lg hover:opacity-50"
             >
               {isClick ? (
                 <Box
@@ -123,7 +121,7 @@ export default function SignIn({ appLoading, setAppLoading }) {
                   <CircularProgress
                     size={20}
                     sx={{ color: "white" }}
-                    aria-label='loading...'
+                    aria-label="loading..."
                   />
                 </Box>
               ) : (
@@ -132,11 +130,11 @@ export default function SignIn({ appLoading, setAppLoading }) {
             </button>
           </div>
 
-          <div className='flex flex-col gap-y-8'>
-            <div className='flex items-center gap-x-4'>
-              <hr className='w-full border border-border' />
+          <div className="flex flex-col gap-y-8">
+            <div className="flex items-center gap-x-4">
+              <hr className="w-full border border-border" />
               <span>or</span>
-              <hr className='w-full border border-border' />
+              <hr className="w-full border border-border" />
             </div>
 
             {/* <button
@@ -147,10 +145,10 @@ export default function SignIn({ appLoading, setAppLoading }) {
               Login with Google
             </button> */}
 
-            <span className='text-sm font-medium text-light text-center'>
+            <span className="text-sm font-medium text-light text-center">
               Don't have an account?{" "}
               <span
-                className='text-bg cursor-pointer'
+                className="text-bg cursor-pointer"
                 onClick={() => navigate("/")}
               >
                 Create Account

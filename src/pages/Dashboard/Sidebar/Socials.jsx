@@ -18,7 +18,7 @@ export default function Socials({ setIsSocials, activeChannel }) {
               channel?.channel === "whatsapp" && (
                 //whatsapp channel
                 <NavLink
-                  to="/channels/whatsapp"
+                  to="/inbox/whatsapp"
                   className="cursor-pointer text-grey flex items-center gap-x-2"
                   onClick={() => setIsSocials(false)}
                 >
@@ -58,7 +58,7 @@ export default function Socials({ setIsSocials, activeChannel }) {
             {channel?.status === "active" && channel?.channel === "web" && (
               //Website
               <NavLink
-                to="/channels/website"
+                to="/inbox/website"
                 className="cursor-pointer text-grey flex items-center gap-x-2"
                 onClick={() => setIsSocials(false)}
               >
@@ -109,7 +109,7 @@ export default function Socials({ setIsSocials, activeChannel }) {
                 channel?.channel === "x") && (
                 //Instagram
                 <NavLink
-                  to="/channels/chats"
+                  to="/inbox/chats"
                   className="cursor-pointer text-grey flex items-center gap-x-2"
                   onClick={() => setIsSocials(false)}
                 >
@@ -134,7 +134,7 @@ export default function Socials({ setIsSocials, activeChannel }) {
             {/*Email channel */}
             {channel?.status === "active" && channel?.channel === "email" && (
               <NavLink
-                to="/channels/email"
+                to="/inbox/email"
                 className="cursor-pointer text-grey flex items-center gap-x-2"
                 onClick={() => setIsSocials(false)}
               >

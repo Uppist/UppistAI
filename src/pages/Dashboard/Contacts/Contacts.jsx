@@ -20,7 +20,7 @@ export default function Contacts() {
 
   return (
     <>
-      <div className='flex flex-col gap-y-5 p-6 pr-8'>
+      <div className="flex flex-col gap-y-5 p-6 pr-8">
         {active ? (
           <ContactHistory />
         ) : (
@@ -30,10 +30,10 @@ export default function Contacts() {
               setFilteredContacts={setFilteredContacts}
               setHasActiveFilter={setHasActiveFilter}
             />
-            <div className='h-90 overflow-scroll no-scrollbar'>
+            <div className="h-90 overflow-scroll no-scrollbar">
               {filteredContacts.length === 0 && hasActiveFilter && (
-                <div className='flex flex-col gap-y-2 items-center justify-center h-full'>
-                  <span className='text-light-black text-sm font-semibold'>
+                <div className="flex flex-col gap-y-2 items-center justify-center h-full">
+                  <span className="text-light-black text-sm font-semibold">
                     No contacts found.
                   </span>
                 </div>

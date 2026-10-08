@@ -8,7 +8,7 @@ import { useContext, useEffect } from "react";
 
 export default function Dashboard({ showRoute }) {
   const location = useLocation();
-  const path = location.pathname.startsWith("/channels");
+  const path = location.pathname.startsWith("/inbox");
   const navigate = useNavigate();
   const { userDetails } = useContext(UserContext);
   // useEffect(() => {

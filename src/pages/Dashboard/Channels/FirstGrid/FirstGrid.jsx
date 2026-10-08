@@ -11,17 +11,33 @@ export default function FirstGrid({
   type,
 }) {
   const [active, setActive] = useState("All");
+  const [active_whatsapp, setActiveWhatsapp] = useState("All_whatsapp");
 
   const { userDetails } = useContext(UserContext);
 
-  const conversationsToDisplay =
-    userDetails?.user?.role === "agent"
-      ? filteredConversations.filter(
-          (conversation) => conversation.assignedUserId === userDetails.user.id,
-        )
-      : filteredConversations;
+  const conversationsToDisplay = filteredConversations
+    .filter((conversation) => {
+      if (active === "open") {
+        return (
+          conversation.status === "open" || conversation.status === "active"
+        );
+      } else if (active === "closed") {
+        return (
+          conversation.status === "resolved" || conversation.status === "closed"
+        );
+      }
 
-  // console.log(filteredConversations);
+      return true;
+    })
+    .filter((conversation) => {
+      if (userDetails?.user?.role === "agent") {
+        return conversation.assignedUserId === userDetails.user.id;
+      }
+
+      return true;
+    });
+
+  // console.log(conversationsToDisplay);
 
   return (
     <div className="border border-light-grey">
@@ -34,6 +50,57 @@ export default function FirstGrid({
           placeholder="Search conversations"
           id=""
         />
+
+        {/*Multiple Whatsapp numbers */}
+        {type === "whatsapp" && (
+          <div className="flex items-center gap-x-2 mt-2">
+            <span
+              className={`py-1.5 px-1.5 text-center  rounded-sm text-[8px] font-medium cursor-pointer w-full
+                ${
+                  active_whatsapp === "All_whatsapp"
+                    ? "bg-pink text-bg "
+                    : " text-grey border border-light-grey "
+                }`}
+              onClick={() => setActiveWhatsapp("All_whatsapp")}
+            >
+              All Whatsapp Numbers
+            </span>
+            <span
+              className={`py-1.5 px-1.5 text-center  rounded-sm text-[8px] font-medium cursor-pointer
+                ${
+                  active_whatsapp === "whatsapp_1"
+                    ? "bg-pink text-bg "
+                    : " text-grey border border-light-grey "
+                }`}
+              onClick={() => setActiveWhatsapp("whatsapp_1")}
+            >
+              Whatsapp 1
+            </span>
+            <span
+              className={`py-1.5 px-1.5 text-center rounded-sm text-[8px] font-medium cursor-pointer
+                ${
+                  active_whatsapp === "whatsapp_2"
+                    ? "bg-pink text-bg "
+                    : " text-grey border border-light-grey "
+                }`}
+              onClick={() => setActiveWhatsapp("whatsapp_2")}
+            >
+              Whatsapp 2
+            </span>
+            <span
+              className={`py-1.5 px-1.5 text-center rounded-sm text-[8px] font-medium cursor-pointer
+                ${
+                  active_whatsapp === "whatsapp_3"
+                    ? "bg-pink text-bg "
+                    : " text-grey border border-light-grey "
+                }`}
+              onClick={() => setActiveWhatsapp("whatsapp_3")}
+            >
+              Whatsapp 3
+            </span>
+          </div>
+        )}
+
         {/*All chats */}
         <div className="flex items-center gap-x-2 mt-2">
           <span
@@ -55,6 +122,17 @@ export default function FirstGrid({
             onClick={() => setActive("closed")}
           >
             Closed
+          </span>
+
+          <span
+            className={
+              active === "open"
+                ? "bg-pink text-bg py-1.5 px-2.5 rounded-sm text-[8px] font-medium cursor-pointer"
+                : "py-1.5 px-2.5 rounded-sm text-[8px] font-medium text-grey border border-light-grey cursor-pointer"
+            }
+            onClick={() => setActive("open")}
+          >
+            Open
           </span>
 
           {type === "chats" && (
@@ -81,26 +159,6 @@ export default function FirstGrid({
               </span>
             </>
           )}
-          {/* <span
-            className={
-              active === "josh"
-                ? "bg-pink text-bg py-1.5 px-2.5 rounded-sm text-[8px] font-medium cursor-pointer"
-                : "py-1.5 px-2.5 rounded-sm text-[8px] font-medium text-grey border border-light-grey cursor-pointer"
-            }
-            onClick={() => setActive("josh")}
-          >
-            Josh
-          </span>
-          <span
-            className={
-              active === "ben"
-                ? "bg-pink text-bg py-1.5 px-2.5 rounded-sm text-[8px] font-medium cursor-pointer"
-                : "py-1.5 px-2.5 rounded-sm text-[8px] font-medium text-grey border border-light-grey cursor-pointer"
-            }
-            onClick={() => setActive("ben")}
-          >
-            Ben
-          </span> */}
         </div>
       </div>
       {/*Customer details */}
@@ -150,7 +208,7 @@ export default function FirstGrid({
                     </span> */}
                   </div>
 
-                  {data.agentName !== null && (
+                  {data.status === "resolved" ? (
                     <p className="flex items-center gap-x-1 text-[10px] font-normal text-grey">
                       <svg
                         width="6"
@@ -159,10 +217,25 @@ export default function FirstGrid({
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <rect width="6" height="6" rx="3" fill="#59C0B6" />
+                        <rect width="6" height="6" rx="3" fill="#667085" />
                       </svg>
-                      {data.aiAgentName} Handling
+                      Closed
                     </p>
+                  ) : (
+                    data.agentName !== null && (
+                      <p className="flex items-center gap-x-1 text-[10px] font-normal text-grey">
+                        <svg
+                          width="6"
+                          height="6"
+                          viewBox="0 0 6 6"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect width="6" height="6" rx="3" fill="#59C0B6" />
+                        </svg>
+                        {data.aiAgentName} Handling
+                      </p>
+                    )
                   )}
                 </div>
               </div>

@@ -95,7 +95,7 @@ export default function Logo1({ role, isSocials, setIsSocials }) {
           </svg>
 
           <span className="hidden group-hover:block absolute left-full ml-2 bg-light-black rounded-lg text-light-grey font-bold text-sm px-3 py-2 ">
-            Channels
+            Inbox
           </span>
         </div>
 

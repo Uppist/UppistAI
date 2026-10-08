@@ -38,8 +38,6 @@ export default function Form() {
     setEditProfile(true);
   }
 
-  // console.log(userDetails);
-
   function Changes() {
     api
       .patch("/users/me", details, {
@@ -152,7 +150,9 @@ export default function Form() {
           {/*Company Name */}
           <div className="flex flex-col gap-y-1">
             {" "}
-            <span className="text-sm font-bold text-black">Company Name</span>
+            <span className="text-sm font-bold text-black">
+              {userDetails?.user?.role === "agent" ? "Agent" : "Company"} Name
+            </span>
             <input
               className="p-2.5 rounded-lg border border-light-grey outline-none"
               type="text"

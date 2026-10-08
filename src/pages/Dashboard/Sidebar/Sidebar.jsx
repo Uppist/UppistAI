@@ -16,14 +16,17 @@ export default function Sidebar() {
   const role = userDetails?.user?.role;
 
   return (
-    <div className='hidden lg:border lg:border-light-grey lg:h-screen lg:w-18 lg:p-4 lg:fixed lg:z-50 lg:flex lg:flex-col lg:justify-between'>
-      <div className='flex flex-col  items-center gap-y-10'>
-        <div className='relative'>
-          <div className='w-10 h-10 rounded-full bg-light-grey'></div>
+    <div className="hidden lg:border lg:border-light-grey lg:h-screen lg:w-18 lg:p-4 lg:fixed lg:z-50 lg:flex lg:flex-col lg:justify-between">
+      <div className="flex flex-col  items-center gap-y-10">
+        <div className="relative">
+          <div
+            className="w-10 h-10 rounded-full bg-light-grey cursor-pointer"
+            onClick={() => setProfile(true)}
+          ></div>
           {profile && (
             <>
               <div
-                className='fixed inset-0 z-40'
+                className="fixed inset-0 z-40"
                 onClick={() => setProfile(false)}
               />
               <ProfileOverlay setProfile={setProfile} />
@@ -33,10 +36,10 @@ export default function Sidebar() {
 
         <Logo1 role={role} isSocials={isSocials} setIsSocials={setIsSocials} />
       </div>
-      <div className='flex flex-col gap-y-10 items-center'>
+      <div className="flex flex-col gap-y-10 items-center">
         <Logo2 role={role} setIsSocials={setIsSocials} />
-        <div className='flex items-center border-t border-t-light-grey w-max justify-center'>
-          <img className='' src={logo} alt="Company's Logo" />
+        <div className="flex items-center border-t border-t-light-grey w-max justify-center">
+          <img className="" src={logo} alt="Company's Logo" />
         </div>
       </div>
     </div>

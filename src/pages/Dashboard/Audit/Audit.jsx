@@ -2,7 +2,7 @@
 
 import { useContext, useState } from "react";
 import AllTime from "../../../components/AllTime";
-import UsePagination from "../../../components/Buttons";
+import PaginationRounded from "../../../components/Buttons";
 import Container from "./Container";
 import { AuditContext } from "../../../contexts/Context";
 import { CSVLink } from "react-csv";
@@ -13,8 +13,7 @@ export default function Audit() {
   const [isText, setIsText] = useState("All time");
   const [filteredAuditLog, setFilteredAuditLog] = useState([]);
   const [hasActiveFilter, setHasActiveFilter] = useState(false);
-  const { auditLog } = useContext(AuditContext);
-  // console.log("auditLog", auditLog);
+  const { auditLog, pagination, getAuditLogs } = useContext(AuditContext); // console.log("auditLog", auditLog);
 
   function handleAllTimeClick() {
     setIsTime(!isTime);
@@ -135,10 +134,11 @@ export default function Audit() {
             </CSVLink>
           </div>
         </div>
-
         <Container auditLog={displayedAuditLog} />
-
-        <UsePagination />
+        <PaginationRounded
+          pagination={pagination}
+          onPageChange={(page) => getAuditLogs(page)}
+        />{" "}
       </div>
     </>
   );
